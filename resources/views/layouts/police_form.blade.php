@@ -18,7 +18,7 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="{{ $class ?? '' }}">
+    <body class="{{ $class ?? '' }}" style="background-color: #6c757d;">
         
         <div id="app"></div>
         <script src="{{ asset('js/app.js') }}"></script>
