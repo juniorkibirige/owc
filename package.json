@@ -25,6 +25,9 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "browser-sync": "^2.26.10",
+        "browser-sync-webpack-plugin": "^2.0.1",
+        "react-date-picker": "^8.0.1",
         "react-router-dom": "^5.2.0"
     }
 }
