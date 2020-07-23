@@ -69986,7 +69986,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
     _this = _super.call(this);
     _this.state = {
       refNo: '',
-      date: new Date().getDate,
+      date: new Date(),
       partOne: {
         title: 'INTRODUCTION'
       },
@@ -69995,22 +69995,22 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         name: '',
         age: '',
         gender: '',
-        residence: {
+        residence: new Object({
           village: '',
           subCounty: '',
           district: '',
           plotNo: ''
-        },
+        }),
         tel: '',
         email: ''
       },
       partThree: {
         title: 'DETAILS ABOUT THE COMPLAINT',
-        involved: {
+        involved: new Object({
           victimName: '',
           victimAge: '',
           gender: ''
-        },
+        }),
         statement: '',
         period: new Date(),
         location: '',
@@ -70025,27 +70025,211 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         title: 'POLICE OFFICER/S AGAINST WHOM A COMPLAINT IS MADE',
         name: '',
         rank: '',
-        id: {
+        id: new Object({
           colorUniform: '',
           nameTag: '',
           badgeNum: '',
           uniqPhyFeat: '',
           other: ''
-        },
+        }),
         detUnit: ''
       },
-      errors: [],
-      progress: []
+      errors: new Object(),
+      active: {
+        p1: true,
+        p2: false,
+        p3: false,
+        p4: false
+      },
+      progress: {
+        p1: false,
+        p2: false,
+        p3: false,
+        p4: false
+      }
     };
     _this.handleCheckBox = _this.handleCheckBox.bind(_assertThisInitialized(_this));
     _this.handleDate = _this.handleDate.bind(_assertThisInitialized(_this));
+    _this.handleInvolved = _this.handleInvolved.bind(_assertThisInitialized(_this));
+    _this.handleNav = _this.handleNav.bind(_assertThisInitialized(_this));
+    _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
+    _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
+    _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
+    _this.handleResidence = _this.handleResidence.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PoliceForm, [{
+    key: "handleNav",
+    value: function handleNav(nav, dir) {
+      var errors = new Object();
+      errors.length = 0;
+
+      if (dir == 'next') {
+        var fieldset = null;
+
+        switch (nav) {
+          case 'p3':
+            fieldset = $('#partTwo').get(0);
+            break;
+
+          case 'p4':
+            fieldset = $('#partThree').get(0);
+            break;
+
+          default:
+            break;
+        }
+
+        if (fieldset != null) {
+          for (var key in fieldset.elements) {
+            if (fieldset.elements.hasOwnProperty(key)) {
+              var element = fieldset.elements[key];
+
+              if (key != 10) {
+                if (key != 11) {
+                  if (key == 2 || key == 3) {
+                    if (element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked) {
+                      if (!errors['gender']) errors.length += 1;
+                      errors['gender'] = 'Please fill in the neccessary gender';
+                    } else if (!element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked) {
+                      if (!errors['gender']) errors.length += 1;
+                      errors['gender'] = ['Please fill in the neccessary gender'];
+                    }
+                  } else {
+                    if (element.value == '') {
+                      errors[element.name] = ['Please fill in the field'];
+                      errors.length += 1;
+                    }
+                  }
+
+                  console.log(key);
+                  console.log(element);
+                }
+              }
+            }
+          }
+        }
+
+        console.log(errors);
+      }
+
+      if (errors.length == 0) {
+        switch (nav) {
+          case 'p1':
+            this.setState({
+              active: {
+                p1: true,
+                p2: false,
+                p3: false,
+                p4: false
+              }
+            });
+            $('#first-tab').click();
+            break;
+
+          case 'p2':
+            this.setState({
+              active: {
+                p1: false,
+                p2: true,
+                p3: false,
+                p4: false
+              }
+            });
+            $('#second-tab').click();
+            break;
+
+          case 'p3':
+            this.setState({
+              active: {
+                p1: false,
+                p2: false,
+                p3: true,
+                p4: false
+              }
+            });
+            $('#third-tab').click();
+            break;
+
+          case 'p4':
+            this.setState({
+              active: {
+                p1: false,
+                p2: false,
+                p3: false,
+                p4: true
+              }
+            });
+            $('#fourth-tab').click();
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        this.setState({
+          errors: errors
+        });
+      }
+    }
+  }, {
     key: "handleCheckBox",
     value: function handleCheckBox(e) {
-      print(e.target);
+      var data = e.target.id;
+      var invalid = document.getElementById('error');
+
+      if (invalid) {
+        invalid.style.display = 'none';
+      }
+
+      if (data == 'Male') {
+        e.target.checked = true;
+        $('#Female').get(0).checked = false;
+      } else {
+        e.target.checked = true;
+        $('#Male').get(0).checked = false;
+      }
+
+      this.setState(function (prevState) {
+        return {
+          partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, {
+            gender: data
+          })
+        };
+      });
+    }
+  }, {
+    key: "handleFieldChange",
+    value: function handleFieldChange(nav) {
+      switch (nav) {
+        case 'p2':
+          this.setState(function (prevState) {
+            return {
+              partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, _defineProperty({}, event.target.name, event.target.value))
+            };
+          });
+          break;
+
+        case 'p3':
+          this.setState(function (prevState) {
+            return {
+              partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, _defineProperty({}, event.target.name, event.target.value))
+            };
+          });
+          break;
+
+        case 'p4':
+          this.setState(function (prevState) {
+            return {
+              partFour: _objectSpread(_objectSpread({}, prevState.partFour), {}, _defineProperty({}, event.target.name, event.target.value))
+            };
+          });
+          break;
+
+        default:
+          break;
+      }
     }
   }, {
     key: "handleDate",
@@ -70071,6 +70255,17 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleResidence",
+    value: function handleResidence() {
+      this.setState(function (prevState) {
+        return {
+          partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, {
+            residence: _objectSpread(_objectSpread({}, prevState.partTwo.residence), {}, _defineProperty({}, event.target.name, event.target.value))
+          })
+        };
+      });
+    }
+  }, {
     key: "hasErrorFor",
     value: function hasErrorFor(field) {
       return !!this.state.errors[field];
@@ -70078,7 +70273,12 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderErrorFor",
     value: function renderErrorFor(field) {
-      if (this.hasErrorFor(field)) {}
+      if (this.hasErrorFor(field)) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "invalid-feedback d-block",
+          id: "error"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", null, this.state.errors[field][0]));
+      }
     }
   }, {
     key: "render",
@@ -70102,7 +70302,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card-header text-center"
-      }, "COMPLAINT/S AGAINST A POLICE OFFICE [POLICE FORM 105]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12 py-3 bg-secondary"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
         className: "nav nav-pills nav-pills-circle mb-3",
@@ -70111,12 +70311,12 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "nav-link rounded-circle active",
+        className: "nav-link rounded-circle ".concat(this.state.active.p1 ? 'active' : ''),
         id: "first-tab",
         "data-toggle": "tab",
         href: "#partOne",
         role: "tab",
-        "aria-selected": "false"
+        "aria-selected": "true"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "nav-link-icon d-block"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -70126,7 +70326,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, "1"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "nav-link",
+        className: "nav-link rounded-circle ".concat(this.state.active.p2 ? 'active' : ''),
         id: "second-tab",
         "data-toggle": "tab",
         href: "#partTwo",
@@ -70141,12 +70341,12 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, "2"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "nav-link rounded-circle",
+        className: "nav-link rounded-circle ".concat(this.state.active.p3 ? 'active' : ''),
         id: "third-tab",
         "data-toggle": "tab",
         href: "#partThree",
         role: "tab",
-        "aria-selected": "true"
+        "aria-selected": "false"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "nav-link-icon d-block"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -70156,7 +70356,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, "3"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "nav-link",
+        className: "nav-link rounded-circle ".concat(this.state.active.p4 ? 'active' : ''),
         id: "fourth-tab",
         "data-toggle": "tab",
         href: "#partFour",
@@ -70182,47 +70382,228 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "tab-pane fade active show",
         id: "partOne"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card"
+        className: "card pb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card-header bg-primary text-white"
       }, this.state.partOne.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12 py-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         className: "description"
-      }, "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dramatically visualize customer directed convergence without revolutionary ROI.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+      }, "This form is for lodging complaint/s against a police officer on cases of violation of human rights and unporofessional conduct under section 70 of the Police Act 303, which provides for complaints by the public against police officers. A person is entitled, without prejudice to any other legal means of redress available to him or her, to make a written complaint as to - (a) an instance of bribery, corruption, oppression or intimidation by a police officer; (b) any neglect or non  perfomance of his or her duties by a police officer; (c) any other misconduct by a police officer.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p2')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
         className: "tab-pane fade",
         id: "partTwo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card"
+        className: "card pb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card-header bg-primary text-white"
       }, this.state.partTwo.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12 py-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-        className: "description"
-      }, "Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dramatically maintain clicks-and-mortar solutions without functional solutions.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('name') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "name",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('name') ? 'is-invalid' : ''),
+        name: "name",
+        placeholder: "Name",
+        required: true,
+        value: this.state.partTwo.name,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('age') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "age",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('age') ? 'is-invalid' : ''),
+        name: "age",
+        placeholder: "Age",
+        required: true,
+        value: this.state.partTwo.age,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "gender"
+      }, "Gender \xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-checkbox"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "custom-control-input gender-sel",
+        id: "Male",
+        type: "checkbox",
+        onChange: this.handleCheckBox
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        className: "custom-control-label",
+        htmlFor: "Male"
+      }, "Male")), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-checkbox mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "custom-control-input gender-sel",
+        id: "Female",
+        type: "checkbox",
+        onChange: this.handleCheckBox
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        className: "custom-control-label",
+        htmlFor: "Female"
+      }, "Female")))), this.renderErrorFor('gender')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "residence"
+      }, "Place of Residence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('village') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "village",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('village') ? 'is-invalid' : ''),
+        name: "village",
+        placeholder: "Village",
+        required: true,
+        value: this.state.partTwo.residence.village,
+        onChange: this.handleResidence
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('subCounty') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "subCounty",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('subCounty') ? 'is-invalid' : ''),
+        name: "subCounty",
+        placeholder: "Sub County",
+        required: true,
+        value: this.state.partTwo.residence.subCounty,
+        onChange: this.handleResidence
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('district') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "district",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('district') ? 'is-invalid' : ''),
+        name: "district",
+        placeholder: "District",
+        required: true,
+        value: this.state.partTwo.residence.district,
+        onChange: this.handleResidence
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('plotNo') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "plotNo",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('plotNo') ? 'is-invalid' : ''),
+        name: "plotNo",
+        placeholder: "Plot No",
+        required: true,
+        value: this.state.partTwo.residence.plotNo,
+        onChange: this.handleResidence
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "contact"
+      }, "Contact Information"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('tel') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "tel",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('tel') ? 'is-invalid' : ''),
+        name: "tel",
+        placeholder: "Telephone",
+        required: true,
+        value: this.state.partTwo.tel,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group col-md-6 col-sm-12 ".concat(this.hasErrorFor('name') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "email",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('email') ? 'is-invalid' : ''),
+        name: "email",
+        placeholder: "Email Address",
+        value: this.state.partTwo.email,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      }), this.renderErrorFor('email')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p1', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p3', 'next')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
         className: "tab-pane fade",
         id: "partThree"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card"
+        className: "card pb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card-header bg-primary text-white"
       }, this.state.partThree.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12 py-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         className: "description"
-      }, "Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dynamically innovate resource-leveling customer service for state of the art customer service.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+      }, "Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dynamically innovate resource-leveling customer service for state of the art customer service.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p2', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p4', 'next')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
         className: "tab-pane fade",
         id: "partFour"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card"
+        className: "card pb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "card-header bg-primary text-white"
       }, this.state.partFour.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12 py-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         className: "description"
-      }, "Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dynamically innovate resource-leveling customer service for state of the art customer service."))))))))))));
+      }, "Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "Dynamically innovate resource-leveling customer service for state of the art customer service.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p3', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-primary btn-round float-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-send"
+      }), " Submit"))))))))))));
     }
   }]);
 
