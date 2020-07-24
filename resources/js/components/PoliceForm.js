@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import flatpickr from 'flatpickr'
+import { v4 } from 'uuid';
 import {
     FormGroup, FormText,
     InputGroupAddon, InputGroupText, InputGroup,
@@ -16,7 +17,7 @@ class PoliceForm extends Component {
         this.errors = new Object()
         this.errors.length = 0;
         this.state = {
-            refNo: '',
+            refNo: v4(),
             date: new Date(),
             partOne: {
                 title: 'INTRODUCTION'
@@ -499,6 +500,18 @@ class PoliceForm extends Component {
                         <div className='card'>
                             <div className='col-md-12 text-center pt-3'>
                                 <img className='rounded mx-auto d-block' src='static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
+                            </div>
+                            <div className='container'>
+                                <div className='row'>
+                                    <div className='col-12 mx-auto'>
+                                        <div className='float-right'>Date: {this.state.date.toDateString()}</div>
+                                    </div>
+                                </div>
+                                <div className='row'>
+                                    <div className='col-12 mx-auto'>
+                                        <div className='float-right'>Ref: {this.state.refNo}</div>
+                                    </div>
+                                </div>
                             </div>
                             <div className='card-header text-center'>COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]</div>
                             <div className="col-md-12 py-3 bg-secondary">
