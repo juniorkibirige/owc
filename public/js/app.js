@@ -86332,6 +86332,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _PoliceForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PoliceForm */ "./resources/js/components/PoliceForm.js");
+/* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Header */ "./resources/js/components/Header.js");
+/* harmony import */ var _Forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms */ "./resources/js/components/Forms.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -86357,7 +86359,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // import Header from './Header'
+
+
+
 
 var App = /*#__PURE__*/function (_Component) {
   _inherits(App, _Component);
@@ -86373,9 +86377,12 @@ var App = /*#__PURE__*/function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         exact: true,
         path: "/",
+        component: _Forms__WEBPACK_IMPORTED_MODULE_5__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/create",
         component: _PoliceForm__WEBPACK_IMPORTED_MODULE_3__["default"]
       })));
     }
@@ -86385,6 +86392,195 @@ var App = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('app'));
+
+/***/ }),
+
+/***/ "./resources/js/components/Forms.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/Forms.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var Forms = /*#__PURE__*/function (_Component) {
+  _inherits(Forms, _Component);
+
+  var _super = _createSuper(Forms);
+
+  function Forms() {
+    var _this;
+
+    _classCallCheck(this, Forms);
+
+    _this = _super.call(this);
+    _this.state = {
+      forms: [],
+      numPerMonth: 0,
+      numPerWeek: 0,
+      numPerDay: 0
+    };
+    _this.checkDone = _this.checkDone.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Forms, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/form_105').then(function (response) {
+        _this2.setState({
+          forms: response.data.forms,
+          numPerMonth: response.data.perMonth,
+          numPerWeek: response.data.perWeek,
+          numPerDay: response.data.perDay
+        });
+      }); // .catch(error => {
+      // 
+      // })
+      // axios.get('/api/form_105/month').then(response => {
+      //     this.setState({
+      //         numPerMonth: response.data
+      //     })
+      // })
+    }
+  }, {
+    key: "checkDone",
+    value: function checkDone(attr) {
+      if (attr == true) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "d-block"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+          className: "fa fa-check-circle",
+          "aria-hidden": "true"
+        }));
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "d-block"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+          className: "fa fa-refresh"
+        }));
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var forms = this.state.forms;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container py-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-8"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header"
+      }, "All Complaints"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        className: "btn btn-primary btn-sm mb-3",
+        to: "/create"
+      }, "Make new complaint"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+        className: "list-group list-group-flush"
+      }, forms.map(function (form) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          className: "list-group-item list-group-item-action d-flex justify-content-between align-items-center",
+          to: "/complaints/".concat(form.refNo),
+          key: form.refNo
+        }, form.officerName, _this3.checkDone(form.done));
+      })))))));
+    }
+  }]);
+
+  return Forms;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Forms);
+
+/***/ }),
+
+/***/ "./resources/js/components/Header.js":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Header.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+var Header = function Header() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    className: "navbar navbar-expanded-md navbar-dark navbar-laravel"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "nav nav-pills nav-fill flex-column flex-sm-row",
+    id: "tabs-text",
+    role: "tablist"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "nav-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "nav-link mb-sm-3 mb-md-0 active",
+    id: "tabs-text-1-tab",
+    href: "/",
+    role: "tab",
+    "aria-controls": "tabs-text-1",
+    "aria-selected": "true"
+  }, "Home")), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "nav-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "nav-link mb-sm-3 mb-md-0 active",
+    id: "tabs-text-1-tab",
+    href: "/create",
+    role: "tab",
+    "aria-controls": "tabs-text-1",
+    "aria-selected": "true"
+  }, "Report Officer")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Header);
 
 /***/ }),
 
@@ -86450,8 +86646,6 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, PoliceForm);
 
     _this = _super.call(this);
-    _this.errors = new Object();
-    _this.errors.length = 0;
     _this.state = {
       refNo: Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])(),
       date: new Date(),
@@ -86516,6 +86710,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       },
       tabSel: ''
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleCheckBox = _this.handleCheckBox.bind(_assertThisInitialized(_this));
     _this.handleDate = _this.handleDate.bind(_assertThisInitialized(_this));
     _this.handleInvolved = _this.handleInvolved.bind(_assertThisInitialized(_this));
@@ -86531,6 +86726,64 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(PoliceForm, [{
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      this.setState(function (prevState) {
+        return {
+          progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+            p4: true
+          })
+        };
+      });
+      event.preventDefault();
+
+      if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3 && this.state.progress.p4) {
+        var history = this.props.history;
+        var form = {
+          'refNo': this.state.refNo,
+          'date': this.state.date,
+          'compName': this.state.partTwo.name,
+          'compAge': this.state.partTwo.age,
+          'compEmail': this.state.partTwo.email,
+          'compGender': this.state.partTwo.gender,
+          'compTel': this.state.partTwo.tel,
+          'compDist': this.state.partTwo.residence.district,
+          'compPlotNo': this.state.partTwo.residence.plotNo,
+          'compsubCounty': this.state.partTwo.residence.subCounty,
+          'compVillage': this.state.partTwo.residence.village,
+          'dI': this.state.partThree.dI,
+          'dIDescription': this.state.partThree.dIDescription,
+          'location': this.state.partThree.location,
+          'medExam': this.state.partThree.medExam,
+          'period': this.state.partThree.period,
+          'reportRef': this.state.partThree.reportRef,
+          'reported': this.state.partThree.reported,
+          'statement': this.state.partThree.statement,
+          'witness': this.state.partThree.witness,
+          'victimName': this.state.partThree.involved.victimName,
+          'victimAge': this.state.partThree.involved.victimAge,
+          'victimGender': this.state.partThree.involved.victimGender,
+          'officerName': this.state.partFour.name,
+          'officerRank': this.state.partFour.rank,
+          'otherId': this.state.partFour.id,
+          'detUnit': this.state.partFour.detUnit
+        };
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/form_105', form).then(function (response) {
+          history.push('/');
+        })["catch"](function (error) {
+          console.warn(error.response.data.errors);
+
+          _this2.setState({
+            errors: error.response.data.errors
+          });
+        });
+      } else {
+        alert('Please cross check the form and fill in any missing fields');
+      }
+    }
+  }, {
     key: "handleSel",
     value: function handleSel(e) {
       var data = e.target.value;
@@ -86576,6 +86829,9 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleNav",
     value: function handleNav(nav, dir) {
+      var errors = new Object();
+      errors.length = 0;
+
       if (dir == 'next') {
         var fieldset = null;
 
@@ -86592,20 +86848,20 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
                     if (key != 11) {
                       if (key == 2 || key == 3) {
                         if (element.checked && fieldset.elements[key == 2 ? 3 : 2].checked) {
-                          if (!this.errors['gender']) {
-                            this.errors.length += 1;
-                            this.errors['gender'] = 'Please fill in the neccessary gender';
+                          if (!errors['gender']) {
+                            errors.length += 1;
+                            errors['gender'] = 'Please fill in the neccessary gender';
                           }
                         } else if (!element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked) {
-                          if (!this.errors['gender']) {
-                            this.errors.length += 1;
-                            this.errors['gender'] = ['Please fill in the neccessary gender'];
+                          if (!errors['gender']) {
+                            errors.length += 1;
+                            errors['gender'] = ['Please fill in the neccessary gender'];
                           }
                         }
                       } else {
                         if (element.value == '') {
-                          this.errors[element.name] = ['Please fill in the field'];
-                          this.errors.length += 1;
+                          errors[element.name] = ['Please fill in the field'];
+                          errors.length += 1;
                         }
                       }
                     }
@@ -86626,10 +86882,12 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
 
                   if (_key == 2 || _key == 4 || _key == 7) {
                     /* Selecting and handling select errors */
-                    if (_element.value == 'default') {
-                      if (_element.id != 'selPeriodYear') {
-                        this.errors[_element.name] = ['Please select the required data'];
-                        this.errors.length += 1;
+                    if (_element.value == 'default' && _key != 7) {
+                      if (_element.name != "") {
+                        console.log(_key);
+                        console.log(_element.name);
+                        errors[_element.name] = ['Please select the required data'];
+                        errors.length += 1;
                       }
                     }
                   } else if (_element.type == 'radio') {
@@ -86639,26 +86897,24 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
                         var desc = $('textarea#dIDescription').get(0);
 
                         if (desc.value == '') {
-                          this.errors[desc.name] = ['Please enter data'];
-                          this.errors.length += 1;
+                          errors[desc.name] = ['Please enter data'];
+                          errors.length += 1;
                         }
                       }
                     } else if (_element.name == 'reported') {
                       if (this.state.partThree.reported) {
-                        var rep = $('#reported[type="text"]').get(0);
+                        var rep = $('#reportRef[type="text"]').get(0);
 
                         if (rep.value == '') {
-                          this.errors[rep.name] = ['Please enter data'];
-                          this.errors.length += 1;
+                          errors[rep.name] = ['Please enter data'];
+                          errors.length += 1;
                         }
                       }
                     }
                   } else {
-                    if (_element.name != 'reported' || _element.name != 'dIDescription') {
-                      if (_element.value == '') {
-                        this.errors[_element.name] = ['Please fill the field'];
-                        this.errors.length += 1;
-                      }
+                    if (_element.value == '' && _element.name != "" && _element.name != "period" && _element.name != "dIDescription" && _element.name != "reportRef") {
+                      errors[_element.name] = ['Please fill the field'];
+                      errors.length += 1;
                     }
                   }
                 }
@@ -86671,10 +86927,10 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
             break;
         }
 
-        console.log(this.errors);
+        console.log(errors);
       }
 
-      if (this.errors.length == 0) {
+      if (errors.length == 0) {
         switch (nav) {
           case 'p1':
             this.setState(function (prevState) {
@@ -86744,12 +87000,22 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
             $('#fourth-tab').click();
             break;
 
+          case 'done':
+            this.setState(function (prevState) {
+              return {
+                progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+                  p4: true
+                })
+              };
+            });
+            break;
+
           default:
             break;
         }
       } else {
         this.setState({
-          errors: this.errors
+          errors: errors
         });
       }
     }
@@ -86899,7 +87165,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         case 'p4':
           this.setState(function (prevState) {
             return {
-              partFour: _objectSpread(_objectSpread({}, prevState.partFour), {}, _defineProperty({}, event.target.name, event.target.value))
+              partFour: _objectSpread(_objectSpread({}, prevState.partFour), {}, _defineProperty({}, event.target.id, event.target.value))
             };
           });
           break;
@@ -87368,10 +87634,10 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "form-group ".concat(this.hasErrorFor('period') ? 'has-danger' : '')
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         id: "selPeriod",
-        name: "period",
         className: "form-control ".concat(this.hasErrorFor('period') ? 'is-invalid' : ''),
         placeholder: "Victim Gender",
-        value: this.state.partThree.period,
+        name: "period",
+        value: this.state.tabSel,
         onChange: this.handleSel
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
         name: "default",
@@ -87405,6 +87671,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "ni ni-calendar-grid-58"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "form-control datepicker",
+        name: "period",
         placeholder: "Select date",
         type: "text",
         value: this.state.partThree.period,
@@ -87422,6 +87689,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "ni ni-watch-time"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "form-control datetimepicker",
+        name: "period",
         placeholder: "Please input time (HH:MM)",
         type: "text",
         value: this.state.partThree.period,
@@ -87439,6 +87707,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "ni ni-watch-time"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         id: "selPeriodYear",
+        period: "",
         className: "form-control",
         placeholder: "Victim Gender",
         value: this.state.partThree.period,
@@ -87593,14 +87862,14 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["FormGroup"], {
         className: " ".concat(this.state.partThree.reported ? 'd-block' : 'd-none')
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Input"], {
-        id: "reported",
+        id: "reportRef",
         type: "text",
-        name: "reported",
+        name: "reportRef",
         placeholder: "Reference provided at police station",
         value: this.state.partThree.reportRef,
         onChange: this.handleFieldChange.bind(this, 'p3'),
-        className: "form-control ".concat(this.hasErrorFor('reported') ? 'invalid' : '')
-      }), this.renderErrorFor('reported')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-control ".concat(this.hasErrorFor('reportRef') ? 'invalid' : '')
+      }), this.renderErrorFor('reportRef')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         id: "prev",
@@ -87627,8 +87896,8 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         className: "col-md-12 py-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["FormGroup"], {
         className: "".concat(this.hasErrorFor('officerName') ? 'has-danger' : '')
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Input"], {
-        id: "officerName",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "name",
         className: "form-control ".concat(this.hasErrorFor('officerName') ? 'is-invalid' : ''),
         name: "officerName",
         placeholder: "Offending Officers Name/s",
@@ -87637,8 +87906,8 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
         onChange: this.handleFieldChange.bind(this, 'p4')
       }), this.renderErrorFor('officerName')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["FormGroup"], {
         className: "".concat(this.hasErrorFor('officerRank') ? 'has-danger' : '')
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Input"], {
-        id: "officerRank",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "rank",
         className: "form-control ".concat(this.hasErrorFor('officerRank') ? 'is-invalid' : ''),
         name: "officerRank",
         placeholder: "Offending Officers Rank / Description",
@@ -87647,7 +87916,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }), this.renderErrorFor('officerRank')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["FormGroup"], {
         className: "".concat(this.hasErrorFor('otherId') ? 'has-danger' : '')
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
-        id: "otherId",
+        id: "id",
         className: "form-control ".concat(this.hasErrorFor('otherId') ? 'is-invalid' : ''),
         name: "otherId",
         placeholder: "Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique \t\t physical features, etc)",
@@ -87674,7 +87943,9 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "ni ni-bold-left"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-        className: "btn btn-primary btn-round float-right"
+        className: "btn btn-primary btn-round float-right",
+        type: "submit",
+        onClick: this.handleNav.bind(this, 'done', 'next')
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "ni ni-send"
       }), " Submit"))))))))))));

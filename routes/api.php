@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-// Route::view('/', 'layouts/police_form');
+Route::get('form_105', 'FormsController@index');
+Route::post('form_105', 'FormsController@store');
+Route::get('form_105/{id}', 'FormsController@show');

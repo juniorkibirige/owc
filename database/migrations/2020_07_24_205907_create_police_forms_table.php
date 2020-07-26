@@ -14,7 +14,35 @@ class CreatePoliceFormsTable extends Migration
     public function up()
     {
         Schema::create('police_forms', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('refNo');
+            $table->string('date');
+            $table->string('compName');
+            $table->integer('compAge');
+            $table->string('compEmail');
+            $table->string('compGender');
+            $table->string('compTel');
+            $table->string('compDist');
+            $table->string('compPlotNo');
+            $table->string('compsubCounty');
+            $table->string('compVillage');
+            $table->string('dI')->default(0);
+            $table->string('dIDescription');
+            $table->string('location');
+            $table->string('medExam')->default(0);
+            $table->string('period');
+            $table->string('reported')->default(0);
+            $table->string('reportRef');
+            $table->string('statement');
+            $table->string('witness')->default(0);
+            $table->string('victimName');
+            $table->string('victimAge');
+            $table->string('victimGender');
+            $table->string('officerName');
+            $table->string('officerRank');
+            $table->string('otherId');
+            $table->string('detUnit');
+            $table->boolean('done')->default(0);
             $table->timestamps();
         });
     }

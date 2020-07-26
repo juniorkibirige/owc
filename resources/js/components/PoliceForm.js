@@ -14,8 +14,6 @@ class PoliceForm extends Component {
 
     constructor() {
         super()
-        this.errors = new Object()
-        this.errors.length = 0;
         this.state = {
             refNo: v4(),
             date: new Date(),
@@ -81,6 +79,7 @@ class PoliceForm extends Component {
             },
             tabSel: ''
         }
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.handleCheckBox = this.handleCheckBox.bind(this)
         this.handleDate = this.handleDate.bind(this)
         this.handleInvolved = this.handleInvolved.bind(this)
@@ -92,6 +91,63 @@ class PoliceForm extends Component {
         this.handleResidence = this.handleResidence.bind(this)
         this.handlePill = this.handlePill.bind(this)
         this.isVisible = this.isVisible.bind(this)
+    }
+
+    handleSubmit(event) {
+        this.setState(prevState => ({
+            progress: {
+                ...prevState.progress,
+                p4: true
+            }
+        }))
+        event.preventDefault()
+
+        if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3 && this.state.progress.p4) {
+
+            const { history } = this.props
+
+            const form = {
+                'refNo': this.state.refNo,
+                'date': this.state.date,
+                'compName': this.state.partTwo.name,
+                'compAge': this.state.partTwo.age,
+                'compEmail': this.state.partTwo.email,
+                'compGender': this.state.partTwo.gender,
+                'compTel': this.state.partTwo.tel,
+                'compDist': this.state.partTwo.residence.district,
+                'compPlotNo': this.state.partTwo.residence.plotNo,
+                'compsubCounty': this.state.partTwo.residence.subCounty,
+                'compVillage': this.state.partTwo.residence.village,
+                'dI': this.state.partThree.dI,
+                'dIDescription': this.state.partThree.dIDescription,
+                'location': this.state.partThree.location,
+                'medExam': this.state.partThree.medExam,
+                'period': this.state.partThree.period,
+                'reportRef': this.state.partThree.reportRef,
+                'reported': this.state.partThree.reported,
+                'statement': this.state.partThree.statement,
+                'witness': this.state.partThree.witness,
+                'victimName': this.state.partThree.involved.victimName,
+                'victimAge': this.state.partThree.involved.victimAge,
+                'victimGender': this.state.partThree.involved.victimGender,
+                'officerName': this.state.partFour.name,
+                'officerRank': this.state.partFour.rank,
+                'otherId': this.state.partFour.id,
+                'detUnit': this.state.partFour.detUnit
+            }
+
+            axios.post('/api/form_105', form)
+                .then(response => {
+                    history.push('/')
+                }).catch(error => {
+                    console.warn(error.response.data.errors)
+                    this.setState({
+                        errors: error.response.data.errors
+                    })
+                })
+        } else {
+            alert('Please cross check the form and fill in any missing fields')
+        }
     }
 
     handleSel(e) {
@@ -134,6 +190,8 @@ class PoliceForm extends Component {
     }
 
     handleNav(nav, dir) {
+        let errors = new Object()
+        errors.length = 0;
         if (dir == 'next') {
             let fieldset = null
             switch (nav) {
@@ -147,20 +205,20 @@ class PoliceForm extends Component {
                                     if (key != 11) {
                                         if (key == 2 || key == 3) {
                                             if (element.checked && fieldset.elements[key == 2 ? 3 : 2].checked) {
-                                                if (!this.errors['gender']) {
-                                                    this.errors.length += 1
-                                                    this.errors['gender'] = 'Please fill in the neccessary gender'
+                                                if (!errors['gender']) {
+                                                    errors.length += 1
+                                                    errors['gender'] = 'Please fill in the neccessary gender'
                                                 }
                                             } else if ((!element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked)) {
-                                                if (!this.errors['gender']) {
-                                                    this.errors.length += 1
-                                                    this.errors['gender'] = ['Please fill in the neccessary gender']
+                                                if (!errors['gender']) {
+                                                    errors.length += 1
+                                                    errors['gender'] = ['Please fill in the neccessary gender']
                                                 }
                                             }
                                         } else {
                                             if (element.value == '') {
-                                                this.errors[element.name] = ['Please fill in the field']
-                                                this.errors.length += 1
+                                                errors[element.name] = ['Please fill in the field']
+                                                errors.length += 1
                                             }
                                         }
                                     }
@@ -176,10 +234,12 @@ class PoliceForm extends Component {
                             if (fieldset.elements.hasOwnProperty(key)) {
                                 const element = fieldset.elements[key];
                                 if (key == 2 || key == 4 || key == 7) { /* Selecting and handling select errors */
-                                    if (element.value == 'default') {
-                                        if (element.id != 'selPeriodYear') {
-                                            this.errors[element.name] = ['Please select the required data']
-                                            this.errors.length += 1
+                                    if (element.value == 'default' && key != 7) {
+                                        if (element.name != "") {
+                                            console.log(key)
+                                            console.log(element.name)
+                                            errors[element.name] = ['Please select the required data']
+                                            errors.length += 1
                                         }
                                     }
                                 } else if (element.type == 'radio') { /* Handling radio inputs errors */
@@ -187,37 +247,35 @@ class PoliceForm extends Component {
                                         if (this.state.partThree.dI) {
                                             let desc = $('textarea#dIDescription').get(0)
                                             if (desc.value == '') {
-                                                this.errors[desc.name] = ['Please enter data']
-                                                this.errors.length += 1
+                                                errors[desc.name] = ['Please enter data']
+                                                errors.length += 1
                                             }
                                         }
                                     } else if (element.name == 'reported') {
                                         if (this.state.partThree.reported) {
-                                            let rep = $('#reported[type="text"]').get(0)
+                                            let rep = $('#reportRef[type="text"]').get(0)
                                             if (rep.value == '') {
-                                                this.errors[rep.name] = ['Please enter data']
-                                                this.errors.length += 1
+                                                errors[rep.name] = ['Please enter data']
+                                                errors.length += 1
                                             }
                                         }
                                     }
                                 } else {
-                                    if (element.name != 'reported' || element.name != 'dIDescription') {
-                                        if (element.value == '') {
-                                            this.errors[element.name] = ['Please fill the field']
-                                            this.errors.length += 1
-                                        }
+                                    if (element.value == '' && element.name != "" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
+                                        errors[element.name] = ['Please fill the field']
+                                        errors.length += 1
                                     }
                                 }
                             }
                         }
                     }
-                    break;
+                    break
                 default:
-                    break;
+                    break
             }
-            console.log(this.errors)
+            console.log(errors)
         }
-        if (this.errors.length == 0) {
+        if (errors.length == 0) {
             switch (nav) {
                 case 'p1':
                     this.setState(prevState => ({
@@ -280,13 +338,20 @@ class PoliceForm extends Component {
                     }))
                     $('#fourth-tab').click()
                     break;
-
+                case 'done':
+                    this.setState(prevState => ({
+                        progress: {
+                            ...prevState.progress,
+                            p4: true
+                        }
+                    }))
+                    break
                 default:
                     break;
             }
         } else {
             this.setState({
-                errors: this.errors
+                errors: errors
             })
         }
     }
@@ -419,7 +484,7 @@ class PoliceForm extends Component {
                 this.setState(prevState => ({
                     partFour: {
                         ...prevState.partFour,
-                        [event.target.name]: event.target.value
+                        [event.target.id]: event.target.value
                     }
                 }))
                 break;
@@ -798,7 +863,7 @@ class PoliceForm extends Component {
                                                             <div className='row'>
                                                                 <div className="col-md-6">
                                                                     <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
-                                                                        <select id='selPeriod' name="period" className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleSel}>
+                                                                        <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' value={this.state.tabSel} onChange={this.handleSel}>
                                                                             <option name='default' value='default' data-toggle='default'>Select when it happened</option>
                                                                             <option name='date' value='dateTab' data-toggle='dateTab'>Date</option>
                                                                             <option name='time' id='time' value='timeTab' data-toggle='timeTab'>Time</option>
@@ -813,7 +878,7 @@ class PoliceForm extends Component {
                                                                             <div className="input-group-prepend">
                                                                                 <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
                                                                             </div>
-                                                                            <input className="form-control datepicker" placeholder="Select date" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
+                                                                            <input className="form-control datepicker" name='period' placeholder="Select date" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
                                                                         </div>
                                                                         {this.renderErrorFor('period')}
                                                                     </div>
@@ -822,7 +887,7 @@ class PoliceForm extends Component {
                                                                             <div className="input-group-prepend">
                                                                                 <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
                                                                             </div>
-                                                                            <input className="form-control datetimepicker" placeholder="Please input time (HH:MM)" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
+                                                                            <input className="form-control datetimepicker" name='period' placeholder="Please input time (HH:MM)" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
                                                                         </div>
                                                                         {this.renderErrorFor('period')}
                                                                     </div>
@@ -831,7 +896,7 @@ class PoliceForm extends Component {
                                                                             <div className="input-group-prepend">
                                                                                 <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
                                                                             </div>
-                                                                            <select id='selPeriodYear' className={`form-control`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleDate}>
+                                                                            <select id='selPeriodYear' period='' className={`form-control`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleDate}>
                                                                                 <option name='default' value='default' data-toggle='default'>Select year it happened</option>
                                                                                 <option name='2020' value={2020} >2020</option>
                                                                                 <option name='2019' value={2019} >2019</option>
@@ -993,15 +1058,15 @@ class PoliceForm extends Component {
                                                                 <Col className='col-md-6 col-sm-12 col-12'>
                                                                     <FormGroup className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
                                                                         <Input
-                                                                            id='reported'
+                                                                            id='reportRef'
                                                                             type='text'
-                                                                            name='reported'
+                                                                            name='reportRef'
                                                                             placeholder='Reference provided at police station'
                                                                             value={this.state.partThree.reportRef}
                                                                             onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                            className={`form-control ${this.hasErrorFor('reported') ? 'invalid' : ''}`}
+                                                                            className={`form-control ${this.hasErrorFor('reportRef') ? 'invalid' : ''}`}
                                                                         />
-                                                                        {this.renderErrorFor('reported')}
+                                                                        {this.renderErrorFor('reportRef')}
                                                                     </FormGroup>
                                                                 </Col>
                                                             </Row>
@@ -1018,7 +1083,7 @@ class PoliceForm extends Component {
                                                     <CardHeader className='bg-primary text-white'>{this.state.partFour.title}</CardHeader>
                                                     <div className='col-md-12 py-3'>
                                                         <FormGroup className={`${this.hasErrorFor('officerName') ? 'has-danger' : ''}`}>
-                                                            <Input id='officerName'
+                                                            <input id='name'
                                                                 className={`form-control ${this.hasErrorFor('officerName') ? 'is-invalid' : ''}`}
                                                                 name='officerName'
                                                                 placeholder='Offending Officers Name/s'
@@ -1029,7 +1094,7 @@ class PoliceForm extends Component {
                                                             {this.renderErrorFor('officerName')}
                                                         </FormGroup>
                                                         <FormGroup className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
-                                                            <Input id='officerRank'
+                                                            <input id='rank'
                                                                 className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
                                                                 name='officerRank'
                                                                 placeholder='Offending Officers Rank / Description'
@@ -1039,7 +1104,7 @@ class PoliceForm extends Component {
                                                             {this.renderErrorFor('officerRank')}
                                                         </FormGroup>
                                                         <FormGroup className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
-                                                            <textarea id='otherId'
+                                                            <textarea id='id'
                                                                 className={`form-control ${this.hasErrorFor('otherId') ? 'is-invalid' : ''}`}
                                                                 name='otherId'
                                                                 placeholder='Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique 		
@@ -1062,7 +1127,7 @@ class PoliceForm extends Component {
                                                     </div>
                                                     <div className='col-md-12'>
                                                         <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                        <button className="btn btn-primary btn-round float-right">
+                                                        <button className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
                                                             <i className="ni ni-send"></i> Submit
                                                         </button>
                                                     </div>

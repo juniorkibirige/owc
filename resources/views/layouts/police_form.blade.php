@@ -14,7 +14,6 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Icons -->
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-        <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
@@ -24,7 +23,8 @@
         <script src="{{ asset('js/app.js') }}"></script>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
-        <!-- <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script> -->
+        <!-- <script src="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/js/all.min.js"></script> -->
+        <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         
         @stack('js')
