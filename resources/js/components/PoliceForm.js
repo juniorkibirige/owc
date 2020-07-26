@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import flatpickr from 'flatpickr'
 import { v4 } from 'uuid';
 import {
@@ -7,14 +7,20 @@ import {
     InputGroupAddon, InputGroupText, InputGroup,
     Input, Label,
     Row, Col,
-    Card, CardHeader
+    Card, CardHeader,
+    Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap'
 
 class PoliceForm extends Component {
 
+    componentDidMount() {
+        this.getCities()
+    }
+
     constructor() {
         super()
         this.state = {
+            isLoading: true,
             refNo: v4(),
             date: new Date(),
             partOne: {
@@ -42,6 +48,7 @@ class PoliceForm extends Component {
                     victimAge: '',
                     victimGender: ''
                 }),
+                sameAsComplainant: false,
                 statement: '',
                 period: '',
                 location: '',
@@ -77,7 +84,8 @@ class PoliceForm extends Component {
                 timeTab: false,
                 yearTab: false
             },
-            tabSel: ''
+            tabSel: '',
+            cities: []
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleCheckBox = this.handleCheckBox.bind(this)
@@ -91,6 +99,7 @@ class PoliceForm extends Component {
         this.handleResidence = this.handleResidence.bind(this)
         this.handlePill = this.handlePill.bind(this)
         this.isVisible = this.isVisible.bind(this)
+        this.cities = this.cities.bind(this)
     }
 
     handleSubmit(event) {
@@ -261,7 +270,7 @@ class PoliceForm extends Component {
                                         }
                                     }
                                 } else {
-                                    if (element.value == '' && element.name != "" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
+                                    if (element.value == '' && element.name != "" &&element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
                                         errors[element.name] = ['Please fill the field']
                                         errors.length += 1
                                     }
@@ -509,15 +518,46 @@ class PoliceForm extends Component {
 
     // For nested state objects
     handleInvolved(e) {
-        this.setState(prevState => ({
-            partThree: {
-                ...prevState.partThree,
-                involved: {
-                    ...prevState.partThree.involved,
-                    [event.target.name]: event.target.value
-                }
+        if (event.target.name == 'sameAsComplainant')
+            if (event.target.checked) {
+                this.setState(prevState => ({
+                    partThree: {
+                        ...prevState.partThree,
+                        involved: {
+                            victimName: this.state.partTwo.name,
+                            victimAge: this.state.partTwo.age,
+                            victimGender: this.state.partTwo.gender,
+                            sameAsComplainant: event.target.checked
+                        }
+                    }
+                }))
+                $('div#vicDet').css({
+                    display: 'none'
+                })
+            } else {
+                this.setState(prevState => ({
+                    partThree: {
+                        ...prevState.partThree,
+                        involved: {
+                            victimName: '',
+                            victimAge: '',
+                            victimGender: '',
+                            sameAsComplainant: event.target.checked
+                        }
+                    }
+                }))
+                $('div#vicDet').removeAttr('style')
             }
-        }))
+        else
+            this.setState(prevState => ({
+                partThree: {
+                    ...prevState.partThree,
+                    involved: {
+                        ...prevState.partThree.involved,
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
     }
 
     handleResidence() {
@@ -557,9 +597,36 @@ class PoliceForm extends Component {
         return false
     }
 
+    getCities() {
+        const cities = axios.get('/storage/compiled_data/ugCities.json').then(response => {
+            this.setState({
+                cities: response.data,
+                isLoading: false
+            })
+        })
+    }
+
+    
+
+    cities() {
+        return (
+            <div className={`form-group ${this.hasErrorFor('location') ? 'has-danger' : ''}`} defaultValue="Victim's Gender">
+                <select id='location' name='location' className={`form-control ${this.hasErrorFor('location') ? 'is-invalid' : ''}`} placeholder='default' value={this.state.partThree.location} onChange={this.handleFieldChange.bind(this, 'p3')}>
+                    <option name='default' value='default' key="default">Select where crime happened</option>
+                    {
+                        this.state.cities.map(city => {
+                            return <option name={city} value={city} key={city.toString()}>{city}</option>
+                        })
+                    }
+                </select>
+                {this.renderErrorFor('location')}
+            </div>
+        )
+    }
+
     render() {
         return (
-            <div className='container py-3'>
+            <div className='container py-3 bg-gradient-primary'>
                 <div className='row justify-content-center'>
                     <div className='col-md-9'>
                         <div className='card'>
@@ -799,8 +866,18 @@ class PoliceForm extends Component {
                                                 <div className='card pb-3'>
                                                     <div className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
                                                     <div className='col-md-12 py-3'>
-                                                        <label htmlFor='contact'>Victim Details</label>
-                                                        <div className='row'>
+                                                        <label htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </label>
+                                                        <div className='float-right display-inline' style={{ textAlign: 'right' }}>
+                                                            <Input
+                                                                id='sameAsComplainant'
+                                                                name='sameAsComplainant'
+                                                                type='checkbox'
+                                                                value={this.state.partThree.sAC}
+                                                                onChange={this.handleInvolved.bind(this, 'p3')}
+                                                            /> Same as Complainant
+                                                        </div>
+                                                        <div className='row' id='vicDet'>
                                                             <div className='col-md-6 col-sm-12'>
                                                                 <div className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
                                                                     <input
@@ -918,15 +995,7 @@ class PoliceForm extends Component {
                                                         </div>
                                                         <label htmlFor='location'>Where crime happened</label>
                                                         <FormGroup className={`${this.hasErrorFor('location') ? 'has-danger' : ''}`}>
-                                                            <textarea
-                                                                id='location'
-                                                                name='location'
-                                                                placeholder='Scene of crime'
-                                                                value={this.state.partThree.location}
-                                                                rows='3'
-                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                className={`form-control ${this.hasErrorFor('location') ? 'is-invalid' : ''}`}>
-                                                            </textarea>
+                                                            {this.state.isLoading ? <></> : <this.cities />}
                                                             {this.renderErrorFor('location')}
                                                         </FormGroup>
                                                         <FormGroup>

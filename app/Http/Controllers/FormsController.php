@@ -18,9 +18,9 @@ class FormsController extends Controller
         $day = explode('-', date('d-m-Y'))[0];
         $week = [];
         $monday = Carbon::now()->startOfWeek();
-        for ($i=1, $day=$monday; $i < 8; $i++) { 
-            $week[$i] = explode('-', explode('T', json_encode($day))[0])[2];
-            $day = $day->copy()->addDay();
+        for ($i=1, $cday=$monday; $i < 8; $i++) { 
+            $week[$i] = explode('-', explode('T', json_encode($cday))[0])[2];
+            $cday = $cday->copy()->addDay();
         }
         $pM = 0;
         $pD = 0;
@@ -32,8 +32,8 @@ class FormsController extends Controller
             $cd = explode('-', $date)[2];
             if($month == $cm) $pM += 1;
             if($day == $cd) $pD += 1;
-            foreach ($week as $key => $day) {
-                if($day == $cd) $pW += 1;
+            foreach ($week as $key => $current_day) {
+                if($current_day == $cd) $pW += 1;
             }
         }
         $res['forms'] = $forms;

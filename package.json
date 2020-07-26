@@ -29,6 +29,8 @@
         "browser-sync": "^2.26.10",
         "browser-sync-webpack-plugin": "^2.0.1",
         "flatpickr": "^4.6.3",
+        "highcharts": "^8.1.2",
+        "highcharts-react-official": "^3.0.0",
         "moment": "^2.27.0",
         "react-date-picker": "^8.0.1",
         "react-datetime": "^2.16.3",

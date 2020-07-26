@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Stats from './Stats'
 
 class Forms extends Component {
     constructor() {
@@ -23,18 +24,10 @@ class Forms extends Component {
                 numPerDay: response.data.perDay
             })
         })
-        // .catch(error => {
-// 
-        // })
-        // axios.get('/api/form_105/month').then(response => {
-        //     this.setState({
-        //         numPerMonth: response.data
-        //     })
-        // })
     }
 
     checkDone(attr) {
-        if(attr == true) {
+        if (attr == true) {
             return (
                 <span className='d-block'>
                     <i className='fa fa-check-circle' aria-hidden='true'></i>
@@ -52,32 +45,35 @@ class Forms extends Component {
     render() {
         const { forms } = this.state
         return (
-            <div className='container py-4'>
-                <div className='row justify-content-center'>
-                    <div className='col-md-8'>
-                        <div className='card'>
-                            <div className='card-header'>All Complaints</div>
-                            <div className='card-body'>
-                                <Link className='btn btn-primary btn-sm mb-3' to='/create'>
-                                    Make new complaint
+            <div>
+                <Stats />
+                <div className='container-fluid py-4 bg-gradient-primary'>
+                    <div className='row justify-content-center'>
+                        <div className='col-md-8'>
+                            <div className='card'>
+                                <div className='card-header'>All Complaints</div>
+                                <div className='card-body'>
+                                    <Link className='btn btn-primary btn-sm mb-3' to='/create'>
+                                        Make new complaint
                                 </Link>
-                                <ul className='list-group list-group-flush'>
-                                    {forms.map(form => (
-                                        <Link
-                                            className='list-group-item list-group-item-action d-flex justify-content-between align-items-center'
-                                            to={`/complaints/${form.refNo}`}
-                                            key={form.refNo}
-                                        >
-                                            {form.officerName}
-                                            {this.checkDone(form.done)}
-                                        </Link>
-                                    ))}
-                                </ul>
+                                    <ul className='list-group list-group-flush'>
+                                        {forms.map(form => (
+                                            <Link
+                                                className='list-group-item list-group-item-action d-flex justify-content-between align-items-center'
+                                                to={`/complaints/${form.refNo}`}
+                                                key={form.refNo}
+                                            >
+                                                {form.officerName}
+                                                {this.checkDone(form.done)}
+                                            </Link>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div >
+                </div >
+            </div>
         )
     }
 }
