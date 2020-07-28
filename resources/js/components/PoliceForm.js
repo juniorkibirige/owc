@@ -15,12 +15,14 @@ class PoliceForm extends Component {
 
     componentDidMount() {
         this.getCities()
+
     }
 
     constructor() {
         super()
         this.state = {
             isLoading: true,
+            cities: [],
             refNo: v4(),
             date: new Date(),
             partOne: {
@@ -84,8 +86,7 @@ class PoliceForm extends Component {
                 timeTab: false,
                 yearTab: false
             },
-            tabSel: '',
-            cities: []
+            tabSel: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleCheckBox = this.handleCheckBox.bind(this)
