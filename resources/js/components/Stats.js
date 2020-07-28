@@ -15,7 +15,11 @@ class Stats extends Component {
             perMonth: 0,
             perWeek: 0,
             perDay: 0,
-            chartData: []
+            chartData: {
+                series: [{
+                    data: [1, 2, 3]
+                }]
+            }
         }
     }
 
@@ -88,11 +92,28 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                         </Row>
+                        <HighChartsReact
+                            style={{
+                                container: {
+                                    backgroundColor: "#fff",
+                                    justifyContent: 'center'
+                                }
+                            }}
+                            options={this.state.chartData}
+                            // modules={modules}
+                        />
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+// const styles = StyleSheet.create({
+//     container: {
+//         backgroundColor: "#fff",
+//         justifyContent: 'center'
+//     }
+// })
 
 export default Stats

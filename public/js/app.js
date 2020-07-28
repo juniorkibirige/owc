@@ -88660,7 +88660,11 @@ var Stats = /*#__PURE__*/function (_Component) {
       perMonth: 0,
       perWeek: 0,
       perDay: 0,
-      chartData: []
+      chartData: {
+        series: [{
+          data: [1, 2, 3]
+        }]
+      }
     };
     return _this;
   }
@@ -88746,12 +88750,27 @@ var Stats = /*#__PURE__*/function (_Component) {
         className: "icon icon-shape bg-gradient-red text-white rounded-circle shadow"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "ni ni-chart-pie-35"
-      })))))))))));
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(highcharts_react_official__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        style: {
+          container: {
+            backgroundColor: "#fff",
+            justifyContent: 'center'
+          }
+        },
+        options: this.state.chartData // modules={modules}
+
+      }))));
     }
   }]);
 
   return Stats;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]); // const styles = StyleSheet.create({
+//     container: {
+//         backgroundColor: "#fff",
+//         justifyContent: 'center'
+//     }
+// })
+
 
 /* harmony default export */ __webpack_exports__["default"] = (Stats);
 
