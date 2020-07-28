@@ -1,14 +1,11 @@
 import axios from 'axios'
-import React, { Component, useState } from 'react'
-import flatpickr from 'flatpickr'
+import React, { Component } from 'react'
 import { v4 } from 'uuid';
 import {
     FormGroup, FormText,
-    InputGroupAddon, InputGroupText, InputGroup,
     Input, Label,
     Row, Col,
-    Card, CardHeader,
-    Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+    Card, CardHeader
 } from 'reactstrap'
 
 class PoliceForm extends Component {
@@ -599,9 +596,9 @@ class PoliceForm extends Component {
     }
 
     getCities() {
-        $.get('https://tmsystem.live/data/ugCities.json').then(response => {
+        axios.get('https://tmsystem.live/data/ugCities.json').then(response => {
             this.setState({
-                cities: response.data,
+                cityData: response.data,
                 isLoading: false
             })
         })
