@@ -15,14 +15,14 @@ class PoliceForm extends Component {
 
     componentDidMount() {
         this.getCities()
-
+        console.log(this.state.cityData)
     }
 
     constructor() {
         super()
         this.state = {
             isLoading: true,
-            cities: [],
+            cityData: [],
             refNo: v4(),
             date: new Date(),
             partOne: {
@@ -615,7 +615,7 @@ class PoliceForm extends Component {
                 <select id='location' name='location' className={`form-control ${this.hasErrorFor('location') ? 'is-invalid' : ''}`} placeholder='default' value={this.state.partThree.location} onChange={this.handleFieldChange.bind(this, 'p3')}>
                     <option name='default' value='default' key="default">Select where crime happened</option>
                     {
-                        this.state.cities.map(city => {
+                        this.state.cityData.map(city => {
                             return <option name={city} value={city} key={city.toString()}>{city}</option>
                         })
                     }
