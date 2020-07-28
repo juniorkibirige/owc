@@ -17,7 +17,7 @@ class Stats extends Component {
             perDay: 0,
             chartData: {
                 series: [{
-                    data: [1, 2, 3]
+                    data: [1, 3, 2]
                 }]
             }
         }
