@@ -598,7 +598,7 @@ class PoliceForm extends Component {
     }
 
     getCities() {
-        axios.get('compiled_data/ugCities.json').then(response => {
+        axios.get('https://p-form.herokuapp.com/compiled_data/ugCities.json').then(response => {
             this.setState({
                 cities: response.data,
                 isLoading: false
