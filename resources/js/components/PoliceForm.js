@@ -598,7 +598,7 @@ class PoliceForm extends Component {
     }
 
     getCities() {
-        const cities = axios.get('/storage/compiled_data/ugCities.json').then(response => {
+        const cities = axios.get('/compiled_data/ugCities.json').then(response => {
             this.setState({
                 cities: response.data,
                 isLoading: false
