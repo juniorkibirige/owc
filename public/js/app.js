@@ -87287,6 +87287,7 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
     _this.handlePill = _this.handlePill.bind(_assertThisInitialized(_this));
     _this.isVisible = _this.isVisible.bind(_assertThisInitialized(_this));
     _this.cities = _this.cities.bind(_assertThisInitialized(_this));
+    _this.showState = _this.showState.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -87842,6 +87843,11 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
       return false;
     }
   }, {
+    key: "showState",
+    value: function showState() {
+      console.log(this.state);
+    }
+  }, {
     key: "getCities",
     value: function getCities() {
       var _this4 = this;
@@ -87853,6 +87859,8 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
             cities: response.data,
             isLoading: false
           });
+
+          showState();
         }
       });
     }

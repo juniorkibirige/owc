@@ -598,15 +598,12 @@ class PoliceForm extends Component {
     }
 
     getCities() {
-        $.ajax({
-            url: 'https://tmsystem.live/data/ugCities.json',
-            success: (response => {
-                this.setState({
-                    cities: response.data,
-                    isLoading: false
-                })
-            })}
-        )
+        $.get('https://tmsystem.live/data/ugCities.json').then(response => {
+            this.setState({
+                cities: response.data,
+                isLoading: false
+            })
+        })
     }
 
     
