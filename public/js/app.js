@@ -87846,11 +87846,14 @@ var PoliceForm = /*#__PURE__*/function (_Component) {
     value: function getCities() {
       var _this4 = this;
 
-      var cities = axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/storage/compiled_data/ugCities.json').then(function (response) {
-        _this4.setState({
-          cities: response.data,
-          isLoading: false
-        });
+      $.ajax({
+        url: 'https://tmsystem.live/data/ugCities.json',
+        success: function success(response) {
+          _this4.setState({
+            cities: response.data,
+            isLoading: false
+          });
+        }
       });
     }
   }, {
