@@ -168,7 +168,7 @@ class LoginContainer extends Component {
                                                         <i className="ni ni-single-02 text-black"></i>
                                                     </span>
                                                 </div>
-                                                <input name="email" onChange={this.handleFieldChange} value={this.state.user.email} className="form-control pl-3" placeholder="Username or Email" type="text" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
+                                                <input name="email" value={this.state.user.email} onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Username or Email" type="text" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@ class LoginContainer extends Component {
                                                         <i className="ni ni-key-25 text-black"></i>
                                                     </span>
                                                 </div>
-                                                <input name="password" onChange={this.handleFieldChange} value={this.state.user.password} className="form-control pl-3" placeholder="Password" type="password" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
+                                                <input name="password" value={this.state.user.email} onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Password" type="password" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
                                             </div>
                                         </div>
                                     </div>

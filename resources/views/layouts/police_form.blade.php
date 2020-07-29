@@ -22,7 +22,7 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="{{ $class ?? 'bg-default' }}">
+    <body class="{{ $class ?? 'bg-default' }}" style="background-image: url('argon/img/brand/bg-01.jpg');">
         
         <div id="app" class="main-content"></div>
         <script src="{{ asset('js/app.js') }}"></script>

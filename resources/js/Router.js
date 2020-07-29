@@ -17,9 +17,10 @@ const Main = props => (
         {/* User must login */}
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register}/>
+        <Route path='/dashboard' render={props => <Dashboard {...props} />} />
 
         {/* User is LoggedIn */}
-        <PrivateRoute path='/dashboard' component={Dashboard}/>
+        {/* <PrivateRoute path='/dashboard' component={Dashboard}/> */}
 
         {/* Error 404 */}
         {/* <Route component={NotFound}/> */}

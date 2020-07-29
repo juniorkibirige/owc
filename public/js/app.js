@@ -7614,6 +7614,18 @@ module.exports = function hasSymbols() {
 
 /***/ }),
 
+/***/ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/highcharts-react-official/dist/highcharts-react.min.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t(__webpack_require__(/*! react */ "./node_modules/react/index.js"),__webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js")):undefined}("undefined"!=typeof self?self:this,function(e,t){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var r={};return t.m=e,t.c=r,t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){"use strict";function n(){return n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},n.apply(this,arguments)}function o(e){return i(e)||u(e)||c()}function c(){throw new TypeError("Invalid attempt to spread non-iterable instance")}function u(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}function i(e){if(Array.isArray(e)){for(var t=0,r=new Array(e.length);t<e.length;t++)r[t]=e[t];return r}}Object.defineProperty(t,"__esModule",{value:!0});var a=r(1),s=r.n(a),f=r(2),p=r.n(f),l="undefined"!=typeof window?a.useLayoutEffect:a.useEffect,d=Object(a.forwardRef)(function(e,t){var r=Object(a.useRef)(),c=Object(a.useRef)();return l(function(){function t(){var t=e.highcharts||p.a,n=e.constructorType||"chart";t?t[n]?e.options?c.current=t[n](r.current,e.options,e.callback?e.callback:void 0):console.warn('The "options" property was not passed.'):console.warn('The "constructorType" property is incorrect or some required module is not imported.'):console.warn('The "highcharts" property was not passed.')}if(c.current){if(!1!==e.allowChartUpdate)if(!e.immutable&&c.current){var n;(n=c.current).update.apply(n,[e.options].concat(o(e.updateArgs||[!0,!0])))}else t()}else t()}),l(function(){return function(){c.current&&(c.current.destroy(),c.current=null)}},[]),Object(a.useImperativeHandle)(t,function(){return{get chart(){return c.current},container:r}},[]),s.a.createElement("div",n({},e.containerProps,{ref:r}))});t.default=Object(a.memo)(d)},function(t,r){t.exports=e},function(e,r){e.exports=t}])});
+//# sourceMappingURL=highcharts-react.min.js.map
+
+/***/ }),
+
 /***/ "./node_modules/highcharts/highcharts.js":
 /*!***********************************************!*\
   !*** ./node_modules/highcharts/highcharts.js ***!
@@ -8158,6 +8170,35 @@ this.options.responsive,n=[],r=this.currentResponsive;!g&&t&&t.rules&&t.rules.fo
 c,!0)):this.currentResponsive=void 0)};g.prototype.matchResponsiveRule=function(c,g){var q=c.condition;(q.callback||function(){return this.chartWidth<=J(q.maxWidth,Number.MAX_VALUE)&&this.chartHeight<=J(q.maxHeight,Number.MAX_VALUE)&&this.chartWidth>=J(q.minWidth,0)&&this.chartHeight>=J(q.minHeight,0)}).call(this)&&g.push(c._id)};g.prototype.currentOptions=function(c){function g(c,n,v,p){var m;D(c,function(c,l){if(!p&&-1<q.collectionsWithUpdate.indexOf(l))for(c=t(c),v[l]=[],m=0;m<Math.max(c.length,
 n[l].length);m++)n[l][m]&&(void 0===c[m]?v[l][m]=n[l][m]:(v[l][m]={},g(c[m],n[l][m],v[l][m],p+1)));else B(c)?(v[l]=y(c)?[]:{},g(c,n[l]||{},v[l],p+1)):v[l]="undefined"===typeof n[l]?null:n[l]})}var q=this,n={};g(c,this.options,n,0);return n}});O(q,"masters/highcharts.src.js",[q["parts/Globals.js"]],function(g){return g});q["masters/highcharts.src.js"]._modules=q;return q["masters/highcharts.src.js"]});
 //# sourceMappingURL=highcharts.js.map
+
+/***/ }),
+
+/***/ "./node_modules/highcharts/modules/funnel.js":
+/*!***************************************************!*\
+  !*** ./node_modules/highcharts/modules/funnel.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+ Highcharts JS v8.1.2 (2020-06-16)
+
+ Highcharts funnel module
+
+ (c) 2010-2019 Torstein Honsi
+
+ License: www.highcharts.com/license
+*/
+(function(b){ true&&module.exports?(b["default"]=b,module.exports=b): true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(e){b(e);b.Highcharts=e;return b}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):undefined})(function(b){function e(b,l,n,e){b.hasOwnProperty(l)||(b[l]=e.apply(null,n))}var x=b?b._modules:{};e(x,"modules/funnel.src.js",[x["parts/Chart.js"],x["parts/Globals.js"],x["parts/Utilities.js"]],function(e,l,n){var x=l.noop,C=l.seriesType,
+I=l.seriesTypes;l=n.addEvent;var J=n.fireEvent,K=n.isArray,H=n.pick;C("funnel","pie",{animation:!1,center:["50%","50%"],width:"90%",neckWidth:"30%",height:"100%",neckHeight:"25%",reversed:!1,size:!0,dataLabels:{connectorWidth:1,verticalAlign:"middle"},states:{select:{color:"#cccccc",borderColor:"#000000"}}},{animate:x,translate:function(){function a(a,c){return/%$/.test(a)?c*parseInt(a,10)/100:parseInt(a,10)}var r=0,c=this,g=c.chart,f=c.options,k=f.reversed,d=f.ignoreHiddenPoint,b=g.plotWidth;g=g.plotHeight;
+var e=0,l=f.center,h=a(l[0],b),m=a(l[1],g),n=a(f.width,b),u,v=a(f.height,g),z=a(f.neckWidth,b),G=a(f.neckHeight,g),A=m-v/2+v-G;b=c.data;var D,E,C="left"===f.dataLabels.position?1:0,B,p,F,w,q,y,t;c.getWidthAt=function(a){var c=m-v/2;return a>A||v===G?z:z+(n-z)*(1-(a-c)/(v-G))};c.getX=function(a,d,b){return h+(d?-1:1)*(c.getWidthAt(k?2*m-a:a)/2+b.labelDistance)};c.center=[h,m,v];c.centerX=h;b.forEach(function(a){d&&!1===a.visible||(r+=a.y)});b.forEach(function(a){t=null;E=r?a.y/r:0;p=m-v/2+e*v;q=p+
+E*v;u=c.getWidthAt(p);B=h-u/2;F=B+u;u=c.getWidthAt(q);w=h-u/2;y=w+u;p>A?(B=w=h-z/2,F=y=h+z/2):q>A&&(t=q,u=c.getWidthAt(A),w=h-u/2,y=w+u,q=A);k&&(p=2*m-p,q=2*m-q,null!==t&&(t=2*m-t));D=[["M",B,p],["L",F,p],["L",y,q]];null!==t&&D.push(["L",y,t],["L",w,t]);D.push(["L",w,q],["Z"]);a.shapeType="path";a.shapeArgs={d:D};a.percentage=100*E;a.plotX=h;a.plotY=(p+(t||q))/2;a.tooltipPos=[h,a.plotY];a.dlBox={x:w,y:p,topWidth:F-B,bottomWidth:y-w,height:Math.abs(H(t,q)-p),width:NaN};a.slice=x;a.half=C;d&&!1===a.visible||
+(e+=E)});J(c,"afterTranslate")},sortByAngle:function(a){a.sort(function(a,c){return a.plotY-c.plotY})},drawDataLabels:function(){var a=this.data,b=this.options.dataLabels.distance,c,g=a.length;for(this.center[2]-=2*b;g--;){var f=a[g];var k=(c=f.half)?1:-1;var d=f.plotY;f.labelDistance=H(f.options.dataLabels&&f.options.dataLabels.distance,b);this.maxLabelDistance=Math.max(f.labelDistance,this.maxLabelDistance||0);var e=this.getX(d,c,f);f.labelPosition={natural:{x:0,y:d},"final":{},alignment:c?"right":
+"left",connectorPosition:{breakAt:{x:e+(f.labelDistance-5)*k,y:d},touchingSliceAt:{x:e+f.labelDistance*k,y:d}}}}I[this.options.dataLabels.inside?"column":"pie"].prototype.drawDataLabels.call(this)},alignDataLabel:function(a,e,c,g,f){var k=a.series;g=k.options.reversed;var d=a.dlBox||a.shapeArgs,l=c.align,r=c.verticalAlign,n=((k.options||{}).dataLabels||{}).inside,h=k.center[1];k=k.getWidthAt((g?2*h-a.plotY:a.plotY)-d.height/2+e.height);k="middle"===r?(d.topWidth-d.bottomWidth)/4:(k-d.bottomWidth)/
+2;h=d.y;var m=d.x;"middle"===r?h=d.y-d.height/2+e.height/2:"top"===r&&(h=d.y-d.height+e.height+c.padding);if("top"===r&&!g||"bottom"===r&&g||"middle"===r)"right"===l?m=d.x-c.padding+k:"left"===l&&(m=d.x+c.padding-k);g={x:m,y:g?h-d.height:h,width:d.bottomWidth,height:d.height};c.verticalAlign="bottom";n&&!a.visible||b.Series.prototype.alignDataLabel.call(this,a,e,c,g,f);n&&(!a.visible&&a.dataLabel&&(a.dataLabel.placed=!1),a.contrastColor&&e.css({color:a.contrastColor}))}});l(e,"afterHideAllOverlappingLabels",
+function(){this.series.forEach(function(a){var b=a.options&&a.options.dataLabels;K(b)&&(b=b[0]);a.is("pie")&&a.placeDataLabels&&b&&!b.inside&&a.placeDataLabels()})});C("pyramid","funnel",{neckWidth:"0%",neckHeight:"0%",reversed:!0});""});e(x,"masters/modules/funnel.src.js",[],function(){})});
+//# sourceMappingURL=funnel.js.map
 
 /***/ }),
 
@@ -83516,6 +83557,17 @@ module.exports = "/images/mlgsd.png?f5427706f135cb7bcd645820ec54ad48";
 
 /***/ }),
 
+/***/ "./public/assets/img/theme/team-1-800x800.jpg":
+/*!****************************************************!*\
+  !*** ./public/assets/img/theme/team-1-800x800.jpg ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/team-1-800x800.jpg?53033970a416368da35794389680266f";
+
+/***/ }),
+
 /***/ "./resources/js/Index.js":
 /*!*******************************!*\
   !*** ./resources/js/Index.js ***!
@@ -83686,9 +83738,11 @@ var Main = function Main(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/register",
     component: _views_Register_Register__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PrivateRoute__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/dashboard",
-    component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"]
+    render: function render(props) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"], props);
+    }
   }));
 };
 
@@ -84157,6 +84211,890 @@ var Home = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Navbars/AdminNavbar.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Navbars/AdminNavbar.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+/*!
+
+=========================================================
+* Argon Dashboard React - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+ // reactstrap components
+
+
+
+var AdminNavbar = /*#__PURE__*/function (_React$Component) {
+  _inherits(AdminNavbar, _React$Component);
+
+  var _super = _createSuper(AdminNavbar);
+
+  function AdminNavbar() {
+    _classCallCheck(this, AdminNavbar);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(AdminNavbar, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"], {
+        className: "navbar-top navbar-dark",
+        style: {
+          backgroundColor: "#eee9e4"
+        },
+        expand: "md",
+        id: "navbar-main"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Container"], {
+        fluid: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "h4 mb-0 text-white text-uppercase d-none d-lg-inline-block d-lg-none",
+        to: "/",
+        style: {
+          visibility: "hidden"
+        },
+        "aria-hidden": "true"
+      }, this.props.brandText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+        className: "navbar-search navbar-search-dark form-inline mr-3 d-none d-md-none ml-lg-auto",
+        style: {
+          visibility: "hidden"
+        },
+        "aria-hidden": "true"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["FormGroup"], {
+        className: "mb-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"], {
+        className: "input-group-alternative"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroupAddon"], {
+        addonType: "prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroupText"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-search"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+        placeholder: "Search",
+        type: "text"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+        className: "align-items-center d-none d-md-flex",
+        navbar: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["UncontrolledDropdown"], {
+        nav: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownToggle"], {
+        className: "pr-0",
+        nav: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Media"], {
+        className: "align-items-center text-black"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-angle-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["Media"], {
+        className: "ml-2 d-none d-lg-block"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm text-black font-weight-bold"
+      }, "LOG OUT")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownMenu"], {
+        className: "dropdown-menu-arrow d-none d-sm-none",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        className: "noti-title",
+        header: true,
+        tag: "div"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+        className: "text-overflow m-0"
+      }, "Welcome!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-single-02"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "My profile")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-settings-gear-65"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Settings")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-calendar-grid-58"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Activity")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-support-16"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Support")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        divider: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_2__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-user-run"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Logout"))))))));
+    }
+  }]);
+
+  return AdminNavbar;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (AdminNavbar);
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/Sidebar.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/Sidebar/Sidebar.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _public_assets_img_theme_team_1_800x800_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../public/assets/img/theme/team-1-800x800.jpg */ "./public/assets/img/theme/team-1-800x800.jpg");
+/* harmony import */ var _public_assets_img_theme_team_1_800x800_jpg__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_public_assets_img_theme_team_1_800x800_jpg__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+ // nodejs library to set properties for components
+
+
+ // reactstrap components
+
+
+var ps;
+
+var Sidebar = /*#__PURE__*/function (_Component) {
+  _inherits(Sidebar, _Component);
+
+  var _super = _createSuper(Sidebar);
+
+  function Sidebar(props) {
+    var _this;
+
+    _classCallCheck(this, Sidebar);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      collapseOpen: false
+    };
+
+    _this.activeRoute.bind(_assertThisInitialized(_this));
+
+    _this.toggleCollapse = _this.toggleCollapse.bind(_assertThisInitialized(_this));
+    _this.closeCollapse = _this.closeCollapse.bind(_assertThisInitialized(_this));
+    return _this;
+  } // verifies if routeName is the one active (in browser input)
+
+
+  _createClass(Sidebar, [{
+    key: "activeRoute",
+    value: function activeRoute(routeName) {
+      return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+    } // toggles collapse between opened and closed (true/false)
+
+  }, {
+    key: "toggleCollapse",
+    value: function toggleCollapse() {
+      this.setState({
+        collapseOpen: !this.state.collapseOpen
+      });
+    }
+  }, {
+    key: "closeCollapse",
+    // closes the collapse
+    value: function closeCollapse() {
+      this.setState({
+        collapseOpen: false
+      });
+    }
+  }, {
+    key: "createLinks",
+    // creates the links that appear in the left menu / Sidebar
+    value: function createLinks(routes) {
+      var _this2 = this;
+
+      return routes.map(function (prop, key) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["NavItem"], {
+          key: key,
+          className: "text-white"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["NavLink"], {
+          to: prop.layout + prop.path,
+          tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"],
+          onClick: _this2.closeCollapse,
+          className: "text-white",
+          activeClassName: "active"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: prop.icon + " text-white"
+        }), prop.name));
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          bgColor = _this$props.bgColor,
+          routes = _this$props.routes,
+          logo = _this$props.logo;
+      var navbarBrandProps;
+
+      if (logo && logo.innerLink) {
+        navbarBrandProps = {
+          to: logo.innerLink,
+          tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+        };
+      } else if (logo && logo.outterLink) {
+        navbarBrandProps = {
+          href: logo.outterLink,
+          target: "_blank"
+        };
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Navbar"], {
+        className: "navbar-vertical fixed-left navbar-light px-0",
+        expand: "md",
+        id: "sidenav-main",
+        style: {
+          backgroundColor: "rgba(51, 66, 79, 0.85)"
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Container"], {
+        fluid: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "navbar-toggler",
+        type: "button",
+        onClick: this.toggleCollapse
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "navbar-toggler-icon"
+      })), logo ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["NavbarBrand"], _extends({
+        className: "pt-0"
+      }, navbarBrandProps), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: logo.imgAlt,
+        className: "navbar-brand-img",
+        src: logo.imgSrc
+      })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Nav"], {
+        className: "align-items-center d-md-none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["UncontrolledDropdown"], {
+        nav: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownToggle"], {
+        nav: true,
+        className: "nav-link-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-bell-55"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownMenu"], {
+        "aria-labelledby": "navbar-default_dropdown_1",
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], null, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], null, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        divider: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], null, "Something else here"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["UncontrolledDropdown"], {
+        nav: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownToggle"], {
+        nav: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "avatar avatar-sm rounded-circle"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: _public_assets_img_theme_team_1_800x800_jpg__WEBPACK_IMPORTED_MODULE_3___default.a
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        className: "noti-title",
+        header: true,
+        tag: "div"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+        className: "text-overflow m-0"
+      }, "Welcome!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-single-02"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "My profile")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-settings-gear-65"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Settings")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-calendar-grid-58"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Activity")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        to: "/admin/user-profile",
+        tag: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"]
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-support-16"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Support")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        divider: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-user-run"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Logout"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Collapse"], {
+        navbar: true,
+        isOpen: this.state.collapseOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "navbar-collapse-header d-md-none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], null, logo ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
+        className: "collapse-brand",
+        xs: "6"
+      }, logo.innerLink ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: logo.innerLink
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: logo.imgAlt,
+        src: logo.imgSrc
+      })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: logo.outterLink
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: logo.imgAlt,
+        src: logo.imgSrc
+      }))) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
+        className: "collapse-close",
+        xs: "6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "navbar-toggler",
+        type: "button",
+        onClick: this.toggleCollapse
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Form"], {
+        className: "mt-4 mb-3 d-md-none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["InputGroup"], {
+        className: "input-group-rounded input-group-merge"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Input"], {
+        "aria-label": "Search",
+        className: "form-control-rounded form-control-prepended",
+        placeholder: "Search",
+        type: "search"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["InputGroupAddon"], {
+        addonType: "prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["InputGroupText"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "fa fa-search"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Nav"], {
+        navbar: true
+      }, this.createLinks(routes)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Container"], {
+        className: "text-center px-3",
+        style: {
+          marginTop: "-40%",
+          minHeight: "max-content"
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-white text-center"
+      }, "Connecting the business world together")))));
+    }
+  }]);
+
+  return Sidebar;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+Sidebar.defaultProps = {
+  routes: [{}]
+};
+Sidebar.propTypes = {
+  // links that will be displayed inside the component
+  routes: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].object),
+  logo: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].shape({
+    // innerLink is for links that will direct the user within the app
+    // it will be rendered as <Link to="...">...</Link> tag
+    innerLink: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].string,
+    // outterLink is for links that will direct the user outside the app
+    // it will be rendered as simple <a href="...">...</a> tag
+    outterLink: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].string,
+    // the image src of the logo
+    imgSrc: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].string.isRequired,
+    // the alt for the img
+    imgAlt: prop_types__WEBPACK_IMPORTED_MODULE_2__["PropTypes"].string.isRequired
+  })
+};
+/* harmony default export */ __webpack_exports__["default"] = (Sidebar);
+
+/***/ }),
+
+/***/ "./resources/js/components/Stats.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/Stats.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! highcharts-react-official */ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js");
+/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_4__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+var addFunnel = __webpack_require__(/*! highcharts/modules/funnel */ "./node_modules/highcharts/modules/funnel.js");
+
+var Stats = /*#__PURE__*/function (_Component) {
+  _inherits(Stats, _Component);
+
+  var _super = _createSuper(Stats);
+
+  function Stats() {
+    var _this;
+
+    _classCallCheck(this, Stats);
+
+    _this = _super.call(this);
+    _this.state = {
+      perMonth: 0,
+      perWeek: 0,
+      perDay: 0,
+      cityNames: [],
+      chart1Data: {
+        title: {
+          text: 'Crime rates by Town, 2020',
+          align: 'center'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        subtitle: {
+          text: 'Source: AI Data from database'
+        },
+        yAxis: {
+          title: {
+            text: 'Number of crimes'
+          }
+        },
+        accessiblity: {
+          point: {
+            valueSuffix: '%'
+          }
+        },
+        xAxis: {
+          accessiblity: {
+            rangeDescription: 'Range: 2019 to 2020'
+          }
+        },
+        legend: {
+          layout: 'vertical',
+          alight: 'right',
+          verticalAlign: 'middle'
+        },
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              enabled: true,
+              distance: -50,
+              style: {
+                fontWeight: 'bold',
+                color: 'white'
+              }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%'],
+            size: '110%'
+          }
+        },
+        series: [{
+          type: 'pie',
+          name: '{title.text}',
+          innerSize: '50%',
+          data: [['Chrome', 58.9], ['Firefox', 13.29], ['Internet Explorer', 13], ['Edge', 3.78], ['Safari', 3.42], {
+            name: 'Other',
+            y: 7.61,
+            dataLabels: {
+              enabled: false
+            }
+          }]
+        }]
+      },
+      chart2Data: {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Monthly Average Rainfall'
+        },
+        subtitle: {
+          text: 'Source: WorldClimate.com'
+        },
+        xAxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          crosshair: true
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Rainfall (mm)'
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+          }
+        },
+        series: [{
+          name: 'Tokyo',
+          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        }, {
+          name: 'New York',
+          data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
+        }, {
+          name: 'London',
+          data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+        }, {
+          name: 'Berlin',
+          data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+        }]
+      }
+    };
+    _this.getCities = _this.getCities.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Stats, [{
+    key: "getCities",
+    value: function getCities() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('compiled_data/ugCities.json').then(function (response) {
+        _this2.setState({
+          cityNames: response.data,
+          isLoading: false
+        });
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      addFunnel(highcharts__WEBPACK_IMPORTED_MODULE_3___default.a);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/form_105').then(function (response) {
+        _this3.setState({
+          perMonth: response.data.perMonth,
+          perWeek: response.data.perWeek,
+          perDay: response.data.perDay
+        });
+
+        _this3.getCities();
+      });
+      highcharts__WEBPACK_IMPORTED_MODULE_3___default.a.chart('chart', this.state.chart1Data); // HighCharts.chart('chart2', this.state.chart2Data)
+
+      highcharts__WEBPACK_IMPORTED_MODULE_3___default.a.chart('chart3', this.state.chart2Data);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header bg-info pb-3 pt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container-fluid"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], {
+        className: "align-items-center py-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-sm-6 col-6"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-sm-6 col-6"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-xl-4 col-md-4 col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+        className: "card-stats",
+        style: {
+          marginBottom: 30 + 'px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardBody"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "card-title text-uppercase text-muted mb-0"
+      }, "Total Complaints"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "h2 font-weight-bold mb-0"
+      }, this.state.perDay, "\xA0 ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-nowrap text-sm"
+      }, "Today"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "icon icon-shape bg-gradient-red text-white rounded-circle shadow"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-chart-pie-35"
+      }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-xl-4 col-md-4 col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+        className: "card-stats",
+        style: {
+          marginBottom: 30 + 'px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardBody"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "card-title text-uppercase text-muted mb-0"
+      }, "Total Complaints"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "h2 font-weight-bold mb-0"
+      }, this.state.perWeek, "\xA0 ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-nowrap text-sm"
+      }, "This Week"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "icon icon-shape bg-gradient-red text-white rounded-circle shadow"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-chart-pie-35"
+      }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-xl-4 col-md-4 col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+        className: "card-stats",
+        style: {
+          marginBottom: 30 + 'px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardBody"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "card-title text-uppercase text-muted mb-0"
+      }, "Total Complaints"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "h2 font-weight-bold mb-0"
+      }, this.state.perMonth, "\xA0 ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-nowrap text-sm"
+      }, "This Month"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "icon icon-shape bg-gradient-red text-white rounded-circle shadow"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "ni ni-chart-pie-35"
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chart",
+        className: "col-sm-12 col-md-5 col-12",
+        style: {
+          borderRadius: "10px"
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chart2",
+        className: "col-sm-12 col-md-3 col-12",
+        style: {
+          borderRadius: "10px",
+          height: "100%"
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chart3",
+        className: "col-sm-12 col-md-4 col-12",
+        style: {
+          borderRadius: "10px"
+        }
+      })))));
+    }
+  }]);
+
+  return Stats;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]); // const styles = StyleSheet.create({
+//     container: {
+//         backgroundColor: "#fff",
+//         justifyContent: 'center'
+//     }
+// })
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Stats);
+
+/***/ }),
+
+/***/ "./resources/js/routes.js":
+/*!********************************!*\
+  !*** ./resources/js/routes.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/user/Dashboard/Dashboard */ "./resources/js/views/user/Dashboard/Dashboard.js");
+/* harmony import */ var _views_examples_Tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/examples/Tables */ "./resources/js/views/examples/Tables.js");
+ // import Profile from "views/examples/Profile.js";
+// import Maps from "views/examples/Maps.js";
+// import Register from "views/examples/Register.js";
+// import Login from "views/examples/Login.js";
+
+ // import Icons from "views/examples/Icons.js";
+
+var routes = [{
+  path: "/index",
+  name: "Dashboard",
+  icon: "ni ni-tv-2 text-white",
+  component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  layout: "/dashboard"
+}, {
+  path: "/tables",
+  name: "Submissions",
+  icon: "fa fa-eye text-white",
+  component: _views_examples_Tables__WEBPACK_IMPORTED_MODULE_1__["default"],
+  layout: "/dashboard"
+}, {
+  path: "/dashboard",
+  name: "Registered Comps",
+  icon: "ni ni-bullet-list-67 text-white",
+  component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  layout: "/dashboard"
+}, {
+  path: "/dashboard",
+  name: "Categories",
+  icon: "fa fa-question-circle",
+  component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  layout: "/dashboard"
+}, {
+  path: "/dashboard",
+  name: "Reports",
+  icon: "fa fa-reply",
+  component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  layout: "/dashboard"
+}, {
+  path: "/dashboard",
+  name: "Settings",
+  icon: "fa fa-sliders",
+  component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  layout: "/dashboard"
+} //   {
+//     path: "/icons",
+//     name: "Icons",
+//     icon: "ni ni-planet text-blue",
+//     component: Icons,
+//     layout: "/admin"
+//   },
+//   {
+//     path: "/maps",
+//     name: "Maps",
+//     icon: "ni ni-pin-3 text-orange",
+//     component: Maps,
+//     layout: "/admin"
+//   },
+//   {
+//     path: "/user-profile",
+//     name: "User Profile",
+//     icon: "ni ni-single-02 text-yellow",
+//     component: Profile,
+//     layout: "/admin"
+//   },
+//   {
+//     path: "/tables",
+//     name: "Tables",
+//     icon: "ni ni-bullet-list-67 text-red",
+//     component: Tables,
+//     layout: "/admin"
+//   },
+//   {
+//     path: "/login",
+//     name: "Login",
+//     icon: "ni ni-key-25 text-info",
+//     component: Login,
+//     layout: "/auth"
+//   },
+//   {
+//     path: "/register",
+//     name: "Register",
+//     icon: "ni ni-circle-08 text-pink",
+//     component: Register,
+//     layout: "/auth"
+//   }
+];
+/* harmony default export */ __webpack_exports__["default"] = (routes);
+
+/***/ }),
+
 /***/ "./resources/js/views/Login/Login.js":
 /*!*******************************************!*\
   !*** ./resources/js/views/Login/Login.js ***!
@@ -84493,8 +85431,9 @@ var LoginContainer = /*#__PURE__*/function (_Component) {
         className: "ni ni-single-02 text-black"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "email",
-        onChange: this.handleFieldChange,
         value: this.state.user.email,
+        onChange: this.handleFieldChange,
+        required: true,
         className: "form-control pl-3",
         placeholder: "Username or Email",
         type: "text",
@@ -84522,8 +85461,9 @@ var LoginContainer = /*#__PURE__*/function (_Component) {
         className: "ni ni-key-25 text-black"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "password",
+        value: this.state.user.email,
         onChange: this.handleFieldChange,
-        value: this.state.user.password,
+        required: true,
         className: "form-control pl-3",
         placeholder: "Password",
         type: "password",
@@ -85055,10 +85995,10 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/js/views/user/Dashboard/Dashboard.js":
-/*!********************************************************!*\
-  !*** ./resources/js/views/user/Dashboard/Dashboard.js ***!
-  \********************************************************/
+/***/ "./resources/js/views/examples/Tables.js":
+/*!***********************************************!*\
+  !*** ./resources/js/views/examples/Tables.js ***!
+  \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -85066,9 +86006,7 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Header_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Header/Header */ "./resources/js/components/Header/Header.js");
-/* harmony import */ var _components_Footer_Footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/Footer/Footer */ "./resources/js/components/Footer/Footer.js");
-/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -85091,6 +86029,1377 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+/*!
+
+=========================================================
+* Argon Dashboard React - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+ // reactstrap components
+
+ // core components
+// import Header from "../../components/Header/Header.js";
+
+var Tables = /*#__PURE__*/function (_React$Component) {
+  _inherits(Tables, _React$Component);
+
+  var _super = _createSuper(Tables);
+
+  function Tables() {
+    _classCallCheck(this, Tables);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Tables, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Container"], {
+        className: "mt--7",
+        fluid: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+        className: "shadow"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardHeader"], {
+        className: "border-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "mb-0"
+      }, "Card tables")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Table"], {
+        className: "align-items-center table-flush",
+        responsive: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+        className: "thead-light"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Project"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Budget"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Users"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Completion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ''
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Argon Design System")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$2,500 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-warning"
+      }), "pending")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip742438047",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip742438047"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip941738690",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: "assets/img/theme/team-2-800x800.jpg"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip941738690"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip804044742",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip804044742"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip996637554",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip996637554"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "60%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "60",
+        barClassName: "bg-danger"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Angular Now UI Kit PRO")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$1,800 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-success"
+      }), "completed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip746418347",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip746418347"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip102182364",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip102182364"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip406489510",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip406489510"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip476840018",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip476840018"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "100%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "100",
+        barClassName: "bg-success"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Black Dashboard")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$3,150 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-danger"
+      }), "delayed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip753056318",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip753056318"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip441753266",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip441753266"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip188462246",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip188462246"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip621168444",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip621168444"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "72%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "72",
+        barClassName: "bg-danger"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "React Material Dashboard")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$4,400 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-info"
+      }), "on schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip875258217",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip875258217"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip834416663",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip834416663"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip372449339",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip372449339"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip108714769",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip108714769"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "90%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "90",
+        barClassName: "bg-info"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Vue Paper UI Kit PRO")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$2,200 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-success"
+      }), "completed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip664029969",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip664029969"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip806693074",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip806693074"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip844096937",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip844096937"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip757459971",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip757459971"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "100%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "100",
+        barClassName: "bg-success"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardFooter"], {
+        className: "py-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+        "aria-label": "..."
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Pagination"], {
+        className: "pagination justify-content-end mb-0",
+        listClassName: "justify-content-end mb-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationItem"], {
+        className: "disabled"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationLink"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        },
+        tabIndex: "-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-angle-left"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "sr-only"
+      }, "Previous"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationItem"], {
+        className: "active"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationLink"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationItem"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationLink"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "2 ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "sr-only"
+      }, "(current)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationItem"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationLink"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationItem"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["PaginationLink"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-angle-right"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "sr-only"
+      }, "Next"))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], {
+        className: "mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+        className: "bg-default shadow"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["CardHeader"], {
+        className: "bg-transparent border-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "text-white mb-0"
+      }, "Card tables")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Table"], {
+        className: "align-items-center table-dark table-flush",
+        responsive: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+        className: "thead-dark"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Project"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Budget"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Users"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Completion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Argon Design System")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$2,500 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-warning"
+      }), "pending")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip731399078",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip731399078"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip491083084",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip491083084"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip528540780",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip528540780"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip237898869",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip237898869"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "60%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "60",
+        barClassName: "bg-warning"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Angular Now UI Kit PRO")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$1,800 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-success"
+      }), "completed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip188614932",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip188614932"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip66535734",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip66535734"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip427561578",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip427561578"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip904098289",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip904098289"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "100%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "100",
+        barClassName: "bg-success"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Black Dashboard")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$3,150 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-danger"
+      }), "delayed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip707904950",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip707904950"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip353988222",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip353988222"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip467171202",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip467171202"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip362118155",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip362118155"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "72%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "72",
+        barClassName: "bg-danger"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "React Material Dashboard")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$4,400 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-info"
+      }), "on schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip226319315",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip226319315"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip711961370",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip711961370"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip216246707",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip216246707"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip638048561",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip638048561"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "90%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "90",
+        barClassName: "bg-info"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], {
+        className: "align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar rounded-circle mr-3",
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Media"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mb-0 text-sm"
+      }, "Vue Paper UI Kit PRO")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$2,200 USD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
+        color: "",
+        className: "badge-dot mr-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "bg-success"
+      }), "completed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "avatar-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip781594051",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip781594051"
+      }, "Ryan Tompson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip840372212",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip840372212"
+      }, "Romina Hadid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip497647175",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip497647175"
+      }, "Alexander Smith"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "avatar avatar-sm",
+        href: "#pablo",
+        id: "tooltip951447946",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        alt: "...",
+        className: "rounded-circle",
+        src: ""
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledTooltip"], {
+        delay: 0,
+        target: "tooltip951447946"
+      }, "Jessica Doe"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex align-items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mr-2"
+      }, "100%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Progress"], {
+        max: "100",
+        value: "100",
+        barClassName: "bg-danger"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["UncontrolledDropdown"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownToggle"], {
+        className: "btn-icon-only text-light",
+        href: "#pablo",
+        role: "button",
+        size: "sm",
+        color: "",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-ellipsis-v"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownMenu"], {
+        className: "dropdown-menu-arrow",
+        right: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["DropdownItem"], {
+        href: "#pablo",
+        onClick: function onClick(e) {
+          return e.preventDefault();
+        }
+      }, "Something else here"))))))))))));
+    }
+  }]);
+
+  return Tables;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Tables);
+
+/***/ }),
+
+/***/ "./resources/js/views/user/Dashboard/Dashboard.js":
+/*!********************************************************!*\
+  !*** ./resources/js/views/user/Dashboard/Dashboard.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Header_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Header/Header */ "./resources/js/components/Header/Header.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_Footer_Footer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/Footer/Footer */ "./resources/js/components/Footer/Footer.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+/* harmony import */ var _public_argon_img_brand_mlgsd_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../public/argon/img/brand/mlgsd.png */ "./public/argon/img/brand/mlgsd.png");
+/* harmony import */ var _public_argon_img_brand_mlgsd_png__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_public_argon_img_brand_mlgsd_png__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_Navbars_AdminNavbar_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/Navbars/AdminNavbar.js */ "./resources/js/components/Navbars/AdminNavbar.js");
+/* harmony import */ var _components_Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../components/Sidebar/Sidebar */ "./resources/js/components/Sidebar/Sidebar.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../routes */ "./resources/js/routes.js");
+/* harmony import */ var _components_Stats__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../components/Stats */ "./resources/js/components/Stats.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+ // import AdminFooter from "components/Footers/AdminFooter.js";
 
 
 
@@ -85128,24 +87437,61 @@ var Home = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(e) {
+      document.documentElement.scrollTop = 0;
+      document.scrollingElement.scrollTop = 0;
+      this.refs.mainContent.scrollTop = 0;
+    }
+  }, {
+    key: "getRoutes",
+    value: function getRoutes(routes) {
+      return routes.map(function (prop, key) {
+        console.log(prop.layout);
+
+        if (prop.layout === "/dashboard") {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+            path: prop.layout + prop.path,
+            component: prop.component,
+            key: key
+          });
+        } else {
+          return null;
+        }
+      });
+    }
+  }, {
+    key: "getBrandText",
+    value: function getBrandText(path) {
+      for (var i = 0; i < _routes__WEBPACK_IMPORTED_MODULE_8__["default"].length; i++) {
+        if (this.props.location.pathname.indexOf(_routes__WEBPACK_IMPORTED_MODULE_8__["default"][i].layout + _routes__WEBPACK_IMPORTED_MODULE_8__["default"][i].path) !== -1) {
+          return _routes__WEBPACK_IMPORTED_MODULE_8__["default"][i].name;
+        }
+      }
+
+      return "Brand";
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Header_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        userData: this.state.user,
-        userIsLoggedIn: this.state.isLoggedIn
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header bg-gradient-default py-7 py-lg-8"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Whatever normally goes into the user dasboard page; the table below for instance"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table table-striped"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "row "
-      }, "User Id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "row "
-      }, "Full Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "row "
-      }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.email))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Footer_Footer__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "g-sidenav-show g-sidenav-pinned"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, this.props, {
+        routes: _routes__WEBPACK_IMPORTED_MODULE_8__["default"],
+        logo: {
+          innerLink: "/",
+          imgSrc: "../../../../argon/img/brand/mlgsd.png",
+          imgAlt: "..."
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "main-content",
+        ref: "mainContent"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbars_AdminNavbar_js__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, this.props, {
+        brandText: this.getBrandText(this.props.location.pathname)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Stats__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, this.getRoutes(_routes__WEBPACK_IMPORTED_MODULE_8__["default"]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+        from: "*",
+        to: "/dashboard/index"
+      }))));
     }
   }]);
 

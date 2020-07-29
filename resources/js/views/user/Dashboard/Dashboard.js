@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import Header from '../../../components/Header/Header'
+import { Route, Switch, Redirect } from "react-router-dom";
 import Footer from '../../../components/Footer/Footer'
-import { Row } from 'reactstrap'
+import { Row, Container } from 'reactstrap'
+import Logo from '../../../../../public/argon/img/brand/mlgsd.png'
+import AdminNavbar from "../../../components/Navbars/AdminNavbar.js";
+// import AdminFooter from "components/Footers/AdminFooter.js";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+
+import routes from "./../../../routes";
+import Stats from '../../../components/Stats';
 
 class Home extends Component {
     constructor() {
@@ -23,36 +31,69 @@ class Home extends Component {
         }
     }
 
+    componentDidUpdate(e) {
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+        this.refs.mainContent.scrollTop = 0;
+    }
+    getRoutes(routes) {
+        return routes.map((prop, key) => {
+            console.log(prop.layout)
+            if (prop.layout === "/dashboard") {
+                return (
+                    <Route
+                        path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={key}
+                    />
+                );
+            } else {
+                return null;
+            }
+        });
+    };
+    getBrandText(path) {
+        for (let i = 0; i < routes.length; i++) {
+            if (
+                this.props.location.pathname.indexOf(
+                    routes[i].layout + routes[i].path
+                ) !== -1
+            ) {
+                return routes[i].name;
+            }
+        }
+        return "Brand";
+    };
     render() {
         return (
-            <>
-                <Header userData={this.state.user} userIsLoggedIn={this.state.isLoggedIn} />
-                <div className='header bg-gradient-default py-7 py-lg-8'>
-                    <div className='container'>
-                        <Row>
-                            <span>Whatever normally goes into the user dasboard page; the table below for instance</span> <br />
-                            <table className="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row ">User Id</th>
-                                        <td>{this.user.id}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row ">Full Name</th>
-                                        <td>{this.user.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row ">Email</th>
-                                        <td>{this.user.email}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </Row>
-                    </div>
+            <div className='g-sidenav-show g-sidenav-pinned'>
+                {/* <Header userData={this.state.user} userIsLoggedIn={this.state.isLoggedIn} /> */}
+                <Sidebar
+                    {...this.props}
+                    routes={routes}
+                    logo={{
+                        innerLink: "/",
+                        imgSrc: "../../../../argon/img/brand/mlgsd.png",
+                        imgAlt: "..."
+                    }}
+                />
+                <div className="main-content" ref="mainContent">
+                    <AdminNavbar
+                        {...this.props}
+                        brandText={this.getBrandText(this.props.location.pathname)}
+                    />
+                    <Stats />
+                    <br />
+                    <Switch>
+                        {this.getRoutes(routes)}
+                        <Redirect from="*" to="/dashboard/index" />
+                    </Switch>
+                    {/* <Container fluid>
+                        <AdminFooter />
+                    </Container> */}
+                    {/* <Footer /> */}
                 </div>
-                <Footer />
-            </>
+            </div>
         )
     }
 }
