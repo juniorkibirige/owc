@@ -6,7 +6,7 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import HighCharts from 'highcharts'
-import HighChartsReact from 'highcharts-react-official'
+var addFunnel = require('highcharts/modules/funnel')
 
 class Stats extends Component {
     constructor() {
@@ -15,21 +15,63 @@ class Stats extends Component {
             perMonth: 0,
             perWeek: 0,
             perDay: 0,
-            chartData: {
-                series: [{
-                    data: [1, 3, 2]
-                }]
+            cityNames: [],
+            chart1Data: {
+                title: {
+                    text: 'Crime rates by Town, 2020'
+                },
+                subtitle: {
+                    text: 'Source: AI Data from database'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of crimes'
+                    }
+                },
+                xAxis: {
+                    accessiblity: {
+                        rangeDescription: 'Range: 2019 to 2020'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    alight: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 17
+                    }
+                },
+                // series: [{
+                //     data: [1, 3, 2]
+                // }]
             }
         }
+        this.getCities = this.getCities.bind(this)
+    }
+
+    getCities() {
+        axios.get('compiled_data/ugCities.json').then(response => {
+            this.setState({
+                cityNames: response.data,
+                isLoading: false
+            })
+        })
     }
 
     componentDidMount() {
+        addFunnel(HighCharts)
         axios.get('/api/form_105').then(response => {
             this.setState({
                 perMonth: response.data.perMonth,
                 perWeek: response.data.perWeek,
                 perDay: response.data.perDay
             })
+            this.getCities()
         })
     }
 
@@ -92,16 +134,15 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                         </Row>
-                        <HighChartsReact
+                        {/* <HighChartsReact
                             style={{
                                 container: {
                                     backgroundColor: "#fff",
                                     justifyContent: 'center'
                                 }
                             }}
-                            options={this.state.chartData}
-                            // modules={modules}
-                        />
+                            options={this.state.chart1Data}
+                        /> */}
                     </div>
                 </div>
             </div>

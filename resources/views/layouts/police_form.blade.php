@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="canonical" href="http://127.0.0.1"></link:c>
 
         <title>{{ config('app.name', 'Police Form') }}</title>
         <!-- Favicon -->
@@ -14,12 +15,16 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Icons -->
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+        <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
+        <link href="{{ asset('argon') }}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ asset('argon') }}/css/util.css" rel="stylesheet">
+        <link href="{{ asset('argon') }}/css/main.css" rel="stylesheet">
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="{{ $class ?? '' }}" style="background-color: #6c757d;">
+    <body class="{{ $class ?? 'bg-default' }}">
         
-        <div id="app"></div>
+        <div id="app" class="main-content"></div>
         <script src="{{ asset('js/app.js') }}"></script>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>

@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('/', function () {
-//     return view('layouts/police_form');
+//     return view('welcome');
 // });
 
 Route::view('/{path?}', 'layouts/police_form');
 // Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/register', 'HomeController@index')->name('register');
+// Route::get('/login', 'HomeController@index')->name('login');
 // Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
