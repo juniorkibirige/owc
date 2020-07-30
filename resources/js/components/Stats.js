@@ -7,6 +7,7 @@ import {
 import axios from 'axios'
 import HighCharts from 'highcharts'
 import HighChartsReact from 'highcharts-react-official'
+import { Link } from 'react-router-dom'
 var addFunnel = require('highcharts/modules/funnel')
 
 class Stats extends Component {
@@ -19,7 +20,7 @@ class Stats extends Component {
             cityNames: [],
             chart1Data: {
                 title: {
-                    text: 'Crime rates by Town, 2020',
+                    text: 'Crime rates by Offense Type, 2020',
                     align: 'center',
                 },
                 tooltip: {
@@ -154,7 +155,7 @@ class Stats extends Component {
     }
 
     getCities() {
-        axios.get('compiled_data/ugCities.json').then(response => {
+        axios.get('/compiled_data/ugCities.json').then(response => {
             this.setState({
                 cityNames: response.data,
                 isLoading: false
@@ -179,12 +180,16 @@ class Stats extends Component {
 
     render() {
         return (
-            <div className='header bg-info pb-3 pt-5'>
+            <div className='header bg-info pb-7 pt-5'>
                 <div className='container-fluid'>
                     <div className='header-body'>
                         <Row className='align-items-center py-4'>
-                            <Col className="col-sm-6 col-6"></Col>
-                            <Col className="col-sm-6 col-6"></Col>
+                            <Col className="col-sm-3 col-3"></Col>
+                            <Col className="col-sm-3 col-3"></Col>
+                            <Col className="col-sm-3 col-3"></Col>
+                            <Col className="col-sm-3 col-3 text-right align-items-right">
+                                <Link className="btn btn-outline-secondary" to='/dashboard/complain' data-toggle='buttons'>Add Complaint</Link>
+                            </Col>
                         </Row>
                         <Row>
                             <Col className='col-xl-4 col-md-4 col-12'>
@@ -240,9 +245,9 @@ class Stats extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <div id="chart" className='col-sm-12 col-md-5 col-12' style={{borderRadius: `10px`}}></div>
-                            <div id="chart2" className='col-sm-12 col-md-3 col-12' style={{borderRadius: `10px`, height: `100%`}}></div>
-                            <div id="chart3" className='col-sm-12 col-md-4 col-12' style={{borderRadius: `10px`}}></div>
+                            <div id="chart" className='col-sm-12 col-md-5 col-12' style={{ borderRadius: `10px` }}></div>
+                            <div id="chart2" className='col-sm-12 col-md-3 col-12' style={{ borderRadius: `10px`, height: `100%` }}></div>
+                            <div id="chart3" className='col-sm-12 col-md-4 col-12' style={{ borderRadius: `10px` }}></div>
                         </Row>
                     </div>
                 </div>

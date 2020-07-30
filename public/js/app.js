@@ -83359,6 +83359,692 @@ function warning(condition, message) {
 
 /***/ }),
 
+/***/ "./node_modules/uuid/dist/esm-browser/bytesToUuid.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/bytesToUuid.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+
+for (var i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).substr(1));
+}
+
+function bytesToUuid(buf, offset_) {
+  var offset = offset_ || 0; // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+
+  return (byteToHex[buf[offset + 0]] + byteToHex[buf[offset + 1]] + byteToHex[buf[offset + 2]] + byteToHex[buf[offset + 3]] + '-' + byteToHex[buf[offset + 4]] + byteToHex[buf[offset + 5]] + '-' + byteToHex[buf[offset + 6]] + byteToHex[buf[offset + 7]] + '-' + byteToHex[buf[offset + 8]] + byteToHex[buf[offset + 9]] + '-' + byteToHex[buf[offset + 10]] + byteToHex[buf[offset + 11]] + byteToHex[buf[offset + 12]] + byteToHex[buf[offset + 13]] + byteToHex[buf[offset + 14]] + byteToHex[buf[offset + 15]]).toLowerCase();
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (bytesToUuid);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/index.js ***!
+  \*****************************************************/
+/*! exports provided: v1, v3, v4, v5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v1.js */ "./node_modules/uuid/dist/esm-browser/v1.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v1", function() { return _v1_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./v3.js */ "./node_modules/uuid/dist/esm-browser/v3.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v3", function() { return _v3_js__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./v4.js */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v4", function() { return _v4_js__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./v5.js */ "./node_modules/uuid/dist/esm-browser/v5.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v5", function() { return _v5_js__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/md5.js":
+/*!***************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/md5.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+ * Browser-compatible JavaScript MD5
+ *
+ * Modification of JavaScript MD5
+ * https://github.com/blueimp/JavaScript-MD5
+ *
+ * Copyright 2011, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * https://opensource.org/licenses/MIT
+ *
+ * Based on
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ * Distributed under the BSD License
+ * See http://pajhome.org.uk/crypt/md5 for more info.
+ */
+function md5(bytes) {
+  if (typeof bytes === 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = new Uint8Array(msg.length);
+
+    for (var i = 0; i < msg.length; ++i) {
+      bytes[i] = msg.charCodeAt(i);
+    }
+  }
+
+  return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
+}
+/*
+ * Convert an array of little-endian words to an array of bytes
+ */
+
+
+function md5ToHexEncodedArray(input) {
+  var output = [];
+  var length32 = input.length * 32;
+  var hexTab = '0123456789abcdef';
+
+  for (var i = 0; i < length32; i += 8) {
+    var x = input[i >> 5] >>> i % 32 & 0xff;
+    var hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
+    output.push(hex);
+  }
+
+  return output;
+}
+/**
+ * Calculate output length with padding and bit length
+ */
+
+
+function getOutputLength(inputLength8) {
+  return (inputLength8 + 64 >>> 9 << 4) + 14 + 1;
+}
+/*
+ * Calculate the MD5 of an array of little-endian words, and a bit length.
+ */
+
+
+function wordsToMd5(x, len) {
+  /* append padding */
+  x[len >> 5] |= 0x80 << len % 32;
+  x[getOutputLength(len) - 1] = len;
+  var a = 1732584193;
+  var b = -271733879;
+  var c = -1732584194;
+  var d = 271733878;
+
+  for (var i = 0; i < x.length; i += 16) {
+    var olda = a;
+    var oldb = b;
+    var oldc = c;
+    var oldd = d;
+    a = md5ff(a, b, c, d, x[i], 7, -680876936);
+    d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
+    c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
+    b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
+    a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
+    d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
+    c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
+    b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
+    a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
+    d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
+    c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+    b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+    a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+    d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+    c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+    b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+    a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
+    d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
+    c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+    b = md5gg(b, c, d, a, x[i], 20, -373897302);
+    a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
+    d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+    c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+    b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
+    a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
+    d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+    c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
+    b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
+    a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+    d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
+    c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
+    b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+    a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
+    d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
+    c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+    b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+    a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
+    d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
+    c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
+    b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+    a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+    d = md5hh(d, a, b, c, x[i], 11, -358537222);
+    c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
+    b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
+    a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
+    d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+    c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+    b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
+    a = md5ii(a, b, c, d, x[i], 6, -198630844);
+    d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
+    c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+    b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
+    a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+    d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
+    c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+    b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
+    a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
+    d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+    c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
+    b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+    a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
+    d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+    c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
+    b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
+    a = safeAdd(a, olda);
+    b = safeAdd(b, oldb);
+    c = safeAdd(c, oldc);
+    d = safeAdd(d, oldd);
+  }
+
+  return [a, b, c, d];
+}
+/*
+ * Convert an array bytes to an array of little-endian words
+ * Characters >255 have their high-byte silently ignored.
+ */
+
+
+function bytesToWords(input) {
+  if (input.length === 0) {
+    return [];
+  }
+
+  var length8 = input.length * 8;
+  var output = new Uint32Array(getOutputLength(length8));
+
+  for (var i = 0; i < length8; i += 8) {
+    output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
+  }
+
+  return output;
+}
+/*
+ * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+ * to work around bugs in some JS interpreters.
+ */
+
+
+function safeAdd(x, y) {
+  var lsw = (x & 0xffff) + (y & 0xffff);
+  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  return msw << 16 | lsw & 0xffff;
+}
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
+
+
+function bitRotateLeft(num, cnt) {
+  return num << cnt | num >>> 32 - cnt;
+}
+/*
+ * These functions implement the four basic operations the algorithm uses.
+ */
+
+
+function md5cmn(q, a, b, x, s, t) {
+  return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+}
+
+function md5ff(a, b, c, d, x, s, t) {
+  return md5cmn(b & c | ~b & d, a, b, x, s, t);
+}
+
+function md5gg(a, b, c, d, x, s, t) {
+  return md5cmn(b & d | c & ~d, a, b, x, s, t);
+}
+
+function md5hh(a, b, c, d, x, s, t) {
+  return md5cmn(b ^ c ^ d, a, b, x, s, t);
+}
+
+function md5ii(a, b, c, d, x, s, t) {
+  return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (md5);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/rng.js":
+/*!***************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/rng.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rng; });
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+// find the complete implementation of crypto (msCrypto) on IE11.
+var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+var rnds8 = new Uint8Array(16);
+function rng() {
+  if (!getRandomValues) {
+    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+  }
+
+  return getRandomValues(rnds8);
+}
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/sha1.js":
+/*!****************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/sha1.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// Adapted from Chris Veness' SHA1 code at
+// http://www.movable-type.co.uk/scripts/sha1.html
+function f(s, x, y, z) {
+  switch (s) {
+    case 0:
+      return x & y ^ ~x & z;
+
+    case 1:
+      return x ^ y ^ z;
+
+    case 2:
+      return x & y ^ x & z ^ y & z;
+
+    case 3:
+      return x ^ y ^ z;
+  }
+}
+
+function ROTL(x, n) {
+  return x << n | x >>> 32 - n;
+}
+
+function sha1(bytes) {
+  var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+  var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
+
+  if (typeof bytes === 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = [];
+
+    for (var i = 0; i < msg.length; ++i) {
+      bytes.push(msg.charCodeAt(i));
+    }
+  }
+
+  bytes.push(0x80);
+  var l = bytes.length / 4 + 2;
+  var N = Math.ceil(l / 16);
+  var M = new Array(N);
+
+  for (var _i = 0; _i < N; ++_i) {
+    var arr = new Uint32Array(16);
+
+    for (var j = 0; j < 16; ++j) {
+      arr[j] = bytes[_i * 64 + j * 4] << 24 | bytes[_i * 64 + j * 4 + 1] << 16 | bytes[_i * 64 + j * 4 + 2] << 8 | bytes[_i * 64 + j * 4 + 3];
+    }
+
+    M[_i] = arr;
+  }
+
+  M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
+  M[N - 1][14] = Math.floor(M[N - 1][14]);
+  M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
+
+  for (var _i2 = 0; _i2 < N; ++_i2) {
+    var W = new Uint32Array(80);
+
+    for (var t = 0; t < 16; ++t) {
+      W[t] = M[_i2][t];
+    }
+
+    for (var _t = 16; _t < 80; ++_t) {
+      W[_t] = ROTL(W[_t - 3] ^ W[_t - 8] ^ W[_t - 14] ^ W[_t - 16], 1);
+    }
+
+    var a = H[0];
+    var b = H[1];
+    var c = H[2];
+    var d = H[3];
+    var e = H[4];
+
+    for (var _t2 = 0; _t2 < 80; ++_t2) {
+      var s = Math.floor(_t2 / 20);
+      var T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[_t2] >>> 0;
+      e = d;
+      d = c;
+      c = ROTL(b, 30) >>> 0;
+      b = a;
+      a = T;
+    }
+
+    H[0] = H[0] + a >>> 0;
+    H[1] = H[1] + b >>> 0;
+    H[2] = H[2] + c >>> 0;
+    H[3] = H[3] + d >>> 0;
+    H[4] = H[4] + e >>> 0;
+  }
+
+  return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (sha1);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v1.js":
+/*!**************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v1.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bytesToUuid.js */ "./node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+ // **`v1()` - Generate time-based UUID**
+//
+// Inspired by https://github.com/LiosK/UUID.js
+// and http://docs.python.org/library/uuid.html
+
+var _nodeId;
+
+var _clockseq; // Previous uuid creation time
+
+
+var _lastMSecs = 0;
+var _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
+
+function v1(options, buf, offset) {
+  var i = buf && offset || 0;
+  var b = buf || new Array(16);
+  options = options || {};
+  var node = options.node || _nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+
+  if (node == null || clockseq == null) {
+    var seedBytes = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+    }
+
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+
+
+  var msecs = options.msecs !== undefined ? options.msecs : Date.now(); // Per 4.2.1.2, use count of uuid's generated during the current clock
+  // cycle to simulate higher resolution clock
+
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
+
+  var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
+
+  if (dt < 0 && options.clockseq === undefined) {
+    clockseq = clockseq + 1 & 0x3fff;
+  } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+  // time interval
+
+
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+    nsecs = 0;
+  } // Per 4.2.1.2 Throw error if too many uuids are requested
+
+
+  if (nsecs >= 10000) {
+    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+  }
+
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+
+  msecs += 12219292800000; // `time_low`
+
+  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  b[i++] = tl >>> 24 & 0xff;
+  b[i++] = tl >>> 16 & 0xff;
+  b[i++] = tl >>> 8 & 0xff;
+  b[i++] = tl & 0xff; // `time_mid`
+
+  var tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
+  b[i++] = tmh >>> 8 & 0xff;
+  b[i++] = tmh & 0xff; // `time_high_and_version`
+
+  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+
+  b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+
+  b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
+
+  b[i++] = clockseq & 0xff; // `node`
+
+  for (var n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+
+  return buf || Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__["default"])(b);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (v1);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v3.js":
+/*!**************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v3.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v35.js */ "./node_modules/uuid/dist/esm-browser/v35.js");
+/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./md5.js */ "./node_modules/uuid/dist/esm-browser/md5.js");
+
+
+var v3 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v3', 0x30, _md5_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (v3);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v35.js":
+/*!***************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v35.js ***!
+  \***************************************************/
+/*! exports provided: DNS, URL, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DNS", function() { return DNS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bytesToUuid.js */ "./node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+
+function uuidToBytes(uuid) {
+  // Note: We assume we're being passed a valid uuid string
+  var bytes = [];
+  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
+    bytes.push(parseInt(hex, 16));
+  });
+  return bytes;
+}
+
+function stringToBytes(str) {
+  str = unescape(encodeURIComponent(str)); // UTF8 escape
+
+  var bytes = [];
+
+  for (var i = 0; i < str.length; ++i) {
+    bytes.push(str.charCodeAt(i));
+  }
+
+  return bytes;
+}
+
+var DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+var URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+/* harmony default export */ __webpack_exports__["default"] = (function (name, version, hashfunc) {
+  function generateUUID(value, namespace, buf, offset) {
+    if (typeof value === 'string') {
+      value = stringToBytes(value);
+    }
+
+    if (typeof namespace === 'string') {
+      namespace = uuidToBytes(namespace);
+    }
+
+    if (!Array.isArray(value)) {
+      throw TypeError('value must be an array of bytes');
+    }
+
+    if (!Array.isArray(namespace) || namespace.length !== 16) {
+      throw TypeError('namespace must be uuid string or an Array of 16 byte values');
+    } // Per 4.3
+
+
+    var bytes = hashfunc(namespace.concat(value));
+    bytes[6] = bytes[6] & 0x0f | version;
+    bytes[8] = bytes[8] & 0x3f | 0x80;
+
+    if (buf) {
+      offset = offset || 0;
+
+      for (var i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
+      }
+
+      return buf;
+    }
+
+    return Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_0__["default"])(bytes);
+  } // Function#name is not settable on some platforms (#270)
+
+
+  try {
+    generateUUID.name = name; // eslint-disable-next-line no-empty
+  } catch (err) {} // For CommonJS default export support
+
+
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
+  return generateUUID;
+});
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v4.js":
+/*!**************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v4.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bytesToUuid.js */ "./node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+
+
+function v4(options, buf, offset) {
+  options = options || {};
+  var rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (var i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
+  return Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__["default"])(rnds);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (v4);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v5.js":
+/*!**************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v5.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v35.js */ "./node_modules/uuid/dist/esm-browser/v35.js");
+/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sha1.js */ "./node_modules/uuid/dist/esm-browser/sha1.js");
+
+
+var v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sha1_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (v5);
+
+/***/ }),
+
 /***/ "./node_modules/value-equal/esm/value-equal.js":
 /*!*****************************************************!*\
   !*** ./node_modules/value-equal/esm/value-equal.js ***!
@@ -83716,8 +84402,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Login_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/Login/Login */ "./resources/js/views/Login/Login.js");
 /* harmony import */ var _views_Register_Register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/Register/Register */ "./resources/js/views/Register/Register.js");
 /* harmony import */ var _views_NotFound_NotFound__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/NotFound/NotFound */ "./resources/js/views/NotFound/NotFound.js");
-/* harmony import */ var _PrivateRoute__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PrivateRoute */ "./resources/js/PrivateRoute.js");
-/* harmony import */ var _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/user/Dashboard/Dashboard */ "./resources/js/views/user/Dashboard/Dashboard.js");
+/* harmony import */ var _components_PoliceForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/PoliceForm */ "./resources/js/components/PoliceForm.js");
+/* harmony import */ var _PrivateRoute__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PrivateRoute */ "./resources/js/PrivateRoute.js");
+/* harmony import */ var _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/user/Dashboard/Dashboard */ "./resources/js/views/user/Dashboard/Dashboard.js");
+
 
 
 
@@ -83733,6 +84421,9 @@ var Main = function Main(props) {
     path: "/",
     component: _components_Home_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/create",
+    component: _components_PoliceForm__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/login",
     component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -83741,7 +84432,7 @@ var Main = function Main(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/dashboard",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"], props);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_8__["default"], props);
     }
   }));
 };
@@ -84380,6 +85071,1525 @@ var AdminNavbar = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/PoliceForm.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/PoliceForm.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/index.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var PoliceForm = /*#__PURE__*/function (_Component) {
+  _inherits(PoliceForm, _Component);
+
+  var _super = _createSuper(PoliceForm);
+
+  _createClass(PoliceForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getCities();
+      this.setInputFilter(document.getElementById('age'), function (value) {
+        return /^-?\d*$/.test(value);
+      });
+      this.setInputFilter(document.getElementById('tel'), function (value) {
+        return /^-?\d*$/.test(value);
+      });
+      var state_of_state = localStorage["appState"];
+
+      if (!state_of_state) {
+        var appState = {
+          isLoggedIn: false,
+          user: {}
+        };
+        localStorage['appState'] = JSON.stringify(appState);
+      }
+
+      var state = localStorage['appState'];
+      var AppState = JSON.parse(state);
+      var Auth = {
+        isLoggedIn: AppState.isLoggedIn,
+        user: AppState.user
+      };
+      this.setState({
+        isLoggedIn: Auth.isLoggedIn,
+        user: Auth.user
+      });
+    }
+  }, {
+    key: "setInputFilter",
+    value: function setInputFilter(textbox, inputFilter) {
+      ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+        textbox.addEventListener(event, function () {
+          if (inputFilter(this.value)) {
+            textbox.oldValue = textbox.value;
+            textbox.oldSelectionStart = textbox.selectionStart;
+            textbox.oldSelectionEnd = textbox.selectionEnd;
+          } else if (textbox.hasOwnProperty("oldValue")) {
+            textbox.value = textbox.oldValue;
+            textbox.setSelectionRange(textbox.oldSelectionStart, textbox.oldSelectionEnd);
+          } else {
+            textbox.value = "";
+          }
+        });
+      });
+    }
+  }]);
+
+  function PoliceForm() {
+    var _this;
+
+    _classCallCheck(this, PoliceForm);
+
+    _this = _super.call(this);
+    _this.state = {
+      isSubmitting: false,
+      isLoading: true,
+      cityData: [],
+      refNo: Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])(),
+      date: new Date(),
+      partOne: {
+        title: 'INTRODUCTION'
+      },
+      partTwo: {
+        title: 'COMPLAINANT PARTICULARS',
+        name: '',
+        age: '',
+        gender: '',
+        residence: new Object({
+          village: '',
+          subCounty: '',
+          district: '',
+          plotNo: ''
+        }),
+        tel: '',
+        email: ''
+      },
+      partThree: {
+        title: 'DETAILS ABOUT THE COMPLAINT',
+        involved: new Object({
+          victimName: '',
+          victimAge: '',
+          victimGender: ''
+        }),
+        sameAsComplainant: false,
+        statement: '',
+        period: '',
+        location: '',
+        dI: false,
+        dIDescription: '',
+        witness: false,
+        medExam: false,
+        reported: false,
+        reportRef: ''
+      },
+      partFour: {
+        title: 'POLICE OFFICER/S AGAINST WHOM A COMPLAINT IS MADE',
+        name: '',
+        rank: '',
+        id: '',
+        detUnit: ''
+      },
+      errors: new Object(),
+      active: {
+        p1: true,
+        p2: false,
+        p3: false,
+        p4: false
+      },
+      progress: {
+        p1: false,
+        p2: false,
+        p3: false,
+        p4: false
+      },
+      tab: {
+        dateTab: false,
+        timeTab: false,
+        yearTab: false
+      },
+      tabSel: '',
+      user: [],
+      isLoggedIn: false
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.handleCheckBox = _this.handleCheckBox.bind(_assertThisInitialized(_this));
+    _this.handleDate = _this.handleDate.bind(_assertThisInitialized(_this));
+    _this.handleInvolved = _this.handleInvolved.bind(_assertThisInitialized(_this));
+    _this.handleNav = _this.handleNav.bind(_assertThisInitialized(_this));
+    _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
+    _this.handleSel = _this.handleSel.bind(_assertThisInitialized(_this));
+    _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
+    _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
+    _this.handleResidence = _this.handleResidence.bind(_assertThisInitialized(_this));
+    _this.handlePill = _this.handlePill.bind(_assertThisInitialized(_this));
+    _this.isVisible = _this.isVisible.bind(_assertThisInitialized(_this));
+    _this.cities = _this.cities.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(PoliceForm, [{
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      this.setState(function (prevState) {
+        return {
+          isSubmitting: true,
+          progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+            p4: true
+          })
+        };
+      });
+      event.preventDefault();
+
+      if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3 && this.state.progress.p4) {
+        var history = this.props.history;
+        var form = {
+          'refNo': this.state.refNo,
+          'date': this.state.date,
+          'compName': this.state.partTwo.name,
+          'compAge': this.state.partTwo.age,
+          'compEmail': this.state.partTwo.email,
+          'compGender': this.state.partTwo.gender,
+          'compTel': this.state.partTwo.tel,
+          'compDist': this.state.partTwo.residence.district,
+          'compPlotNo': this.state.partTwo.residence.plotNo,
+          'compsubCounty': this.state.partTwo.residence.subCounty,
+          'compVillage': this.state.partTwo.residence.village,
+          'dI': this.state.partThree.dI,
+          'dIDescription': this.state.partThree.dIDescription,
+          'location': this.state.partThree.location,
+          'medExam': this.state.partThree.medExam,
+          'period': this.state.partThree.period,
+          'reportRef': this.state.partThree.reportRef,
+          'reported': this.state.partThree.reported,
+          'statement': this.state.partThree.statement,
+          'witness': this.state.partThree.witness,
+          'victimName': this.state.partThree.involved.victimName,
+          'victimAge': this.state.partThree.involved.victimAge,
+          'victimGender': this.state.partThree.involved.victimGender,
+          'officerName': this.state.partFour.name,
+          'officerRank': this.state.partFour.rank,
+          'otherId': this.state.partFour.id,
+          'detUnit': this.state.partFour.detUnit
+        };
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/form_105', form).then(function (response) {
+          _this2.state.isLoggedIn ? history.push('/dashboard') : history.push('/');
+        })["catch"](function (error) {
+          console.warn(error.response.data.errors);
+
+          _this2.setState({
+            errors: error.response.data.errors
+          });
+        })["finally"](function (_) {
+          _this2.setState({
+            isSubmitting: false
+          });
+        });
+      } else {
+        alert('Please cross check the form and fill in any missing fields');
+        this.setState({
+          isSubmitting: false
+        });
+      }
+    }
+  }, {
+    key: "handleSel",
+    value: function handleSel(e) {
+      var data = e.target.value;
+
+      switch (data) {
+        case 'dateTab':
+          this.setState({
+            tab: {
+              dateTab: true,
+              timeTab: false,
+              yearTab: false
+            },
+            tabSel: data
+          });
+          break;
+
+        case 'timeTab':
+          this.setState({
+            tab: {
+              dateTab: false,
+              timeTab: true,
+              yearTab: false
+            },
+            tabSel: data
+          });
+          break;
+
+        case 'yearTab':
+          this.setState({
+            tab: {
+              dateTab: false,
+              timeTab: false,
+              yearTab: true
+            },
+            tabSel: data
+          });
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, {
+    key: "handleNav",
+    value: function handleNav(nav, dir) {
+      var errors = new Object();
+      errors.length = 0;
+
+      if (dir == 'next') {
+        var fieldset = null;
+
+        switch (nav) {
+          case 'p3':
+            fieldset = $('#partTwo').get(0);
+
+            if (fieldset != null) {
+              for (var key in fieldset.elements) {
+                if (fieldset.elements.hasOwnProperty(key)) {
+                  var element = fieldset.elements[key];
+
+                  if (key != 10) {
+                    if (key != 11) {
+                      if (key == 2 || key == 3) {
+                        if (element.checked && fieldset.elements[key == 2 ? 3 : 2].checked) {
+                          if (!errors['gender']) {
+                            errors.length += 1;
+                            errors['gender'] = 'Please fill in the neccessary gender';
+                          }
+                        } else if (!element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked) {
+                          if (!errors['gender']) {
+                            errors.length += 1;
+                            errors['gender'] = ['Please fill in the neccessary gender'];
+                          }
+                        }
+                      } else {
+                        if (element.value == '') {
+                          errors[element.name] = ['Please fill in the field'];
+                          errors.length += 1;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            break;
+
+          case 'p4':
+            fieldset = $('#partThree').get(0);
+
+            if (fieldset != null) {
+              for (var _key in fieldset.elements) {
+                if (fieldset.elements.hasOwnProperty(_key)) {
+                  var _element = fieldset.elements[_key];
+
+                  if (_key == 2 || _key == 4 || _key == 7) {
+                    /* Selecting and handling select errors */
+                    if (_element.value == 'default' && _key != 7) {
+                      if (_element.name != "") {
+                        console.log(_key);
+                        console.log(_element.name);
+                        errors[_element.name] = ['Please select the required data'];
+                        errors.length += 1;
+                      }
+                    }
+                  } else if (_element.type == 'radio') {
+                    /* Handling radio inputs errors */
+                    if (_element.name == 'dI') {
+                      if (this.state.partThree.dI) {
+                        var desc = $('textarea#dIDescription').get(0);
+
+                        if (desc.value == '') {
+                          errors[desc.name] = ['Please enter data'];
+                          errors.length += 1;
+                        }
+                      }
+                    } else if (_element.name == 'reported') {
+                      if (this.state.partThree.reported) {
+                        var rep = $('#reportRef[type="text"]').get(0);
+
+                        if (rep.value == '') {
+                          errors[rep.name] = ['Please enter data'];
+                          errors.length += 1;
+                        }
+                      }
+                    }
+                  } else {
+                    if (_element.value == '' && _element.name != "" && _element.name != "sameAsComplainant" && _element.name != "period" && _element.name != "dIDescription" && _element.name != "reportRef") {
+                      errors[_element.name] = ['Please fill the field'];
+                      errors.length += 1;
+                    }
+                  }
+                }
+              }
+            }
+
+            break;
+
+          default:
+            break;
+        }
+
+        console.log(errors);
+      }
+
+      if (errors.length == 0) {
+        switch (nav) {
+          case 'p1':
+            this.setState(function (prevState) {
+              return {
+                progress: _objectSpread({}, prevState.progress)
+              };
+            });
+            this.setState({
+              active: {
+                p1: true,
+                p2: false,
+                p3: false,
+                p4: false
+              }
+            });
+            $('#first-tab').click();
+            break;
+
+          case 'p2':
+            this.setState(function (prevState) {
+              return {
+                active: {
+                  p1: false,
+                  p2: true,
+                  p3: false,
+                  p4: false
+                },
+                progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+                  p1: true
+                })
+              };
+            });
+            $('#second-tab').click();
+            break;
+
+          case 'p3':
+            this.setState(function (prevState) {
+              return {
+                active: {
+                  p1: false,
+                  p2: false,
+                  p3: true,
+                  p4: false
+                },
+                progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+                  p2: true
+                })
+              };
+            });
+            $('#third-tab').click();
+            break;
+
+          case 'p4':
+            this.setState(function (prevState) {
+              return {
+                active: {
+                  p1: false,
+                  p2: false,
+                  p3: false,
+                  p4: true
+                },
+                progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+                  p3: true
+                })
+              };
+            });
+            $('#fourth-tab').click();
+            break;
+
+          case 'done':
+            this.setState(function (prevState) {
+              return {
+                progress: _objectSpread(_objectSpread({}, prevState.progress), {}, {
+                  p4: true
+                })
+              };
+            });
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        this.setState({
+          errors: errors
+        });
+      }
+    }
+  }, {
+    key: "handlePill",
+    value: function handlePill(nav) {
+      switch (nav) {
+        case 'p1':
+          this.setState({
+            active: {
+              p1: true,
+              p2: false,
+              p3: false,
+              p4: false
+            }
+          });
+          $('#first-tab').click();
+          break;
+
+        case 'p2':
+          this.setState({
+            active: {
+              p1: false,
+              p2: true,
+              p3: false,
+              p4: false
+            }
+          });
+          $('#second-tab').click();
+          break;
+
+        case 'p3':
+          this.setState({
+            active: {
+              p1: false,
+              p2: false,
+              p3: true,
+              p4: false
+            }
+          });
+          $('#third-tab').click();
+          break;
+
+        case 'p4':
+          this.setState({
+            active: {
+              p1: false,
+              p2: false,
+              p3: false,
+              p4: true
+            }
+          });
+          $('#fourth-tab').click();
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, {
+    key: "handleCheckBox",
+    value: function handleCheckBox(nav, type) {
+      var data = event.target.id;
+      var invalid = document.getElementById('error');
+
+      if (invalid) {
+        invalid.style.display = 'none';
+      }
+
+      if (data == 'Male') {
+        event.target.checked = true;
+        $('#Female').get(0).checked = false;
+      } else if (data == 'Female') {
+        event.target.checked = true;
+        $('#Male').get(0).checked = false;
+      }
+
+      switch (nav) {
+        case 'p2':
+          this.setState(function (prevState) {
+            return {
+              partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, {
+                gender: data
+              })
+            };
+          });
+          break;
+
+        case 'p3':
+          data = event.target.value;
+
+          switch (type) {
+            case 'dI':
+              this.setState(function (prevState) {
+                return {
+                  partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+                    dI: data == 'true' ? true : false
+                  })
+                };
+              });
+              break;
+
+            case 'wit':
+              this.setState(function (prevState) {
+                return {
+                  partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+                    witness: data == 'true' ? true : false
+                  })
+                };
+              });
+              break;
+
+            case 'rep':
+              this.setState(function (prevState) {
+                return {
+                  partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+                    reported: data == 'true' ? true : false
+                  })
+                };
+              });
+              break;
+          }
+
+          break;
+      }
+    }
+  }, {
+    key: "handleFieldChange",
+    value: function handleFieldChange(nav) {
+      switch (nav) {
+        case 'p2':
+          this.setState(function (prevState) {
+            return {
+              partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, _defineProperty({}, event.target.name, event.target.value))
+            };
+          });
+          break;
+
+        case 'p3':
+          this.setState(function (prevState) {
+            return {
+              partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, _defineProperty({}, event.target.name, event.target.value))
+            };
+          });
+          break;
+
+        case 'p4':
+          this.setState(function (prevState) {
+            return {
+              partFour: _objectSpread(_objectSpread({}, prevState.partFour), {}, _defineProperty({}, event.target.id, event.target.value))
+            };
+          });
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, {
+    key: "handleDate",
+    value: function handleDate(event) {
+      var date = event.target.value;
+
+      if (date != '') {
+        this.setState(function (prevState) {
+          return {
+            partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+              period: date
+            })
+          };
+        });
+      } else {
+        event.target.value = this.state.partThree.period;
+      }
+    } // For nested state objects
+
+  }, {
+    key: "handleInvolved",
+    value: function handleInvolved(e) {
+      var _this3 = this;
+
+      if (event.target.name == 'sameAsComplainant') {
+        if (event.target.checked) {
+          this.setState(function (prevState) {
+            return {
+              partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+                involved: {
+                  victimName: _this3.state.partTwo.name,
+                  victimAge: _this3.state.partTwo.age,
+                  victimGender: _this3.state.partTwo.gender,
+                  sameAsComplainant: event.target.checked
+                }
+              })
+            };
+          });
+          $('div#vicDet').css({
+            display: 'none'
+          });
+        } else {
+          this.setState(function (prevState) {
+            return {
+              partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+                involved: {
+                  victimName: '',
+                  victimAge: '',
+                  victimGender: '',
+                  sameAsComplainant: event.target.checked
+                }
+              })
+            };
+          });
+          $('div#vicDet').removeAttr('style');
+        }
+      } else this.setState(function (prevState) {
+        return {
+          partThree: _objectSpread(_objectSpread({}, prevState.partThree), {}, {
+            involved: _objectSpread(_objectSpread({}, prevState.partThree.involved), {}, _defineProperty({}, event.target.name, event.target.value))
+          })
+        };
+      });
+    }
+  }, {
+    key: "handleResidence",
+    value: function handleResidence() {
+      this.setState(function (prevState) {
+        return {
+          partTwo: _objectSpread(_objectSpread({}, prevState.partTwo), {}, {
+            residence: _objectSpread(_objectSpread({}, prevState.partTwo.residence), {}, _defineProperty({}, event.target.name, event.target.value))
+          })
+        };
+      });
+    }
+  }, {
+    key: "hasErrorFor",
+    value: function hasErrorFor(field) {
+      return !!this.state.errors[field];
+    }
+  }, {
+    key: "renderErrorFor",
+    value: function renderErrorFor(field) {
+      if (this.hasErrorFor(field)) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "invalid-feedback d-block",
+          id: "error"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", null, this.state.errors[field][0]));
+      }
+    }
+  }, {
+    key: "isVisible",
+    value: function isVisible(id) {
+      if (id == 'dateTab') {
+        return this.state.tab.dateTab;
+      } else if (id == 'timeTab') {
+        return this.state.tab.timeTab;
+      } else if (id == 'yearTab') {
+        return this.state.tab.yearTab;
+      }
+
+      return false;
+    }
+  }, {
+    key: "getCities",
+    value: function getCities() {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/compiled_data/ugCities.json').then(function (response) {
+        _this4.setState({
+          cityData: response.data,
+          isLoading: false
+        });
+      });
+    }
+  }, {
+    key: "cities",
+    value: function cities() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('location') ? 'has-danger' : ''),
+        defaultValue: "Victim's Gender"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "location",
+        name: "location",
+        className: "form-control ".concat(this.hasErrorFor('location') ? 'is-invalid' : ''),
+        placeholder: "default",
+        value: this.state.partThree.location,
+        onChange: this.handleFieldChange.bind(this, 'p3')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "default",
+        value: "default",
+        key: "default"
+      }, "Select where crime happened"), this.state.cityData.map(function (city) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          name: city,
+          value: city,
+          key: city.toString()
+        }, city);
+      })), this.renderErrorFor('location'));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container py-3 bg-gradient-primary"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-9"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 text-center pt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        className: "rounded mx-auto d-block",
+        src: "/static/images/formLogo.png",
+        style: {
+          width: 120 + 'px',
+          height: 129 + 'px'
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-12 mx-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "float-right"
+      }, "Date: ", this.state.date.toDateString()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-12 mx-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "float-right"
+      }, "Ref: ", this.state.refNo)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header text-center"
+      }, "COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 py-3 bg-secondary"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+        className: "nav nav-pills nav-pills-circle mb-3",
+        id: "tabs_3",
+        role: "tablist"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link rounded-circle ".concat(this.state.active.p1 ? 'active' : ''),
+        onClick: this.handlePill.bind(this, 'p1'),
+        id: "first-tab",
+        "data-toggle": "tab",
+        href: "#partOne",
+        role: "tab",
+        "aria-selected": "true"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "nav-link-icon d-block"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "fa-stack"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", {
+        className: "fa-stack-1x"
+      }, "1"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link rounded-circle ".concat(this.state.active.p2 ? 'active' : ''),
+        onClick: this.handlePill.bind(this, 'p2'),
+        id: "second-tab",
+        "data-toggle": "tab",
+        href: "#partTwo",
+        role: "tab",
+        "aria-selected": "false"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "nav-link-icon d-block"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "fa-stack"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", {
+        className: "fa-stack-1x"
+      }, "2"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link rounded-circle ".concat(this.state.active.p3 ? 'active' : ''),
+        onClick: this.handlePill.bind(this, 'p3'),
+        id: "third-tab",
+        "data-toggle": "tab",
+        href: "#partThree",
+        role: "tab",
+        "aria-selected": "false"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "nav-link-icon d-block"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "fa-stack"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", {
+        className: "fa-stack-1x"
+      }, "3"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link rounded-circle ".concat(this.state.active.p4 ? 'active' : ''),
+        onClick: this.handlePill.bind(this, 'p4'),
+        id: "fourth-tab",
+        "data-toggle": "tab",
+        href: "#partFour",
+        role: "tab",
+        "aria-selected": "false"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "nav-link-icon d-block"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "fa-stack"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", {
+        className: "fa-stack-1x"
+      }, "4")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card card-plain"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
+        id: "form105"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-content tab-space p-3",
+        style: {
+          backgroundColor: '#e9ecef'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+        className: "tab-pane fade active show",
+        id: "partOne"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card pb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg-primary text-white"
+      }, this.state.partOne.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 py-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        className: "description"
+      }, "This form is for lodging complaint/s against a police officer on cases of violation of human rights and unporofessional conduct under section 70 of the Police Act 303, which provides for complaints by the public against police officers. A person is entitled, without prejudice to any other legal means of redress available to him or her, to make a written complaint as to - (a) an instance of bribery, corruption, oppression or intimidation by a police officer; (b) any neglect or non  perfomance of his or her duties by a police officer; (c) any other misconduct by a police officer.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p2')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+        className: "tab-pane fade",
+        id: "partTwo"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card pb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg-primary text-white"
+      }, this.state.partTwo.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 py-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('name') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "name",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('name') ? 'is-invalid' : ''),
+        name: "name",
+        placeholder: "Name",
+        required: true,
+        value: this.state.partTwo.name,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('age') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "age",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('age') ? 'is-invalid' : ''),
+        accept: "number",
+        name: "age",
+        placeholder: "Age",
+        required: true,
+        value: this.state.partTwo.age,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "gender"
+      }, "Gender \xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-checkbox"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "custom-control-input gender-sel",
+        id: "Male",
+        type: "checkbox",
+        onChange: this.handleCheckBox.bind(this, 'p2')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        className: "custom-control-label",
+        htmlFor: "Male"
+      }, "Male")), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-checkbox mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "custom-control-input gender-sel",
+        id: "Female",
+        type: "checkbox",
+        onChange: this.handleCheckBox.bind(this, 'p2')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        className: "custom-control-label",
+        htmlFor: "Female"
+      }, "Female")))), this.renderErrorFor('gender')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "residence"
+      }, "Place of Residence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('district') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "district",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('district') ? 'is-invalid' : ''),
+        name: "district",
+        placeholder: "District",
+        required: true,
+        value: this.state.partTwo.residence.district,
+        onChange: this.handleResidence
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('subCounty') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "subCounty",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('subCounty') ? 'is-invalid' : ''),
+        name: "subCounty",
+        placeholder: "Sub County",
+        required: true,
+        value: this.state.partTwo.residence.subCounty,
+        onChange: this.handleResidence
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('village') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "village",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('village') ? 'is-invalid' : ''),
+        name: "village",
+        placeholder: "Village",
+        required: true,
+        value: this.state.partTwo.residence.village,
+        onChange: this.handleResidence
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('plotNo') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "plotNo",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('plotNo') ? 'is-invalid' : ''),
+        name: "plotNo",
+        placeholder: "Plot No",
+        required: true,
+        value: this.state.partTwo.residence.plotNo,
+        onChange: this.handleResidence
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "contact"
+      }, "Contact Information"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('tel') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "tel",
+        type: "tel",
+        size: 10,
+        maxLength: 10,
+        className: "form-control ".concat(this.hasErrorFor('tel') ? 'is-invalid' : ''),
+        name: "tel",
+        placeholder: "Telephone i.e 0701753951",
+        required: true,
+        value: this.state.partTwo.tel,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('name') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "email",
+        type: "email",
+        className: "form-control ".concat(this.hasErrorFor('email') ? 'is-invalid' : ''),
+        name: "email",
+        placeholder: "Email Address",
+        value: this.state.partTwo.email,
+        onChange: this.handleFieldChange.bind(this, 'p2')
+      }), this.renderErrorFor('email')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p1', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p3', 'next')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+        className: "tab-pane fade",
+        id: "partThree"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card pb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg-primary text-white"
+      }, this.state.partThree.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 py-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "contact"
+      }, "Victim Details \xA0\xA0\xA0\xA0\xA0\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "float-right display-inline",
+        style: {
+          textAlign: 'right'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        id: "sameAsComplainant",
+        name: "sameAsComplainant",
+        type: "checkbox",
+        value: this.state.partThree.sAC,
+        onChange: this.handleInvolved.bind(this, 'p3')
+      }), " Same as Complainant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row",
+        id: "vicDet"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('victimName') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "victimName",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('victimName') ? 'is-invalid' : ''),
+        name: "victimName",
+        placeholder: "Victim's Name",
+        required: true,
+        value: this.state.partThree.involved.victimName,
+        onChange: this.handleInvolved
+      }), this.renderErrorFor('victimName'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('victimAge') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "victimAge",
+        type: "text",
+        className: "form-control ".concat(this.hasErrorFor('victimAge') ? 'is-invalid' : ''),
+        name: "victimAge",
+        placeholder: "Victim`s Age",
+        value: this.state.partThree.involved.victimAge,
+        onChange: this.handleInvolved
+      }), this.renderErrorFor('victimAge'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('victimGender') ? 'has-danger' : ''),
+        defaultValue: "Victim's Gender"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "gender",
+        name: "victimGender",
+        className: "form-control ".concat(this.hasErrorFor('victimGender') ? 'is-invalid' : ''),
+        placeholder: "Victim Gender",
+        value: this.state.partThree.involved.gender,
+        onChange: this.handleInvolved
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "default",
+        value: "default"
+      }, "Victim's Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "gender",
+        value: "Male"
+      }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "gender",
+        value: "Female"
+      }, "Female")), this.renderErrorFor('victimGender')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('statement') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "statement"
+      }, "Statement of what happened"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        id: "statement",
+        className: "form-control ".concat(this.hasErrorFor('statement') ? 'is-invalid' : ''),
+        name: "statement",
+        placeholder: "Explain in your own words what happened",
+        rows: "5",
+        value: this.state.partThree.statement,
+        onChange: this.handleFieldChange.bind(this, 'p3')
+      }), this.renderErrorFor('statement')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group",
+        style: {
+          marginBottom: .5 + 'rem'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "period"
+      }, "When it happened"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('period') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "selPeriod",
+        className: "form-control ".concat(this.hasErrorFor('period') ? 'is-invalid' : ''),
+        placeholder: "Victim Gender",
+        name: "period",
+        value: this.state.tabSel,
+        onChange: this.handleSel
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "default",
+        value: "default",
+        "data-toggle": "default"
+      }, "Select when it happened"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "date",
+        value: "dateTab",
+        "data-toggle": "dateTab"
+      }, "Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "time",
+        id: "time",
+        value: "timeTab",
+        "data-toggle": "timeTab"
+      }, "Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "year",
+        id: "year",
+        value: "yearTab",
+        "data-toggle": "yearTab"
+      }, "Year")), this.renderErrorFor('period'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('period') ? 'has-danger' : '', " ").concat(this.state.tab.dateTab ? 'd-block' : 'd-none')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group input-group-alternative"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "input-group-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-calendar-grid-58"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "form-control datepicker",
+        name: "period",
+        placeholder: "Select date",
+        type: "text",
+        value: this.state.partThree.period,
+        onBlur: this.handleDate,
+        onChange: this.handleDate
+      })), this.renderErrorFor('period')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('period') ? 'has-danger' : '', " ").concat(this.state.tab.timeTab ? 'd-block' : 'd-none')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group input-group-alternative"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "input-group-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-watch-time"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "form-control datetimepicker",
+        name: "period",
+        placeholder: "Please input time (HH:MM)",
+        type: "text",
+        value: this.state.partThree.period,
+        onBlur: this.handleDate,
+        onChange: this.handleDate
+      })), this.renderErrorFor('period')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group ".concat(this.hasErrorFor('period') ? 'has-danger' : '', " ").concat(this.state.tab.yearTab ? 'd-block' : 'd-none')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group input-group-alternative"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "input-group-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-watch-time"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "selPeriodYear",
+        period: "",
+        className: "form-control",
+        placeholder: "Victim Gender",
+        value: this.state.partThree.period,
+        onChange: this.handleDate
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "default",
+        value: "default",
+        "data-toggle": "default"
+      }, "Select year it happened"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2020",
+        value: 2020
+      }, "2020"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2019",
+        value: 2019
+      }, "2019"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2018",
+        value: 2018
+      }, "2018"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2017",
+        value: 2017
+      }, "2017"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2016",
+        value: 2016
+      }, "2016"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2015",
+        value: 2015
+      }, "2015"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2014",
+        value: 2014
+      }, "2014"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2013",
+        value: 2013
+      }, "2013"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2012",
+        value: 2012
+      }, "2012"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2011",
+        value: 2011
+      }, "2011"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        name: "2010",
+        value: 2010
+      }, "2010"))), this.renderErrorFor('period'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "location"
+      }, "Where crime happened"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: "".concat(this.hasErrorFor('location') ? 'has-danger' : '')
+      }, this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(this.cities, null), this.renderErrorFor('location')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-4 col-sm-6 col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Label"], {
+        htmlFor: "dI"
+      }, "Was there any damage or injury?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "dI",
+        id: "yes",
+        value: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'dI')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " Yes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "dI",
+        id: "no",
+        value: false,
+        defaultChecked: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'dI')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " No")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-6 col-sm-12 col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: " ".concat(this.state.partThree.dI ? 'd-block' : 'd-none')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        rows: "5",
+        id: "dIDescription",
+        name: "dIDescription",
+        placeholder: "Describe the injury as much as possible",
+        value: this.state.partThree.dIDescription,
+        onChange: this.handleFieldChange.bind(this, 'p3'),
+        className: "form-control ".concat(this.hasErrorFor('dIDescription'))
+      })))), this.renderErrorFor('dI')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-4 col-sm-6 col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Label"], {
+        htmlFor: "witness"
+      }, "Were there any witnesses?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "witness",
+        id: "yesWitness",
+        value: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'wit')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " Yes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "witness",
+        id: "noWitness",
+        value: false,
+        defaultChecked: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'wit')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " No"))), this.renderErrorFor('witness')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-4 col-sm-6 col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Label"], {
+        htmlFor: "medExam"
+      }, "Were examined by a Medical Officer?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "medExam",
+        id: "yesmedExam",
+        value: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'medExam')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " Yes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "medExam",
+        id: "nomedExam",
+        value: false,
+        defaultChecked: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'medExam')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " No"))), this.renderErrorFor('medExam')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-4 col-sm-6 col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Label"], {
+        htmlFor: "reported"
+      }, "Have you reported incident to any police station?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "reported",
+        id: "yesReported",
+        value: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'rep')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " Yes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-1 col-sm-2 col-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        type: "radio",
+        name: "reported",
+        id: "noReported",
+        value: false,
+        defaultChecked: true,
+        onChange: this.handleCheckBox.bind(this, 'p3', 'rep')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormText"], null, " No")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        className: "col-md-6 col-sm-12 col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: " ".concat(this.state.partThree.reported ? 'd-block' : 'd-none')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Input"], {
+        id: "reportRef",
+        type: "text",
+        name: "reportRef",
+        placeholder: "Reference provided at police station",
+        value: this.state.partThree.reportRef,
+        onChange: this.handleFieldChange.bind(this, 'p3'),
+        className: "form-control ".concat(this.hasErrorFor('reportRef') ? 'invalid' : '')
+      }), this.renderErrorFor('reportRef')))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p2', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "next",
+        type: "button",
+        className: "btn btn-default float-right",
+        onClick: this.handleNav.bind(this, 'p4', 'next')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-right"
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
+        className: "tab-pane fade",
+        id: "partFour"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Card"], {
+        className: "pb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["CardHeader"], {
+        className: "bg-primary text-white"
+      }, this.state.partFour.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12 py-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: "".concat(this.hasErrorFor('officerName') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "name",
+        className: "form-control ".concat(this.hasErrorFor('officerName') ? 'is-invalid' : ''),
+        name: "officerName",
+        placeholder: "Offending Officers Name/s",
+        required: true,
+        value: this.state.partFour.name,
+        onChange: this.handleFieldChange.bind(this, 'p4')
+      }), this.renderErrorFor('officerName')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: "".concat(this.hasErrorFor('officerRank') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "rank",
+        className: "form-control ".concat(this.hasErrorFor('officerRank') ? 'is-invalid' : ''),
+        name: "officerRank",
+        placeholder: "Offending Officers Rank / Description",
+        value: this.state.partFour.rank,
+        onChange: this.handleFieldChange.bind(this, 'p4')
+      }), this.renderErrorFor('officerRank')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: "".concat(this.hasErrorFor('otherId') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        id: "id",
+        className: "form-control ".concat(this.hasErrorFor('otherId') ? 'is-invalid' : ''),
+        name: "otherId",
+        placeholder: "Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique \t\t physical features, etc)",
+        rows: "5",
+        value: this.state.partFour.id,
+        onChange: this.handleFieldChange.bind(this, 'p4')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], {
+        className: "".concat(this.hasErrorFor('detUnit') ? 'has-danger' : '')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        id: "detUnit",
+        className: "form-control ".concat(this.hasErrorFor('detUnit') ? 'is-invalid' : ''),
+        name: "detUnit",
+        placeholder: "Details of Unit where Officer is attached if known",
+        rows: "5",
+        value: this.state.partFour.detUnit,
+        onChange: this.handleFieldChange.bind(this, 'p4')
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        id: "prev",
+        type: "button",
+        className: "btn btn-default float-left",
+        onClick: this.handleNav.bind(this, 'p3', 'prev')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-bold-left"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        disabled: this.state.isSubmitting,
+        className: "btn btn-primary btn-round float-right",
+        type: "submit",
+        onClick: this.handleNav.bind(this, 'done', 'next')
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "ni ni-send"
+      }), " ", this.state.isSubmitting ? "Submitting Complaint " + /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-spinner"
+      }) : "Submit Complaint"))))))))))));
+    }
+  }]);
+
+  return PoliceForm;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (PoliceForm);
+
+/***/ }),
+
 /***/ "./resources/js/components/Sidebar/Sidebar.js":
 /*!****************************************************!*\
   !*** ./resources/js/components/Sidebar/Sidebar.js ***!
@@ -84697,6 +86907,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! highcharts-react-official */ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js");
 /* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84725,6 +86936,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var addFunnel = __webpack_require__(/*! highcharts/modules/funnel */ "./node_modules/highcharts/modules/funnel.js");
 
 var Stats = /*#__PURE__*/function (_Component) {
@@ -84745,7 +86957,7 @@ var Stats = /*#__PURE__*/function (_Component) {
       cityNames: [],
       chart1Data: {
         title: {
-          text: 'Crime rates by Town, 2020',
+          text: 'Crime rates by Offense Type, 2020',
           align: 'center'
         },
         tooltip: {
@@ -84860,7 +87072,7 @@ var Stats = /*#__PURE__*/function (_Component) {
     value: function getCities() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('compiled_data/ugCities.json').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/compiled_data/ugCities.json').then(function (response) {
         _this2.setState({
           cityNames: response.data,
           isLoading: false
@@ -84890,7 +87102,7 @@ var Stats = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header bg-info pb-3 pt-5"
+        className: "header bg-info pb-7 pt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84898,10 +87110,18 @@ var Stats = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], {
         className: "align-items-center py-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
-        className: "col-sm-6 col-6"
+        className: "col-sm-3 col-3"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
-        className: "col-sm-6 col-6"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-sm-3 col-3"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-sm-3 col-3"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        className: "col-sm-3 col-3 text-right align-items-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        className: "btn btn-outline-secondary",
+        to: "/dashboard/complain",
+        "data-toggle": "buttons"
+      }, "Add Complaint"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
         className: "col-xl-4 col-md-4 col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
         className: "card-stats",
@@ -85013,7 +87233,7 @@ __webpack_require__.r(__webpack_exports__);
  // import Icons from "views/examples/Icons.js";
 
 var routes = [{
-  path: "/index",
+  path: "",
   name: "Dashboard",
   icon: "ni ni-tv-2 text-white",
   component: _views_user_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -87369,6 +89589,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../components/Sidebar/Sidebar */ "./resources/js/components/Sidebar/Sidebar.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../routes */ "./resources/js/routes.js");
 /* harmony import */ var _components_Stats__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../components/Stats */ "./resources/js/components/Stats.js");
+/* harmony import */ var _components_PoliceForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../components/PoliceForm */ "./resources/js/components/PoliceForm.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -87400,6 +89621,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
  // import AdminFooter from "components/Footers/AdminFooter.js";
+
 
 
 
@@ -87447,8 +89669,6 @@ var Home = /*#__PURE__*/function (_Component) {
     key: "getRoutes",
     value: function getRoutes(routes) {
       return routes.map(function (prop, key) {
-        console.log(prop.layout);
-
         if (prop.layout === "/dashboard") {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
             path: prop.layout + prop.path,
@@ -87488,9 +89708,15 @@ var Home = /*#__PURE__*/function (_Component) {
         ref: "mainContent"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbars_AdminNavbar_js__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, this.props, {
         brandText: this.getBrandText(this.props.location.pathname)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Stats__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, this.getRoutes(_routes__WEBPACK_IMPORTED_MODULE_8__["default"]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+      })), this.props.location.pathname === '/dashboard/complain' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
+        className: "pt-7 col-12 col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_PoliceForm__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        locNow: "dashboard"
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Stats__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, this.getRoutes(_routes__WEBPACK_IMPORTED_MODULE_8__["default"]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
         from: "*",
-        to: "/dashboard/index"
+        to: "/dashboard"
       }))));
     }
   }]);

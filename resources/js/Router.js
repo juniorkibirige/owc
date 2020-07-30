@@ -5,6 +5,7 @@ import Home from './components/Home/Home'
 import Login from './views/Login/Login'
 import Register from './views/Register/Register'
 import NotFound from './views/NotFound/NotFound'
+import PoliceForm from './components/PoliceForm'
 
 import PrivateRoute from './PrivateRoute'
 import Dashboard from './views/user/Dashboard/Dashboard'
@@ -13,6 +14,7 @@ const Main = props => (
     <Switch>
         {/* User may login */}
         <Route exact path='/' component={Home}/>
+        <Route path='/create' component={PoliceForm } />
 
         {/* User must login */}
         <Route path='/login' component={Login}/>

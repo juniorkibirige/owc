@@ -12,12 +12,56 @@ class PoliceForm extends Component {
 
     componentDidMount() {
         this.getCities()
-        console.log(this.state.cityData)
+        this.setInputFilter(document.getElementById('age'), function (value) {
+            return /^-?\d*$/.test(value);
+        });
+
+        this.setInputFilter(document.getElementById('tel'), function (value) {
+            return /^-?\d*$/.test(value);
+        });
+        let state_of_state = localStorage["appState"]
+        if (!state_of_state) {
+            let appState = {
+                isLoggedIn: false,
+                user: {}
+            }
+            localStorage['appState'] = JSON.stringify(appState)
+        }
+
+        let state = localStorage['appState']
+        let AppState = JSON.parse(state)
+
+        const Auth = {
+            isLoggedIn: AppState.isLoggedIn,
+            user: AppState.user
+        }
+
+        this.setState({
+            isLoggedIn: Auth.isLoggedIn,
+            user: Auth.user
+        })
+    }
+    setInputFilter(textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+            textbox.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    textbox.oldValue = textbox.value;
+                    textbox.oldSelectionStart = textbox.selectionStart;
+                    textbox.oldSelectionEnd = textbox.selectionEnd;
+                } else if (textbox.hasOwnProperty("oldValue")) {
+                    textbox.value = textbox.oldValue;
+                    textbox.setSelectionRange(textbox.oldSelectionStart, textbox.oldSelectionEnd);
+                } else {
+                    textbox.value = "";
+                }
+            });
+        });
     }
 
     constructor() {
         super()
         this.state = {
+            isSubmitting: false,
             isLoading: true,
             cityData: [],
             refNo: v4(),
@@ -83,7 +127,9 @@ class PoliceForm extends Component {
                 timeTab: false,
                 yearTab: false
             },
-            tabSel: ''
+            tabSel: '',
+            user: [],
+            isLoggedIn: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleCheckBox = this.handleCheckBox.bind(this)
@@ -102,6 +148,7 @@ class PoliceForm extends Component {
 
     handleSubmit(event) {
         this.setState(prevState => ({
+            isSubmitting: true,
             progress: {
                 ...prevState.progress,
                 p4: true
@@ -145,15 +192,22 @@ class PoliceForm extends Component {
 
             axios.post('/api/form_105', form)
                 .then(response => {
-                    history.push('/')
+                    this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')
                 }).catch(error => {
                     console.warn(error.response.data.errors)
                     this.setState({
                         errors: error.response.data.errors
                     })
+                }).finally(_ => {
+                    this.setState({
+                        isSubmitting: false
+                    })
                 })
         } else {
             alert('Please cross check the form and fill in any missing fields')
+            this.setState({
+                isSubmitting: false
+            })
         }
     }
 
@@ -268,7 +322,7 @@ class PoliceForm extends Component {
                                         }
                                     }
                                 } else {
-                                    if (element.value == '' && element.name != "" &&element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
+                                    if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
                                         errors[element.name] = ['Please fill the field']
                                         errors.length += 1
                                     }
@@ -596,15 +650,13 @@ class PoliceForm extends Component {
     }
 
     getCities() {
-        axios.get('https://tmsystem.live/data/ugCities.json').then(response => {
+        axios.get('/compiled_data/ugCities.json').then(response => {
             this.setState({
                 cityData: response.data,
                 isLoading: false
             })
         })
     }
-
-    
 
     cities() {
         return (
@@ -629,7 +681,7 @@ class PoliceForm extends Component {
                     <div className='col-md-9'>
                         <div className='card'>
                             <div className='col-md-12 text-center pt-3'>
-                                <img className='rounded mx-auto d-block' src='static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
+                                <img className='rounded mx-auto d-block' src='/static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
                             </div>
                             <div className='container'>
                                 <div className='row'>
@@ -733,6 +785,7 @@ class PoliceForm extends Component {
                                                                 id='age'
                                                                 type='text'
                                                                 className={`form-control ${this.hasErrorFor('age') ? 'is-invalid' : ''}`}
+                                                                accept="number"
                                                                 name='age'
                                                                 placeholder='Age'
                                                                 required
@@ -761,15 +814,15 @@ class PoliceForm extends Component {
                                                         <div className='container text-center'>
                                                             <div className='row'>
                                                                 <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
                                                                         <input
-                                                                            id='village'
+                                                                            id='district'
                                                                             type='text'
-                                                                            className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
-                                                                            name='village'
-                                                                            placeholder='Village'
+                                                                            className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`}
+                                                                            name='district'
+                                                                            placeholder='District'
                                                                             required
-                                                                            value={this.state.partTwo.residence.village}
+                                                                            value={this.state.partTwo.residence.district}
                                                                             onChange={this.handleResidence}
                                                                         />
                                                                     </div>
@@ -791,15 +844,15 @@ class PoliceForm extends Component {
                                                             </div>
                                                             <div className='row'>
                                                                 <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                    <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
                                                                         <input
-                                                                            id='district'
+                                                                            id='village'
                                                                             type='text'
-                                                                            className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`}
-                                                                            name='district'
-                                                                            placeholder='District'
+                                                                            className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
+                                                                            name='village'
+                                                                            placeholder='Village'
                                                                             required
-                                                                            value={this.state.partTwo.residence.district}
+                                                                            value={this.state.partTwo.residence.village}
                                                                             onChange={this.handleResidence}
                                                                         />
                                                                     </div>
@@ -827,10 +880,12 @@ class PoliceForm extends Component {
                                                                     <div className={`form-group ${this.hasErrorFor('tel') ? 'has-danger' : ''}`}>
                                                                         <input
                                                                             id='tel'
-                                                                            type='text'
+                                                                            type='tel'
+                                                                            size={10}
+                                                                            maxLength={10}
                                                                             className={`form-control ${this.hasErrorFor('tel') ? 'is-invalid' : ''}`}
                                                                             name='tel'
-                                                                            placeholder='Telephone'
+                                                                            placeholder='Telephone i.e 0701753951'
                                                                             required
                                                                             value={this.state.partTwo.tel}
                                                                             onChange={this.handleFieldChange.bind(this, 'p2')}
@@ -841,7 +896,7 @@ class PoliceForm extends Component {
                                                                     <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
                                                                         <input
                                                                             id='email'
-                                                                            type='text'
+                                                                            type='email'
                                                                             className={`form-control ${this.hasErrorFor('email') ? 'is-invalid' : ''}`}
                                                                             name='email'
                                                                             placeholder='Email Address'
@@ -1194,8 +1249,8 @@ class PoliceForm extends Component {
                                                     </div>
                                                     <div className='col-md-12'>
                                                         <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                        <button className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
-                                                            <i className="ni ni-send"></i> Submit
+                                                        <button disabled={this.state.isSubmitting} className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
+                                                            <i className="ni ni-send"></i> {this.state.isSubmitting ? "Submitting Complaint " + <i className='fa fa-spinner'></i> : "Submit Complaint"}
                                                         </button>
                                                     </div>
                                                 </Card>

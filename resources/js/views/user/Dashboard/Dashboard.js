@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from '../../../components/Header/Header'
 import { Route, Switch, Redirect } from "react-router-dom";
 import Footer from '../../../components/Footer/Footer'
-import { Row, Container } from 'reactstrap'
+import { Row, Container, Col } from 'reactstrap'
 import Logo from '../../../../../public/argon/img/brand/mlgsd.png'
 import AdminNavbar from "../../../components/Navbars/AdminNavbar.js";
 // import AdminFooter from "components/Footers/AdminFooter.js";
@@ -10,6 +10,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 
 import routes from "./../../../routes";
 import Stats from '../../../components/Stats';
+import PoliceForm from '../../../components/PoliceForm';
 
 class Home extends Component {
     constructor() {
@@ -38,7 +39,6 @@ class Home extends Component {
     }
     getRoutes(routes) {
         return routes.map((prop, key) => {
-            console.log(prop.layout)
             if (prop.layout === "/dashboard") {
                 return (
                     <Route
@@ -82,11 +82,14 @@ class Home extends Component {
                         {...this.props}
                         brandText={this.getBrandText(this.props.location.pathname)}
                     />
-                    <Stats />
-                    <br />
+                    {
+                        this.props.location.pathname === ('/dashboard/complain') ?
+                            <div className="row"><Col className='pt-7 col-12 col-sm-12'>< PoliceForm locNow="dashboard"/></Col></div> : < Stats />
+                    }
+                    <hr />
                     <Switch>
                         {this.getRoutes(routes)}
-                        <Redirect from="*" to="/dashboard/index" />
+                        <Redirect from="*" to="/dashboard" />
                     </Switch>
                     {/* <Container fluid>
                         <AdminFooter />

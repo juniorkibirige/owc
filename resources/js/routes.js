@@ -8,7 +8,7 @@ import Tables from "./views/examples/Tables"
 
 var routes = [
   {
-    path: "/index",
+    path: "",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-white",
     component: Home,
