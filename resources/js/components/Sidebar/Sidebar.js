@@ -67,21 +67,21 @@ class Sidebar extends Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks(routes) {
     return routes.map((prop, key) => {
-      if(prop.path !== '/complain')
-      return (
-        <NavItem key={key} className={`text-white`}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={this.closeCollapse}
-            className={`text-white`}
-            activeClassName="active"
-          >
-            <i className={prop.icon + ` text-white`} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
-      );
+      if (prop.path !== '/complain')
+        return (
+          <NavItem key={key} className={`text-white`}>
+            <NavLink
+              to={prop.layout + prop.path}
+              tag={NavLinkRRD}
+              onClick={this.closeCollapse}
+              className={`text-white`}
+              activeClassName="active"
+            >
+              <i className={prop.icon + ` text-white`} />
+              {prop.name}
+            </NavLink>
+          </NavItem>
+        );
     });
   };
   render() {
@@ -125,8 +125,9 @@ class Sidebar extends Component {
             </NavbarBrand>
           ) : null}
           {/* User */}
-          <Nav className="align-items-center d-md-none">
-            <UncontrolledDropdown nav>
+          <Nav className="align-items-center d-md-none"
+            >
+            <UncontrolledDropdown nav className='d-none d-sm-none'>
               <DropdownToggle nav className="nav-link-icon">
                 <i className="ni ni-bell-55" />
               </DropdownToggle>
@@ -142,16 +143,26 @@ class Sidebar extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
             <UncontrolledDropdown nav>
-              <DropdownToggle nav>
+              <NavItem className='mr-3'>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
+                  <Media className="align-items-center text-white" onClick={this.props.logOut}>
+                    <span>
+                      <i className="fa fa-angle-left"></i>
+                    </span>
+                    <Media className="ml-2 d-lg-block">
+                      <span className="mb-0 text-sm text-white font-weight-bold">
+                        LOG OUT
+                      </span>
+                    </Media>
+                  </Media>
+                  {/* <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
                       src={Team1}
                     />
-                  </span>
+                  </span> */}
                 </Media>
-              </DropdownToggle>
+              </NavItem>
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>

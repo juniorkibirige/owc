@@ -52,8 +52,8 @@ class AdminNavbar extends React.Component {
             <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-none ml-lg-auto"
               style={{ visibility: `hidden` }}
               aria-hidden='true'>
-              <FormGroup className="mb-0">
-                <InputGroup className="input-group-alternative">
+              <FormGroup className="mb-0" style={{ visibility: `hidden` }}>
+                <InputGroup className="input-group-alternative" style={{ visibility: `hidden` }}>
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
                       <i className="fas fa-search" />
@@ -98,7 +98,7 @@ class AdminNavbar extends React.Component {
                     <span>Support</span>
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                  <DropdownItem href="#logout" onClick={this.props.logOut}>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>
