@@ -4,14 +4,16 @@ import Home from "./views/user/Dashboard/Dashboard";
 // import Register from "views/examples/Register.js";
 // import Login from "views/examples/Login.js";
 import Tables from "./views/examples/Tables"
+import Stats from "./components/Stats";
+import PoliceForm from "./components/PoliceForm";
 // import Icons from "views/examples/Icons.js";
 
 var routes = [
   {
-    path: "",
+    path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-white",
-    component: Home,
+    component: Stats,
     layout: "/dashboard"
   },
   {
@@ -22,19 +24,19 @@ var routes = [
     layout: "/dashboard"
   },
   {
-    path: "/dashboard",
-    name: "Registered Comps",
-    icon: "ni ni-bullet-list-67 text-white",
-    component: Home,
+    path: "/complain",
+    name: "Add New Complain",
+    icon: "fa fa-eye text-white",
+    component: PoliceForm,
     layout: "/dashboard"
   },
-  {
-    path: "/dashboard",
-    name: "Categories",
-    icon: "fa fa-question-circle",
-    component: Home,
-    layout: "/dashboard"
-  },
+  // { TODO: Send to settings
+  //   path: "/dashboard",
+  //   name: "Categories",
+  //   icon: "fa fa-question-circle", 
+  //   component: Home,
+  //   layout: "/dashboard"
+  // },
   {
     path: "/dashboard",
     name: "Reports",

@@ -67,6 +67,7 @@ class Sidebar extends Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks(routes) {
     return routes.map((prop, key) => {
+      if(prop.path !== '/complain')
       return (
         <NavItem key={key} className={`text-white`}>
           <NavLink
@@ -229,13 +230,6 @@ class Sidebar extends Component {
             <Nav navbar>{this.createLinks(routes)}</Nav>
             {/* Navigation */}
           </Collapse>
-        </Container>
-        <Container className='text-center px-3' style={{ marginTop: `-40%`, minHeight: `max-content`}}>
-          <Row>
-            <Col>
-              <span className="text-white text-center">Connecting the business world together</span>
-            </Col>
-          </Row>
         </Container>
       </Navbar>
     );

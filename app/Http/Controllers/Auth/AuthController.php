@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -22,9 +23,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed'
         ]);
 
         $user = new User([
@@ -63,6 +64,7 @@ class AuthController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
+        // echo "<script>Console.log(".implode("-",$credentials).")</script>";
 
         if (!Auth::attempt($credentials))
             return response()->json([
@@ -94,8 +96,9 @@ class AuthController extends Controller
      * 
      * @return [string] message
      */
-    public function logout(Request $request) {
-        $request->user()->token()->revoke();
+    public function logout(Request $request)
+    {
+        Auth::logout();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);

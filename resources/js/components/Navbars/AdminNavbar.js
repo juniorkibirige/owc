@@ -40,7 +40,7 @@ class AdminNavbar extends React.Component {
     return (
       <>
         <Navbar className="navbar-top navbar-dark" style={{ backgroundColor: `#eee9e4` }} expand="md" id="navbar-main">
-          <Container fluid>
+          <Container fluid> 
             <Link
               className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block d-lg-none"
               to="/"
@@ -66,7 +66,7 @@ class AdminNavbar extends React.Component {
             <Nav className="align-items-center d-none d-md-flex" navbar>
               <UncontrolledDropdown nav>
                 <DropdownToggle className="pr-0" nav>
-                  <Media className="align-items-center text-black">
+                  <Media className="align-items-center text-black" onClick={this.props.logOut}>
                     <span>
                       <i className="fa fa-angle-left"></i>
                     </span>

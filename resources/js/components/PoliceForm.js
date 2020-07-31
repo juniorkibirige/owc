@@ -10,6 +10,17 @@ import {
 
 class PoliceForm extends Component {
 
+    componentWillMount() {
+        const params = new URLSearchParams(window. location. search)
+        if (params.has('prev')) {
+            if(params.get('prev') == 'dashboard') {
+                this.setState({
+                    prev: 'dashboard'
+                })
+            }
+        }
+    }
+
     componentDidMount() {
         this.getCities()
         this.setInputFilter(document.getElementById('age'), function (value) {
@@ -676,7 +687,7 @@ class PoliceForm extends Component {
 
     render() {
         return (
-            <div className='container py-3 bg-gradient-primary'>
+            <div className={`container py-3 bg-gradient-primary ${this.state.prev == 'dashboard' ? "pt-6" : ""}`}>
                 <div className='row justify-content-center'>
                     <div className='col-md-9'>
                         <div className='card'>

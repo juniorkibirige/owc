@@ -18,9 +18,15 @@ class Stats extends Component {
             perWeek: 0,
             perDay: 0,
             cityNames: [],
-            chart1Data: {
+            AgeChart: {
+                chart: {
+                    plotBackground: null,
+                    plotBorderWidth: null,
+                    plotShadow: true,
+                    type: 'pie'
+                },
                 title: {
-                    text: 'Crime rates by Offense Type, 2020',
+                    text: 'Crime rates by Age, ' + new Date().getFullYear(),
                     align: 'center',
                 },
                 tooltip: {
@@ -29,11 +35,6 @@ class Stats extends Component {
                 subtitle: {
                     text: 'Source: AI Data from database'
                 },
-                yAxis: {
-                    title: {
-                        text: 'Number of crimes'
-                    }
-                },
                 accessiblity: {
                     point: {
                         valueSuffix: '%'
@@ -41,42 +42,59 @@ class Stats extends Component {
                 },
                 xAxis: {
                     accessiblity: {
-                        rangeDescription: 'Range: 2019 to 2020'
+                        rangeDescription: 'Ages from : 0 onwards'
                     }
                 },
                 legend: {
-                    layout: 'vertical',
-                    alight: 'right',
-                    verticalAlign: 'middle'
+                    layout: 'horizontal',
+                    alight: 'bottom',
+                    verticalAlign: 'bottom'
                 },
                 plotOptions: {
                     pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
                         dataLabels: {
-                            enabled: true,
-                            distance: -50,
+                            enabled: false,
+                            format: '<b>{point.name}</b> reported: {point.percentage:.2f}%  ',
                             style: {
                                 fontWeight: 'bold',
                                 color: 'white'
                             }
                         },
-                        startAngle: -90,
-                        endAngle: 90,
-                        center: ['50%', '75%'],
-                        size: '110%'
+                        showInLegend: true
                     }
                 },
                 series: [{
                     type: 'pie',
-                    name: '{title.text}',
+                    name: 'Age Range',
                     innerSize: '50%',
+                    colorByPoint: true,
                     data: [
-                        ['Chrome', 58.9],
-                        ['Firefox', 13.29],
-                        ['Internet Explorer', 13],
-                        ['Edge', 3.78],
-                        ['Safari', 3.42],
                         {
-                            name: 'Other',
+                            name: '0 - 12',
+                            y: 58.9,
+                            selected: true,
+                            sliced: true
+                        },
+                        {
+                            name: '13 - 18',
+                            y: 13.29
+                        },
+                        {
+                            name: '19 - 28',
+                            y: 13
+                        },
+                        {
+                            name: '29 - 42',
+                            y: 3.78
+                        },
+                        {
+                            name: '43 - 60',
+                            y: 3.42
+                        },
+                        {
+                            name: '61 +',
                             y: 7.61,
                             dataLabels: {
                                 enabled: false
@@ -85,73 +103,165 @@ class Stats extends Component {
                     ]
                 }]
             },
-            chart2Data: {
+            GenderChart: {
                 chart: {
-                    type: 'column'
+                    plotBackground: null,
+                    plotBorderWidth: null,
+                    plotShadow: true,
+                    type: 'pie'
                 },
                 title: {
-                    text: 'Monthly Average Rainfall'
-                },
-                subtitle: {
-                    text: 'Source: WorldClimate.com'
-                },
-                xAxis: {
-                    categories: [
-                        'Jan',
-                        'Feb',
-                        'Mar',
-                        'Apr',
-                        'May',
-                        'Jun',
-                        'Jul',
-                        'Aug',
-                        'Sep',
-                        'Oct',
-                        'Nov',
-                        'Dec'
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Rainfall (mm)'
-                    }
+                    text: 'Crime rates by Gender, ' + new Date().getFullYear(),
+                    align: 'center',
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessiblity: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                xAxis: {
+                    accessiblity: {
+                        rangeDescription: 'Reports by Gender'
+                    }
+                },
+                legend: {
+                    layout: 'horizontal',
+                    alight: 'bottom',
+                    verticalAlign: 'bottom'
                 },
                 plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false,
+                            format: '<b>{point.name}</b> reported: {point.percentage:.2f}%  ',
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }
+                        },
+                        showInLegend: true
                     }
                 },
                 series: [{
-                    name: 'Tokyo',
-                    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-                }, {
-                    name: 'New York',
-                    data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-                }, {
-                    name: 'London',
-                    data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-                }, {
-                    name: 'Berlin',
-                    data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
+                    type: 'pie',
+                    name: 'Age Range',
+                    innerSize: '50%',
+                    colorByPoint: true,
+                    data: [
+                        {
+                            name: 'Male',
+                            y: 58.9,
+                            selected: true,
+                            sliced: true
+                        },
+                        {
+                            name: 'Female',
+                            y: 13.29
+                        }
+                    ]
                 }]
+            },
+            forMonth: {
+                chart: {
+                    type: 'area',
+                    zoomType: 'x'
+                },
+                accessiblity: {
+                    description: 'Number of crimes per day in ' + this.getMonth(new Date().getMonth())
+                },
+                title: {
+                    text: 'Crime Rate in ' + new Date().getFullYear()
+                },
+                subtitle: {
+                    text: 'Source: Data collected over the month by the system'
+                },
+                xAxis: {
+                    // tickInterval: 7 * 24 * 3600 * 1000, // one week
+                    // tickWidth: 0,
+                    // gridLineWidth: 1,
+                    allowDecimals: false,
+                    title: {
+                        text: 'Number of Days'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value
+                        }
+                    },
+                    accessiblity: {
+                        rangeDescription: 'Range: 1 to 30.'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of Crimes'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y:,.0f} crimes</b> on ' + this.getMonth(new Date().getMonth()) + ', {point.x}.'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: true
+                        },
+                    },
+                    area: {
+                        pointStart: 1,
+                        // marker: {
+                        //     enabled: true,
+                        //     symbol: 'triangle',
+                        //     radius: 2,
+                        //     states: {
+                        //         hover: {
+                        //             enabled: true
+                        //         }
+                        //     }
+                        // }
+                    }
+                },
+                series: [{
+                    name: 'USA',
+                    data: [
+                        null, null, null, null, null, 6, 11, 32, 110, 235,
+                        369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
+                        20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342
+                    ]
+                }, {
+                    name: 'USSR/Russia',
+                    data: [null, null, null, null, null, null, null, null, null, null,
+                        5, 25, 50, 120, 150, 200, 426, 660, 869, 1060,
+                        1605, 2471, 3322, 4238, 5221, 6129, 7089, 8339, 9399, 10538,
+                    ]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        }
+                    }]
+                }
             }
         }
         this.getCities = this.getCities.bind(this)
+        this.getMonth = this.getMonth.bind(this)
+    }
+
+    getMonth(month) {
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ]
+        return months[month].toString()
     }
 
     getCities() {
@@ -165,6 +275,211 @@ class Stats extends Component {
 
     componentDidMount() {
         addFunnel(HighCharts)
+        HighCharts.theme = {
+            colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+                '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+            ],
+            chart: {
+                backgroundColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 1,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#2a2a2b'],
+                        [1, '#3e3e40']
+                    ]
+                },
+                style: {
+                    fontFamily: '\'Unica One\', sans-serif'
+                },
+                plotBorderColor: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase',
+                    fontSize: '20px'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase'
+                }
+            },
+            xAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+
+                    }
+                }
+            },
+            yAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                tickWidth: 1,
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                style: {
+                    color: '#F0F0F0'
+                }
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        color: '#F0F0F3',
+                        style: {
+                            fontSize: '13px'
+                        }
+                    },
+                    marker: {
+                        lineColor: '#333'
+                    }
+                },
+                boxplot: {
+                    fillColor: '#505053'
+                },
+                candlestick: {
+                    lineColor: 'white'
+                },
+                errorbar: {
+                    color: 'white'
+                }
+            },
+            legend: {
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                itemStyle: {
+                    color: '#E0E0E3'
+                },
+                itemHoverStyle: {
+                    color: '#FFF'
+                },
+                itemHiddenStyle: {
+                    color: '#606063'
+                },
+                title: {
+                    style: {
+                        color: '#C0C0C0'
+                    }
+                }
+            },
+            credits: {
+                style: {
+                    color: '#666'
+                }
+            },
+            labels: {
+                style: {
+                    color: '#707073'
+                }
+            },
+
+            drilldown: {
+                activeAxisLabelStyle: {
+                    color: '#F0F0F3'
+                },
+                activeDataLabelStyle: {
+                    color: '#F0F0F3'
+                }
+            },
+
+            navigation: {
+                buttonOptions: {
+                    symbolStroke: '#DDDDDD',
+                    theme: {
+                        fill: '#505053'
+                    }
+                }
+            },
+
+            // scroll charts
+            rangeSelector: {
+                buttonTheme: {
+                    fill: '#505053',
+                    stroke: '#000000',
+                    style: {
+                        color: '#CCC'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#707073',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        },
+                        select: {
+                            fill: '#000003',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                },
+                inputBoxBorderColor: '#505053',
+                inputStyle: {
+                    backgroundColor: '#333',
+                    color: 'silver'
+                },
+                labelStyle: {
+                    color: 'silver'
+                }
+            },
+
+            navigator: {
+                handles: {
+                    backgroundColor: '#666',
+                    borderColor: '#AAA'
+                },
+                outlineColor: '#CCC',
+                maskFill: 'rgba(255,255,255,0.1)',
+                series: {
+                    color: '#7798BF',
+                    lineColor: '#A6C7ED'
+                },
+                xAxis: {
+                    gridLineColor: '#505053'
+                }
+            },
+
+            scrollbar: {
+                barBackgroundColor: '#808083',
+                barBorderColor: '#808083',
+                buttonArrowColor: '#CCC',
+                buttonBackgroundColor: '#606063',
+                buttonBorderColor: '#606063',
+                rifleColor: '#FFF',
+                trackBackgroundColor: '#404043',
+                trackBorderColor: '#404043'
+            }
+        };
         axios.get('/api/form_105').then(response => {
             this.setState({
                 perMonth: response.data.perMonth,
@@ -173,32 +488,50 @@ class Stats extends Component {
             })
             this.getCities()
         })
-        HighCharts.chart('chart', this.state.chart1Data)
+        HighCharts.setOptions(HighCharts.theme)
+        HighCharts.chart('forMonth', this.state.forMonth)
+        HighCharts.chart('chart', this.state.AgeChart)
         // HighCharts.chart('chart2', this.state.chart2Data)
-        HighCharts.chart('chart3', this.state.chart2Data)
+        HighCharts.chart('chart3', this.state.GenderChart)
     }
 
     render() {
         return (
-            <div className='header bg-info pb-7 pt-5'>
+            <div className='header bg-white pb-7 pt-5'>
                 <div className='container-fluid'>
                     <div className='header-body'>
                         <Row className='align-items-center py-4'>
-                            <Col className="col-sm-3 col-3"></Col>
-                            <Col className="col-sm-3 col-3"></Col>
-                            <Col className="col-sm-3 col-3"></Col>
-                            <Col className="col-sm-3 col-3 text-right align-items-right">
-                                <Link className="btn btn-outline-secondary" to='/dashboard/complain' data-toggle='buttons'>Add Complaint</Link>
+                            <Col className="col-sm-3 col-4"></Col>
+                            <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"></Col>
+                            <Col className="col-sm-3 col-3 offset-2 offset-md-3 text-right align-items-right">
+                                <Link className="btn btn-outline-default btn-info" to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>
                             </Col>
                         </Row>
                         <Row>
                             <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats' style={{ marginBottom: 30 + 'px' }}>
+                                <Card className='card-stats bg-gradient-purple' style={{ marginBottom: 30 + 'px' }}>
                                     <CardBody>
                                         <Row>
                                             <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0'>{this.state.perDay}&nbsp; <span className='text-nowrap text-sm'>Today</span></span>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
+                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perDay}&nbsp; <span className='text-nowrap text-sm'>Today</span></span>
+                                            </Col>
+                                            <Col className='col-auto'>
+                                                <div className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
+                                                    <i className='ni ni-chart-pie-35'></i>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                            <Col className='col-xl-4 col-md-4 col-12'>
+                                <Card className='card-stats bg-gradient-blue' style={{ marginBottom: 30 + 'px' }}>
+                                    <CardBody>
+                                        <Row>
+                                            <Col>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
+                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perWeek}&nbsp; <span className='text-nowrap text-sm'>This Week</span></span>
                                             </Col>
                                             <Col className='col-auto'>
                                                 <div className='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
@@ -210,32 +543,15 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                             <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats' style={{ marginBottom: 30 + 'px' }}>
+                                <Card className='card-stats bg-gradient-red' style={{ marginBottom: 30 + 'px' }}>
                                     <CardBody>
                                         <Row>
                                             <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0'>{this.state.perWeek}&nbsp; <span className='text-nowrap text-sm'>This Week</span></span>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
+                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perMonth}&nbsp; <span className='text-nowrap text-sm'>This Month</span></span>
                                             </Col>
                                             <Col className='col-auto'>
-                                                <div className='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
-                                                    <i className='ni ni-chart-pie-35'></i>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats' style={{ marginBottom: 30 + 'px' }}>
-                                    <CardBody>
-                                        <Row>
-                                            <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0'>{this.state.perMonth}&nbsp; <span className='text-nowrap text-sm'>This Month</span></span>
-                                            </Col>
-                                            <Col className='col-auto'>
-                                                <div className='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                                                <div className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
                                                     <i className='ni ni-chart-pie-35'></i>
                                                 </div>
                                             </Col>
@@ -244,10 +560,12 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                         </Row>
+                        <Row className='pb-4'>
+                            <div id="forMonth" className='col-sm-12 col-md-12 col-12' style={{ borderRadius: `10px` }}></div>
+                        </Row>
                         <Row>
-                            <div id="chart" className='col-sm-12 col-md-5 col-12' style={{ borderRadius: `10px` }}></div>
-                            <div id="chart2" className='col-sm-12 col-md-3 col-12' style={{ borderRadius: `10px`, height: `100%` }}></div>
-                            <div id="chart3" className='col-sm-12 col-md-4 col-12' style={{ borderRadius: `10px` }}></div>
+                            <div id="chart" className='pb-4 col-sm-12 col-md-6 col-12' style={{ borderRadius: `10px` }}></div>
+                            <div id="chart3" className='pb-4 col-sm-12 col-md-6 col-12' style={{ borderRadius: `10px` }}></div>
                         </Row>
                     </div>
                 </div>

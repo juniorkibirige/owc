@@ -60,9 +60,13 @@ class RegisterContainer extends Component {
         })
         ReactDOM.findDOMNode(this).scrollIntoView()
         if (this.state.user.password[0] == this.state.user.password_conf[0]) {
-            alert(this.state.user.password + ` == ` + this.state.user.password_conf)
-            let userData = this.state.user
-            axios.post('/api/auth/signup', userData)
+            let userData = {
+                name: this.state.user.name[0],
+                email: this.state.user.email[0],
+                password: this.state.user.password[0],
+                password_confirmation: this.state.user.password_conf[0],
+            }
+            axios.post('/api/register', userData)
                 .then(response => {
                     return response
                 })
@@ -70,8 +74,7 @@ class RegisterContainer extends Component {
                     if (json.data.success) {
                         let userData = {
                             name: json.data.id,
-                            email: json.data.name,
-                            activation_token: json.data.activation_token
+                            email: json.data.name
                         }
                         let appState = {
                             isRegistered: true,
@@ -82,6 +85,7 @@ class RegisterContainer extends Component {
                             isRegistered: appState.isRegistered,
                             user: appState.user
                         })
+                        location.reload()
                     } else {
                         alert(`Our System failed to Register your Account! Please Try Again`);
                     }
