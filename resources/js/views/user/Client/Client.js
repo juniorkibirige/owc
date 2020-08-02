@@ -12,8 +12,8 @@ class Client extends Component {
         return (
             <>
                 <GuestNavbar />
-                <div className='position-relative overflow-hidden px-3 px-md-5 mb-md-0 mt-md-3 text-center bg-light' style={{ backgroundImage: `url(https://shopping.live:423/images/stall.jpg)`, minHeight: `80vh` }}>
-                    <div className="col-md-12 mx-auto my-3" style={{ background: `rgba(53,52,53,0.5)` }}>
+                <div className='position-relative overflow-hidden px-0 px-md-3 px-md-5 mb-md-0 mt-md-3 text-center bg-light' style={{ backgroundImage: `url(https://shopping.live:423/images/stall.jpg)`, minHeight: `80vh` }}>
+                    <div className="col-md-12 my-3 mx-md-auto mx-0 px-0" style={{ background: `rgba(53,52,53,0.5)` }}>
                         <div className='limiter'>
                             <div className='container-login100' style={{maxHeight: `max-content`}}>
                                 <div className='wrap-login100' style={{maxHeight: `max-content`}}>

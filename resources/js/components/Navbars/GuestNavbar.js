@@ -1,5 +1,3 @@
-require('./../../../../public/argon/css/product.css')
-require('./nav.js')
 import React, { Component } from 'react'
 import { Nav, Container } from 'reactstrap'
 import { Link } from 'react-router-dom'
@@ -68,6 +66,8 @@ class GuestNavbar extends Component {
     }
 
     render() {
+        require('./../../../../public/argon/css/product.css')
+        require('./nav')
         return (
             <>
                 <Nav className='site-header sticky-top py-1 bg-light'>

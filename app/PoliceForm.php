@@ -30,7 +30,6 @@ class PoliceForm extends Model
         'victimName',
         'victimAge',
         'victimGender',
-        'officerName', 'officerRank', 'otherId', 'detUnit',
-        'done'
+        'officerName', 'officerRank', 'otherId', 'detUnit'
     ];
 }

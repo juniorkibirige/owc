@@ -13,6 +13,7 @@ class PoliceForm extends Component {
 
     componentDidMount() {
         this.getCities()
+        this.getRanks()
         const params = new URLSearchParams(window.location.search)
         if (params.has('prev')) {
             this.setState({
@@ -175,6 +176,8 @@ class PoliceForm extends Component {
         this.getDistricts3 = this.getDistricts.bind(this)
         this.getCounties3 = this.getCounties.bind(this)
         this.getSubCounties3 = this.getSubCounties.bind(this)
+        this.getRanks = this.getRanks.bind(this)
+        this.showReferenceNumber = this.showReferenceNumber.bind(this)
     }
 
     handleSubmit(event) {
@@ -188,8 +191,6 @@ class PoliceForm extends Component {
         event.preventDefault()
 
         if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3 && this.state.progress.p4) {
-
-            const { history } = this.props
 
             console.log(this.state.partTwo.residence.compDist)
             console.log(this.state.partTwo.residence.compRegion)
@@ -232,7 +233,7 @@ class PoliceForm extends Component {
 
             axios.post('/api/form_105', form)
                 .then(response => {
-                    this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')
+                    this.showReferenceNumber()
                 }).catch(error => {
                     console.warn(error.response.data.errors)
                     this.setState({
@@ -631,7 +632,7 @@ class PoliceForm extends Component {
                         })
                     }
                 }))
-                $('select[name=victimGender] option[value='+this.state.partTwo.gender+']').attr('selected', 'selected')
+                $('select[name=victimGender] option[value=' + this.state.partTwo.gender + ']').attr('selected', 'selected')
                 $('div#vicDet').css({
                     display: 'none'
                 })
@@ -944,11 +945,49 @@ class PoliceForm extends Component {
         }
     }
 
+    getRanks() {
+        let RANKS = {
+            'IGP': 'Inspector General of Police',
+            'DIGP': 'Deputy Inspector General of Police',
+            'AIGP': 'Assistant Inspector General of Police',
+            'SCP': 'Senior Commissioner of Police',
+            'CP': 'Commissioner of Police',
+            'ACP': 'Assistant Commissioner of Police',
+            'SSP': 'Senior Superintendent of Police',
+            'SP': 'Superintendent of Police',
+            'ASP': 'Assistant Superintedent of Police',
+            'IP': 'Inspector of Police',
+            'AIP': 'Assistant Inspector of Police',
+            'SGT': 'Sergeant',
+            'CPL': 'Corporal',
+            'PC': 'Police Constable',
+            'SPC': 'Special Police Constable'
+        }
+        let ranks = []
+        for (const key in RANKS) {
+            if (RANKS.hasOwnProperty(key)) {
+                const rank = RANKS[key];
+                ranks.push(
+                    <option key={key} name={key} value={key}>{rank}</option>
+                )
+            }
+        }
+        return ranks
+    }
+
+    showReferenceNumber() {
+        const { history } = this.props
+        $('finCopy').on('click', _ => {
+            this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')
+        })
+        $('#getRef').click()
+    }
+
     render() {
         return (
             <>
                 {this.state.prev == 'guest' ? <GuestNavbar /> : null}
-                <div className={`container py-1 ${this.state.prev == 'dashboard' ? "pt-6" : ""} ${this.state.prev == 'guest' ? 'pt-sm-4 pt-4' : ''}`}>
+                <div className={`container py-1 ${this.state.prev == 'dashboard' ? "pt-6" : ""}`}>
                     <div className='row justify-content-center'>
                         <div className='col-md-12'>
                             <div className='card'>
@@ -1547,13 +1586,16 @@ class PoliceForm extends Component {
                                                                 {this.renderErrorFor('officerName')}
                                                             </FormGroup>
                                                             <FormGroup className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
-                                                                <input id='rank'
+                                                                <select id='rank'
                                                                     className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
                                                                     name='officerRank'
                                                                     placeholder='Offending Officers Rank / Description'
                                                                     value={this.state.partFour.rank}
                                                                     onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                                />
+                                                                >
+                                                                    <option name='default' value='default'>Offending Officers Rank</option>
+                                                                    {this.getRanks()}
+                                                                </select>
                                                                 {this.renderErrorFor('officerRank')}
                                                             </FormGroup>
                                                             <FormGroup className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
@@ -1581,7 +1623,7 @@ class PoliceForm extends Component {
                                                         <div className='col-md-12'>
                                                             <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
                                                             <button disabled={this.state.isSubmitting} className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
-                                                                <i className="ni ni-send"></i> {this.state.isSubmitting ? "Submitting Complaint " + <i className='fa fa-spinner'></i> : "Submit Complaint"}
+                                                                <i className={`${this.state.isSubmitting ? 'fa fa-spinner' : 'ni ni-send'}`}></i> {this.state.isSubmitting ? "Submitting Complaint " : "Submit Complaint"}
                                                             </button>
                                                         </div>
                                                     </Card>
@@ -1593,7 +1635,33 @@ class PoliceForm extends Component {
                             </div>
                         </div>
                     </div>
-                </div >
+                </div>
+                <div>
+                    <button id="getRef" type='button' tabIndex='-1' className='btn btn-primary d-none d-sm-none' data-toggle='modal' data-target="#showRefNo">
+                        Get Ref
+                    </button>
+                    <div className="modal fade" id="showRefNo" tabIndex="-1" role="dialog" aria-labelledby="showRefNoTitle" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="showRefNoTitle">Complaint Reference Number</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <Row>
+                                        <p className='display-7 text-center'>Please write down this number for Reference if contacted</p><br />
+                                        <div className='text-center display-5' style={{ width: `100%` }}>{this.state.refNo}</div>
+                                    </Row>
+                                </div>
+                                <div className="modal-footer">
+                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal">Finished Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
         )
     }

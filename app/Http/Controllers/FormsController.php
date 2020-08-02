@@ -11,7 +11,7 @@ class FormsController extends Controller
 {
     public function index()
     {
-        $forms = PoliceForm::where('done', false)
+        $forms = PoliceForm::where('open', true)
             ->orderBy('created_at', 'desc')
             ->get();
         $month = explode('-', date('d-m-Y'))[1];
@@ -32,9 +32,16 @@ class FormsController extends Controller
         $prev = '';
         $sort = [];
         $gender = [];
+        $age = [
+            'below 19' => 0,
+            '19 - 30' => 0,
+            '31 - 50' => 0,
+            '51 and above' => 0
+        ];
         $m = 0;
         $f = 0;
         $all = 0;
+        $ag = 0;
         for ($i = 0; $i <= $dMonth[intval($month)]; $i++) {
             if ($i == 0) {
                 $sort['Central'][$i] = 0;
@@ -57,8 +64,15 @@ class FormsController extends Controller
                     $prev = $formData->cRegion;
                 else {
                     for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
-                        if ($cd == $i)
+                        if ($sort[$prev][$i] == NULL) {
+                            $sort[$prev][$i] = 0;
+                        }
+                        if (intval($cd) == $i) {
                             $sort[$prev][$i] = $sort[$prev][$i] + 1;
+                            break;
+                        }
+                        // if ($i < intval($cd) && $sort[$prev][$i] == null)
+                        //     $sort[$prev][$i] = 0;
                     }
                 }
             }
@@ -69,7 +83,34 @@ class FormsController extends Controller
                 $f++;
                 $all++;
             }
+            $a = intval($formData->victimAge);
+            if($a <= 18) {
+                $age['below 19'] += 1;
+                $ag++;
+            } else if($a > 18 && $a <= 30){
+                $age['19 - 30'] += 1;
+                $ag++;
+            } else if($a > 30 && $a <= 50) {
+                $age['31 - 50'] += 1;
+                $ag++;
+            } else if ($a > 50) {
+                $age['51 and above'] += 1;
+                $ag++;
+            }
         }
+        if($ag !== 0) {
+            $age['below 19'] = ($age['below 19'] / $ag) * 100;
+            $age['19 - 30'] = ($age['19 - 30'] / $ag) * 100;
+            $age['31 - 50'] = ($age['31 - 50'] / $ag) * 100;
+            $age['51 and above'] = ($age['51 and above'] / $ag) * 100;
+        } else {
+            $age['below 19'] = 0;
+            $age['19 - 30'] = 0;
+            $age['31 - 50'] = 0;
+            $age['51 and above'] = 0;
+            $age['none'] = 0;
+        }
+
         if ($all !== 0) {
             $gender['Male'] = ($m / $all) * 100;
             $gender['Female'] = ($f / $all) * 100;
@@ -94,6 +135,7 @@ class FormsController extends Controller
         $res['perWeek'] = $pW;
         $res['byRegion'] = $sort;
         $res['byGender'] = $gender;
+        $res['byAge'] = $age;
 
         return json_encode($res);
     }

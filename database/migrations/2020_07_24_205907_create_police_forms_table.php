@@ -15,7 +15,7 @@ class CreatePoliceFormsTable extends Migration
     {
         Schema::create('police_forms', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('refNo');
+            $table->unique('refNo');
             $table->string('date');
             $table->string('compName');
             $table->integer('compAge');
@@ -49,6 +49,8 @@ class CreatePoliceFormsTable extends Migration
             $table->string('otherId');
             $table->string('detUnit');
             $table->boolean('done')->default(0);
+            $table->boolean('underInv')->default(0);
+            $table->boolean('open')->default(1);
             $table->timestamps();
         });
     }

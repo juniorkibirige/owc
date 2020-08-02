@@ -1,12 +1,10 @@
-
 import React, { Component } from 'react'
 import {
     Row, Col,
-    Card, CardBody, CardTitle
+    Card, CardBody
 } from 'reactstrap'
 import axios from 'axios'
 import HighCharts from 'highcharts'
-import HighChartsReact from 'highcharts-react-official'
 import { Link } from 'react-router-dom'
 var addFunnel = require('highcharts/modules/funnel')
 
@@ -18,6 +16,7 @@ class Stats extends Component {
             perWeek: 0,
             perDay: 0,
             cityNames: [],
+            reloaded: false,
             AgeChart: {
                 chart: {
                     plotBackground: null,
@@ -71,33 +70,22 @@ class Stats extends Component {
                     colorByPoint: true,
                     data: [
                         {
-                            name: '0 - 12',
+                            name: 'below 19',
                             y: 58.9,
                             selected: true,
                             sliced: true
                         },
                         {
-                            name: '13 - 18',
+                            name: '19 - 30',
                             y: 13.29
                         },
                         {
-                            name: '19 - 28',
+                            name: '31 - 50',
                             y: 13
                         },
                         {
-                            name: '29 - 42',
-                            y: 3.78
-                        },
-                        {
-                            name: '43 - 60',
-                            y: 3.42
-                        },
-                        {
-                            name: '61 +',
-                            y: 7.61,
-                            dataLabels: {
-                                enabled: false
-                            }
+                            name: '51 and above',
+                            y: 14.81
                         }
                     ]
                 }]
@@ -179,9 +167,6 @@ class Stats extends Component {
                     text: 'Source: Data collected over the month by the system'
                 },
                 xAxis: {
-                    // tickInterval: 7 * 24 * 3600 * 1000, // one week
-                    // tickWidth: 0,
-                    // gridLineWidth: 1,
                     allowDecimals: false,
                     title: {
                         text: 'Number of Days'
@@ -211,18 +196,28 @@ class Stats extends Component {
                 plotOptions: {
                     series: {
                         label: {
-                            connectorAllowed: true
-                        },
+                            connectorAllowed: false
+                        }
                     },
                     area: {
                         pointStart: 0,
+                        marker: {
+                            enabled: true,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
                     }
                 },
                 series: [],
                 responsive: {
                     rules: [{
                         condition: {
-                            maxWidth: 500
+                            maxWidth: 400
                         }
                     }]
                 }
@@ -230,6 +225,8 @@ class Stats extends Component {
         }
         this.getMonth = this.getMonth.bind(this)
         this.fM = null
+        this.aC = null
+        this.gC = null
     }
 
     getMonth(month) {
@@ -240,6 +237,10 @@ class Stats extends Component {
     }
 
     componentDidMount() {
+        if(this.props.history.prev == 'tables'){
+            this.props.history.prev = ''
+            location.pathname = 'dashboard'
+        }
         addFunnel(HighCharts)
         HighCharts.theme = {
             colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
@@ -448,10 +449,13 @@ class Stats extends Component {
         };
         HighCharts.setOptions(HighCharts.theme)
         this.fM = HighCharts.chart('forMonth', this.state.forMonth)
-        HighCharts.chart('chart', this.state.AgeChart)
-        HighCharts.chart('chart3', this.state.GenderChart)
+        this.aC = HighCharts.chart('chart', this.state.AgeChart)
+        this.gC = HighCharts.chart('chart3', this.state.GenderChart)
+        var s = this.state.GenderChart.series[0].data
+        s = new Array()
         axios.get('/api/form_105').then(response => {
             let i = this.state.forMonth.series.length;
+            // Setting up regional chart
             for (const key in response.data.byRegion) {
                 if (response.data.byRegion.hasOwnProperty(key)) {
                     const region = response.data.byRegion[key];
@@ -459,27 +463,59 @@ class Stats extends Component {
                         name: key.toString(),
                         data: Object.keys(region).map(key => region[key])
                     })
-                    this.fM.addSeries(newSeries)
+                    this.fM.addSeries(newSeries, false)
+                    this.fM.redraw()
                 }
                 i += 1
             }
-            this.setState(prevState=>({
+            i = this.state.AgeChart.series[0].data.length
+            // Setting up gender pie chart
+            for (const key in response.data.byGender) {
+                if (response.data.byGender.hasOwnProperty(key)) {
+                    const gender = response.data.byGender[key];
+                    if (key == 'Male')
+                        this.gC.series[0].data[0].update(gender)
+                    else if (key == 'Female')
+                        this.gC.series[0].data[1].update(gender)
+                }
+                i += 1
+            }
+
+            //Setting up age chart
+            for (const key in response.data.byAge) {
+                if (response.data.byAge.hasOwnProperty(key)) {
+                    const age = response.data.byAge[key];
+                    switch (key) {
+                        case 'below 19':
+                            this.aC.series[0].data[0].update(age)
+                            break;
+                        case '19 - 30':
+                            this.aC.series[0].data[1].update(age)
+                            break;
+                        case '31 - 50':
+                            this.aC.series[0].data[2].update(age)
+                            break;
+                        case '51 and above':
+                            this.aC.series[0].data[3].update(age)
+                            break;
+                        default:
+                            this.aC.series[0].update({
+                                name: 'none',
+                                y: age
+                            })
+                            break;
+                    }
+                }
+                i += 1
+            }
+            this.aC.redraw()
+            this.setState(prevState => ({
                 perMonth: response.data.perMonth,
                 perWeek: response.data.perWeek,
                 perDay: response.data.perDay
             }))
         })
     }
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevState.forMonth.series !== this.state.forMonth.series) {
-    //         console.log(prevState)
-    //         console.log(this.state)
-    //         this.fM = HighCharts.chart('forMonth', this.state.forMonth)
-    //         this.aC = HighCharts.chart('chart', this.state.AgeChart)
-    //         this.gC = HighCharts.chart('chart3', this.state.GenderChart)
-    //     }
-    // }
 
     renderCharts() {
         // console.log(this.state)

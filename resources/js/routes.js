@@ -3,7 +3,7 @@ import Home from "./views/user/Dashboard/Dashboard";
 // import Maps from "views/examples/Maps.js";
 // import Register from "views/examples/Register.js";
 // import Login from "views/examples/Login.js";
-import Tables from "./views/examples/Tables"
+import Tables from "./views/Tables/Tables"
 import Stats from "./components/Stats";
 import PoliceForm from "./components/PoliceForm";
 // import Icons from "views/examples/Icons.js";
@@ -18,15 +18,15 @@ var routes = [
   },
   {
     path: "/tables",
-    name: "Submissions",
-    icon: "fa fa-eye text-white",
+    name: "Complaints",
+    icon: "mr-3 fa fa-eye text-white",
     component: Tables,
     layout: "/dashboard"
   },
   {
     path: "/complain",
     name: "Add New Complain",
-    icon: "fa fa-eye text-white",
+    icon: "mr-3 fa fa-eye text-white",
     component: PoliceForm,
     layout: "/dashboard"
   },
@@ -40,14 +40,15 @@ var routes = [
   {
     path: "/dashboard",
     name: "Reports",
-    icon: "fa fa-reply",
+    icon: "mr-3 fa fa-reply",
     component: Home,
     layout: "/dashboard"
   },
   {
-    path: "/dashboard",
+    collapse: true,
+    path: "/settings",
     name: "Settings",
-    icon: "fa fa-sliders",
+    icon: "ni ni-ungroup text-orange",
     component: Home,
     layout: "/dashboard"
   }
