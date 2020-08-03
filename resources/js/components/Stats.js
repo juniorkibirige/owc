@@ -218,32 +218,9 @@ class Stats extends Component {
                     },
                     area: {
                         pointStart: 1,
-                        // marker: {
-                        //     enabled: true,
-                        //     symbol: 'triangle',
-                        //     radius: 2,
-                        //     states: {
-                        //         hover: {
-                        //             enabled: true
-                        //         }
-                        //     }
-                        // }
                     }
                 },
-                series: [{
-                    name: 'USA',
-                    data: [
-                        null, null, null, null, null, 6, 11, 32, 110, 235,
-                        369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
-                        20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342
-                    ]
-                }, {
-                    name: 'USSR/Russia',
-                    data: [null, null, null, null, null, null, null, null, null, null,
-                        5, 25, 50, 120, 150, 200, 426, 660, 869, 1060,
-                        1605, 2471, 3322, 4238, 5221, 6129, 7089, 8339, 9399, 10538,
-                    ]
-                }],
+                series: [],
                 responsive: {
                     rules: [{
                         condition: {
@@ -254,6 +231,7 @@ class Stats extends Component {
             }
         }
         this.getMonth = this.getMonth.bind(this)
+        this.fM = null
     }
 
     getMonth(month) {
@@ -470,41 +448,43 @@ class Stats extends Component {
                 trackBorderColor: '#404043'
             }
         };
+        HighCharts.setOptions(HighCharts.theme)
+        this.fM = HighCharts.chart('forMonth', this.state.forMonth)
+        HighCharts.chart('chart', this.state.AgeChart)
+        HighCharts.chart('chart3', this.state.GenderChart)
         axios.get('/api/form_105').then(response => {
             let i = this.state.forMonth.series.length;
             for (const key in response.data.byRegion) {
                 if (response.data.byRegion.hasOwnProperty(key)) {
                     const region = response.data.byRegion[key];
-                    this.setState(prevState => ({
-                        forMonth: {
-                            ...prevState.forMonth,
-                            series: {
-                                ...prevState.forMonth.series,
-                                [i]: {
-                                    name: key.toString(),
-                                    data: region
-                                }
-                            }
-                        }
-                    }))
+                    let newSeries = new Object({
+                        name: key.toString(),
+                        data: Object.keys(region).map(key => region[key])
+                    })
+                    this.fM.addSeries(newSeries)
                 }
                 i += 1
             }
-            this.setState({
+            this.setState(prevState=>({
                 perMonth: response.data.perMonth,
                 perWeek: response.data.perWeek,
-                perDay: response.data.perDay,
-
-            })
+                perDay: response.data.perDay
+            }))
         })
-        HighCharts.setOptions(HighCharts.theme)
-        this.renderCharts()
     }
 
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevState.forMonth.series !== this.state.forMonth.series) {
+    //         console.log(prevState)
+    //         console.log(this.state)
+    //         this.fM = HighCharts.chart('forMonth', this.state.forMonth)
+    //         this.aC = HighCharts.chart('chart', this.state.AgeChart)
+    //         this.gC = HighCharts.chart('chart3', this.state.GenderChart)
+    //     }
+    // }
+
     renderCharts() {
-        HighCharts.chart('forMonth', this.state.forMonth)
-        HighCharts.chart('chart', this.state.AgeChart)
-        HighCharts.chart('chart3', this.state.GenderChart)
+        // console.log(this.state)
     }
 
     render() {

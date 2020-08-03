@@ -35,10 +35,10 @@ class FormsController extends Controller
         $prev = '';
         $sort = [];
         for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
-            $sort['Central'][$i] = 0;
-            $sort['Eastern'][$i] = 0;
-            $sort['Western'][$i] = 0;
-            $sort['Northern'][$i] = 0;
+            $sort['Central'][$i] = null;
+            $sort['Eastern'][$i] = null;
+            $sort['Western'][$i] = null;
+            $sort['Northern'][$i] = null;
         }
         foreach ($formS as $formData) { // Getting perMonthPerDay for Graph by 
             $date = explode(' ', $formData->created_at)[0];
