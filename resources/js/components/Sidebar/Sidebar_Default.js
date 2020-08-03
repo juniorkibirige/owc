@@ -40,6 +40,7 @@ class Sidebar_Default extends React.Component {
       collapseOpen: false,
       ...this.getCollapseStates(props.routes)
     };
+    this.tSN = this.tSN.bind(this)
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -107,6 +108,11 @@ class Sidebar_Default extends React.Component {
       this.props.toggleSidenav();
     }
   };
+
+  tSN() {
+    console.log('TSN')
+    this.props.toggleSideNav();
+  }
   // this function creates the links and collapses that appear in the sidebar (left menu)
   createLinks(routes) {
     return routes.map((prop, key) => {
@@ -208,12 +214,12 @@ class Sidebar_Default extends React.Component {
               />
             </NavbarBrand>
           ) : null}
-          <div className="ml-auto">
+          <div className="ml-auto" style={{zIndex: `999`}}>
             <div
               className={classnames("sidenav-toggler d-none d-xl-block", {
                 active: this.props.sidenavOpen
-              })}
-              onClick={this.props.toggleSidenav}
+              })} style={{zIndex: `9999`}}
+              onClick={this.tSN}
             >
               <div className="sidenav-toggler-inner">
                 <i className="sidenav-toggler-line" />
@@ -254,7 +260,7 @@ Sidebar_Default.defaultProps = {
   routes: [{}],
   toggleSidenav: () => {},
   sidenavOpen: false,
-  rtlActive: false
+  // rtlActive: false
 };
 
 Sidebar_Default.propTypes = {

@@ -116,6 +116,9 @@ class Home extends Component {
                     </Container> */}
                     {/* <Footer /> */}
                 </div>
+                {this.props.history.sidenavOpen ? (
+                    <div className="backdrop d-xl-none" onClick={this.props.history.toggleSideNav} />
+                ) : null}
             </>
         )
     }
