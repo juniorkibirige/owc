@@ -26,9 +26,6 @@ class RegisterContainer extends Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleFieldChange = this.handleFieldChange.bind(this)
-        // this.handleEmail = this.handleEmail.bind(this)
-        this.handlePassword = this.handlePassword.bind(this)
-        this.handlePasswordConfirm = this.handlePasswordConfirm.bind(this)
     }
 
     UNSAFE_componentWillMount() {
@@ -59,12 +56,12 @@ class RegisterContainer extends Component {
             formSubmitting: true
         })
         ReactDOM.findDOMNode(this).scrollIntoView()
-        if (this.state.user.password[0] == this.state.user.password_conf[0]) {
+        if (this.state.user.password == this.state.user.password_conf) {
             let userData = {
-                name: this.state.user.name[0],
-                email: this.state.user.email[0],
-                password: this.state.user.password[0],
-                password_confirmation: this.state.user.password_conf[0],
+                name: this.state.user.name,
+                email: this.state.user.email,
+                password: this.state.user.password,
+                password_confirmation: this.state.user.password_conf,
             }
             axios.post('/api/register', userData)
                 .then(response => {
@@ -139,28 +136,9 @@ class RegisterContainer extends Component {
         this.setState(prevState => ({
             user: {
                 ...prevState.user,
-                [event.target.name]: [event.target.value]
+                [event.target.name]: event.target.value
             }
         }))
-    }
-
-    handlePassword(e) {
-        let value = e.target.value;
-        this.setState(prevState => ({
-            user: {
-                ...prevState.user,
-                password: value
-            }
-        }));
-    }
-    handlePasswordConfirm(e) {
-        let value = e.target.value;
-        this.setState(prevState => ({
-            user: {
-                ...prevState.user,
-                password_confirmation: value
-            }
-        }));
     }
 
     render() {

@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import Header from '../../../components/Header/Header'
-import { Route, Switch, Redirect } from "react-router-dom";
-import { Row, Container, Col } from 'reactstrap'
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import AdminNavbar from "../../../components/Navbars/AdminNavbar.js";
 // import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import axios from 'axios'
 
 import routes from "./../../../routes";
-import Stats from '../../../components/Stats';
-import PoliceForm from '../../../components/PoliceForm';
 
 class Home extends Component {
     constructor() {
@@ -22,7 +18,7 @@ class Home extends Component {
         this.logout = this.logOut.bind(this)
     }
     logOut() {
-        axios.post('api/logout')
+        axios.post('/api/logout')
             .then(response => {
                 let appState = {
                     isLoggedIn: false,
@@ -35,10 +31,12 @@ class Home extends Component {
                     error: '',
                     mess: response.data.message
                 })
-                this.props.history.push('/')
+                location.href = location.origin
+                
             })
     }
-    UNSAFE_componentWillMount() {
+
+    componentDidMount() {
         let state = localStorage['appState']
         if (state) {
             let AppState = JSON.parse(state)
@@ -49,6 +47,7 @@ class Home extends Component {
             }))
         }
     }
+    
     componentDidUpdate(e) {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
@@ -84,9 +83,9 @@ class Home extends Component {
     render() {
         return (
             <div className='g-sidenav-show g-sidenav-pinned'>
-                {/* <Header userData={this.state.user} userIsLoggedIn={this.state.isLoggedIn} /> */}
                 <Sidebar
                     {...this.props}
+                    logOut={this.logout}
                     routes={routes}
                     logo={{
                         innerLink: "/",

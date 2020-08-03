@@ -22,7 +22,7 @@ class Header extends Component {
         }
         localStorage["appState"] = JSON.stringify(appState)
         this.setState(appState)
-        this.props.history.push("/login")
+        this.props.history.push("/")
     }
 
     render() {
@@ -75,7 +75,6 @@ class Header extends Component {
                                     <>
                                         <li className="nav-item" style={{ color: `black` }}>
                                             <Link className="nav-link nav-link-icon mx-auto" to="/login">
-                                                {/* <i className="ni ni-key-25" style={{ color: "black" }}></i> */}
                                                 <span className="nav-link-inner--text font-weight-bold" style={{ color: "purple" }}>Login &nbsp;&nbsp;</span>
                                                 <i className='fa fa-angle-right' style={{color: `black`}}></i>
                                             </Link>

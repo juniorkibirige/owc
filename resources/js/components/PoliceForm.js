@@ -10,19 +10,16 @@ import {
 
 class PoliceForm extends Component {
 
-    componentWillMount() {
-        const params = new URLSearchParams(window. location. search)
+    componentDidMount() {
+        this.getCities()
+        const params = new URLSearchParams(window.location.search)
         if (params.has('prev')) {
-            if(params.get('prev') == 'dashboard') {
+            if (params.get('prev') == 'dashboard') {
                 this.setState({
                     prev: 'dashboard'
                 })
             }
         }
-    }
-
-    componentDidMount() {
-        this.getCities()
         this.setInputFilter(document.getElementById('age'), function (value) {
             return /^-?\d*$/.test(value);
         });
@@ -73,8 +70,15 @@ class PoliceForm extends Component {
         super()
         this.state = {
             isSubmitting: false,
+            cR: '',
+            cD: '',
+            cC: '',
+            cR3: '',
+            cD3: '',
+            cC3: '',
             isLoading: true,
             cityData: [],
+            cData: [],
             refNo: v4(),
             date: new Date(),
             partOne: {
@@ -89,7 +93,8 @@ class PoliceForm extends Component {
                     village: '',
                     subCounty: '',
                     district: '',
-                    plotNo: ''
+                    region: '',
+                    county: ''
                 }),
                 tel: '',
                 email: ''
@@ -105,11 +110,18 @@ class PoliceForm extends Component {
                 sameAsComplainant: false,
                 statement: '',
                 period: '',
-                location: '',
+                location: new Object({
+                    village: '',
+                    subCounty: '',
+                    district: '',
+                    region: '',
+                    county: ''
+                }),
                 dI: false,
                 dIDescription: '',
                 witness: false,
                 medExam: false,
+                medExamRef: '',
                 reported: false,
                 reportRef: ''
             },
@@ -152,9 +164,18 @@ class PoliceForm extends Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleResidence = this.handleResidence.bind(this)
+        this.handleLocation = this.handleLocation.bind(this)
         this.handlePill = this.handlePill.bind(this)
         this.isVisible = this.isVisible.bind(this)
         this.cities = this.cities.bind(this)
+        this.getRegions = this.getRegions.bind(this)
+        this.getDistricts = this.getDistricts.bind(this)
+        this.getCounties = this.getCounties.bind(this)
+        this.getSubCounties = this.getSubCounties.bind(this)
+        this.getRegions3 = this.getRegions.bind(this)
+        this.getDistricts3 = this.getDistricts.bind(this)
+        this.getCounties3 = this.getCounties.bind(this)
+        this.getSubCounties3 = this.getSubCounties.bind(this)
     }
 
     handleSubmit(event) {
@@ -171,6 +192,9 @@ class PoliceForm extends Component {
 
             const { history } = this.props
 
+            console.log(this.state.partTwo.residence.compDist)
+            console.log(this.state.partTwo.residence.compRegion)
+
             const form = {
                 'refNo': this.state.refNo,
                 'date': this.state.date,
@@ -180,15 +204,21 @@ class PoliceForm extends Component {
                 'compGender': this.state.partTwo.gender,
                 'compTel': this.state.partTwo.tel,
                 'compDist': this.state.partTwo.residence.district,
-                'compPlotNo': this.state.partTwo.residence.plotNo,
+                'compRegion': this.state.partTwo.residence.region,
+                'compCounty': this.state.partTwo.residence.county,
                 'compsubCounty': this.state.partTwo.residence.subCounty,
                 'compVillage': this.state.partTwo.residence.village,
                 'dI': this.state.partThree.dI,
-                'dIDescription': this.state.partThree.dIDescription,
-                'location': this.state.partThree.location,
+                'dIDescription': this.state.partThree.dIDescription == '' ? "No Injury" : this.state.partThree.dIDescription,
+                'cDist': this.state.partThree.location.district,
+                'cRegion': this.state.partThree.location.region,
+                'cCounty': this.state.partThree.location.county,
+                'csubCounty': this.state.partThree.location.subCounty,
+                'cVillage': this.state.partThree.location.village,
                 'medExam': this.state.partThree.medExam,
+                'medExamRef': this.state.partThree.medExamRef == '' ? "No Medical Exam" : this.state.partThree.medExamRef,
                 'period': this.state.partThree.period,
-                'reportRef': this.state.partThree.reportRef,
+                'reportRef': this.state.partThree.reportRef == '' ? "Not report" : this.state.partThree.reportRef,
                 'reported': this.state.partThree.reported,
                 'statement': this.state.partThree.statement,
                 'witness': this.state.partThree.witness,
@@ -273,22 +303,22 @@ class PoliceForm extends Component {
                         for (const key in fieldset.elements) {
                             if (fieldset.elements.hasOwnProperty(key)) {
                                 const element = fieldset.elements[key];
-                                if (key != 10) {
-                                    if (key != 11) {
+                                if (key != 11) {
+                                    if (key != 12) {
                                         if (key == 2 || key == 3) {
                                             if (element.checked && fieldset.elements[key == 2 ? 3 : 2].checked) {
                                                 if (!errors['gender']) {
                                                     errors.length += 1
-                                                    errors['gender'] = 'Please fill in the neccessary gender'
+                                                    errors['gender'] = 'Please select in the neccessary gender'
                                                 }
                                             } else if ((!element.checked && !fieldset.elements[key == 2 ? 3 : 2].checked)) {
                                                 if (!errors['gender']) {
                                                     errors.length += 1
-                                                    errors['gender'] = ['Please fill in the neccessary gender']
+                                                    errors['gender'] = ['Please select in the neccessary gender']
                                                 }
                                             }
                                         } else {
-                                            if (element.value == '') {
+                                            if (element.value == '' || element.value == 'default') {
                                                 errors[element.name] = ['Please fill in the field']
                                                 errors.length += 1
                                             }
@@ -305,39 +335,40 @@ class PoliceForm extends Component {
                         for (const key in fieldset.elements) {
                             if (fieldset.elements.hasOwnProperty(key)) {
                                 const element = fieldset.elements[key];
-                                if (key == 2 || key == 4 || key == 7) { /* Selecting and handling select errors */
-                                    if (element.value == 'default' && key != 7) {
-                                        if (element.name != "") {
+                                if (key != 24 || key != 25)
+                                    if (key == 3 || key == 5 || key == 8) { /* Selecting and handling select errors */
+                                        if (element.value == 'default' && key != 8) {
+                                            if (element.name != "") {
+                                                errors[element.name] = ['Please select the required data']
+                                                errors.length += 1
+                                            }
+                                        }
+                                    } else if (element.type == 'radio') { /* Handling radio inputs errors */
+                                        if (element.name == 'dI') {
+                                            if (this.state.partThree.dI) {
+                                                let desc = $('textarea#dIDescription').get(0)
+                                                if (desc.value == '') {
+                                                    errors[desc.name] = ['Please enter data']
+                                                    errors.length += 1
+                                                }
+                                            }
+                                        } else if (element.name == 'reported') {
+                                            if (this.state.partThree.reported) {
+                                                let rep = $('#reportRef[type="text"]').get(0)
+                                                if (rep.value == '') {
+                                                    errors[rep.name] = ['Please enter data']
+                                                    errors.length += 1
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef" && key != 21) {
                                             console.log(key)
-                                            console.log(element.name)
-                                            errors[element.name] = ['Please select the required data']
+                                            console.log(element)
+                                            errors[element.name] = ['Please fill the field']
                                             errors.length += 1
                                         }
                                     }
-                                } else if (element.type == 'radio') { /* Handling radio inputs errors */
-                                    if (element.name == 'dI') {
-                                        if (this.state.partThree.dI) {
-                                            let desc = $('textarea#dIDescription').get(0)
-                                            if (desc.value == '') {
-                                                errors[desc.name] = ['Please enter data']
-                                                errors.length += 1
-                                            }
-                                        }
-                                    } else if (element.name == 'reported') {
-                                        if (this.state.partThree.reported) {
-                                            let rep = $('#reportRef[type="text"]').get(0)
-                                            if (rep.value == '') {
-                                                errors[rep.name] = ['Please enter data']
-                                                errors.length += 1
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef") {
-                                        errors[element.name] = ['Please fill the field']
-                                        errors.length += 1
-                                    }
-                                }
                             }
                         }
                     }
@@ -529,6 +560,13 @@ class PoliceForm extends Component {
                             }
                         }))
                         break
+                    case 'medExam':
+                        this.setState(prevState => ({
+                            partThree: {
+                                ...prevState.partThree,
+                                medExam: data == 'true' ? true : false
+                            }
+                        }))
                 }
                 break;
         }
@@ -624,11 +662,121 @@ class PoliceForm extends Component {
     }
 
     handleResidence() {
+        if (event.target.name == 'region') {
+            this.setState({
+                cD: '',
+                cC: '',
+                cR: event.target.value
+            })
+            this.setState(prevState => ({
+                partTwo: {
+                    ...prevState.partTwo,
+                    residence: {
+                        ...prevState.partTwo.residence,
+                        district: '',
+                        subCounty: '',
+                        county: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        } else if (event.target.name == 'district') {
+            this.setState({
+                cD: event.target.value,
+                cC: '',
+            })
+            this.setState(prevState => ({
+                partTwo: {
+                    ...prevState.partTwo,
+                    residence: {
+                        ...prevState.partTwo.residence,
+                        subCounty: '',
+                        county: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        } else if (event.target.name == 'county') {
+            this.setState({
+                cC: event.target.value
+            })
+            this.setState(prevState => ({
+                partTwo: {
+                    ...prevState.partTwo,
+                    residence: {
+                        ...prevState.partTwo.residence,
+                        subCounty: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        }
         this.setState(prevState => ({
             partTwo: {
                 ...prevState.partTwo,
                 residence: {
                     ...prevState.partTwo.residence,
+                    [event.target.name]: event.target.value
+                }
+            }
+        }))
+    }
+
+    handleLocation() {
+        if (event.target.name == 'region') {
+            this.setState({
+                cD: '',
+                cC: '',
+                cR: event.target.value
+            })
+            this.setState(prevState => ({
+                partThree: {
+                    ...prevState.partThree,
+                    location: {
+                        ...prevState.partThree.location,
+                        district: '',
+                        subCounty: '',
+                        county: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        } else if (event.target.name == 'district') {
+            this.setState({
+                cC: '',
+                cD: event.target.value
+            })
+            this.setState(prevState => ({
+                partThree: {
+                    ...prevState.partThree,
+                    location: {
+                        ...prevState.partThree.location,
+                        subCounty: '',
+                        county: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        } else if (event.target.name == 'county') {
+            this.setState({
+                cC: event.target.value
+            })
+            this.setState(prevState => ({
+                partThree: {
+                    ...prevState.partThree,
+                    location: {
+                        ...prevState.partThree.location,
+                        subCounty: '',
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            partThree: {
+                ...prevState.partThree,
+                location: {
+                    ...prevState.partThree.location,
                     [event.target.name]: event.target.value
                 }
             }
@@ -663,8 +811,12 @@ class PoliceForm extends Component {
     getCities() {
         axios.get('/compiled_data/ugCities.json').then(response => {
             this.setState({
-                cityData: response.data,
-                isLoading: false
+                cityData: response.data
+            })
+        })
+        axios.get('/compiled_data/ugData.json').then(response => {
+            this.setState({
+                cData: response.data
             })
         })
     }
@@ -683,6 +835,112 @@ class PoliceForm extends Component {
                 {this.renderErrorFor('location')}
             </div>
         )
+    }
+
+    getDistricts() {
+        let dis = []
+        let k = 0
+        if (this.state.cR != '') {
+            Object.keys(this.state.cData[this.state.cR]).forEach(district => {
+                dis[k] = <option key={district} value={district}>{district}</option>
+                k += 1
+            })
+            return dis
+        }
+    }
+
+    getRegions() {
+        let reg = []
+        let k = 0
+        Object.keys(this.state.cData).forEach(region => {
+            reg[k] = <option key={region} value={region}>{region}</option>
+            k += 1
+        })
+        return reg
+    }
+
+    getCounties() {
+        let cou = []
+        let k = 0
+        if (this.state.cR != '' && this.state.cD != '') {
+            Object.keys(this.state.cData[this.state.cR][this.state.cD]).forEach(county => {
+                cou[k] = <option key={county} value={county}>{county}</option>
+                k += 1
+            })
+            return cou
+        }
+    }
+
+    getSubCounties() {
+        let cou = []
+        let k = 0
+        if (this.state.cR != '' && this.state.cD != '' && this.state.cC != '') {
+            Object.keys(this.state.cData[this.state.cR][this.state.cD][this.state.cC]).forEach(index => {
+                let county = this.state.cData[this.state.cR][this.state.cD][this.state.cC][index]
+                cou[k] = <option key={county} value={county}>{county}</option>
+                k += 1
+            })
+            return cou
+        }
+    }
+
+    getDistricts() {
+        let dis = []
+        let k = 0
+        if (this.state.cR != '') {
+            Object.keys(this.state.cData[this.state.cR]).forEach(district => {
+                dis[k] = <option key={district} value={district}>{district}</option>
+                k += 1
+            })
+            return dis
+        }
+    }
+
+    getRegions3() {
+        let reg = []
+        let k = 0
+        Object.keys(this.state.cData).forEach(region => {
+            reg[k] = <option key={region} value={region}>{region}</option>
+            k += 1
+        })
+        return reg
+    }
+
+    getCounties3() {
+        let cou = []
+        let k = 0
+        if (this.state.cR3 != '' && this.state.cD3 != '') {
+            Object.keys(this.state.cData[this.state.cR3][this.state.cD3]).forEach(county => {
+                cou[k] = <option key={county} value={county}>{county}</option>
+                k += 1
+            })
+            return cou
+        }
+    }
+
+    getSubCounties3() {
+        let cou = []
+        let k = 0
+        if (this.state.cR3 != '' && this.state.cD3 != '' && this.state.cC3 != '') {
+            Object.keys(this.state.cData[this.state.cR3][this.state.cD3][this.state.cC3]).forEach(index => {
+                let county = this.state.cData[this.state.cR3][this.state.cD3][this.state.cC3][index]
+                cou[k] = <option key={county} value={county}>{county}</option>
+                k += 1
+            })
+            return cou
+        }
+    }
+
+    getDistricts3() {
+        let dis = []
+        let k = 0
+        if (this.state.cR3 != '') {
+            Object.keys(this.state.cData[this.state.cR3]).forEach(district => {
+                dis[k] = <option key={district} value={district}>{district}</option>
+                k += 1
+            })
+            return dis
+        }
     }
 
     render() {
@@ -825,36 +1083,42 @@ class PoliceForm extends Component {
                                                         <div className='container text-center'>
                                                             <div className='row'>
                                                                 <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='district'
-                                                                            type='text'
-                                                                            className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`}
-                                                                            name='district'
-                                                                            placeholder='District'
-                                                                            required
-                                                                            value={this.state.partTwo.residence.district}
-                                                                            onChange={this.handleResidence}
-                                                                        />
+                                                                    <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                        <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.region} onChange={this.handleResidence}>
+                                                                            <option name='default' value='default'>Select Region</option>
+                                                                            {this.getRegions()}
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='subCounty'
-                                                                            type='text'
-                                                                            className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`}
-                                                                            name='subCounty'
-                                                                            placeholder='Sub County'
-                                                                            required
-                                                                            value={this.state.partTwo.residence.subCounty}
-                                                                            onChange={this.handleResidence}
-                                                                        />
+                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                        <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.district} onChange={this.handleResidence}>
+                                                                            <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                            {this.getDistricts()}
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div className='row'>
                                                                 <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                        <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.county} onChange={this.handleResidence}>
+                                                                            <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                            {this.getCounties()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                        <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.subCounty} onChange={this.handleResidence}>
+                                                                            <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                            {this.getSubCounties()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <Row>
+                                                                <div className='col-md-12 col-sm-12'>
                                                                     <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
                                                                         <input
                                                                             id='village'
@@ -868,21 +1132,7 @@ class PoliceForm extends Component {
                                                                         />
                                                                     </div>
                                                                 </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('plotNo') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='plotNo'
-                                                                            type='text'
-                                                                            className={`form-control ${this.hasErrorFor('plotNo') ? 'is-invalid' : ''}`}
-                                                                            name='plotNo'
-                                                                            placeholder='Plot No'
-                                                                            required
-                                                                            value={this.state.partTwo.residence.plotNo}
-                                                                            onChange={this.handleResidence}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            </Row>
                                                         </div>
                                                         <label htmlFor='contact'>Contact Information</label>
                                                         <div className='container'>
@@ -930,17 +1180,19 @@ class PoliceForm extends Component {
                                                 <div className='card pb-3'>
                                                     <div className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
                                                     <div className='col-md-12 py-3'>
-                                                        <label htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <Row>
+                                                            <label className='col-12 col-sm-6' htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                         </label>
-                                                        <div className='float-right display-inline' style={{ textAlign: 'right' }}>
-                                                            <Input
-                                                                id='sameAsComplainant'
-                                                                name='sameAsComplainant'
-                                                                type='checkbox'
-                                                                value={this.state.partThree.sAC}
-                                                                onChange={this.handleInvolved.bind(this, 'p3')}
-                                                            /> Same as Complainant
+                                                            <div className='col-12 col-sm-6' style={{ textAlign: 'right' }}>
+                                                                <Input
+                                                                    id='sameAsComplainant'
+                                                                    name='sameAsComplainant'
+                                                                    type='checkbox'
+                                                                    value={this.state.partThree.sAC}
+                                                                    onChange={this.handleInvolved.bind(this, 'p3')}
+                                                                /> Same as Complainant
                                                         </div>
+                                                        </Row>
                                                         <div className='row' id='vicDet'>
                                                             <div className='col-md-6 col-sm-12'>
                                                                 <div className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
@@ -1058,10 +1310,60 @@ class PoliceForm extends Component {
                                                             </div>
                                                         </div>
                                                         <label htmlFor='location'>Where crime happened</label>
-                                                        <FormGroup className={`${this.hasErrorFor('location') ? 'has-danger' : ''}`}>
-                                                            {this.state.isLoading ? <></> : <this.cities />}
-                                                            {this.renderErrorFor('location')}
-                                                        </FormGroup>
+                                                        <div className='container text-center'>
+                                                            <div className='row'>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                        <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.region} onChange={this.handleLocation}>
+                                                                            <option name='default' value='default'>Select Region</option>
+                                                                            {this.getRegions()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                        <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.district} onChange={this.handleLocation}>
+                                                                            <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                            {this.getDistricts()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='row'>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                        <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.county} onChange={this.handleLocation}>
+                                                                            <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                            {this.getCounties()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                        <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.subCounty} onChange={this.handleLocation}>
+                                                                            <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                            {this.getSubCounties()}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <Row>
+                                                                <div className='col-md-12 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                        <input
+                                                                            id='village'
+                                                                            type='text'
+                                                                            className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
+                                                                            name='village'
+                                                                            placeholder='Village'
+                                                                            required
+                                                                            value={this.state.partThree.location.village}
+                                                                            onChange={this.handleLocation}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </Row>
+                                                        </div>
                                                         <FormGroup>
                                                             <Row>
                                                                 <Col className='col-md-4 col-sm-6 col-6'>
@@ -1159,7 +1461,22 @@ class PoliceForm extends Component {
                                                                     />
                                                                     <FormText> No</FormText>
                                                                 </Col>
+                                                                <Col className='col-md-6 col-sm-12 col-12'>
+                                                                    <FormGroup className={` ${this.state.partThree.medExam ? 'd-block' : 'd-none'}`}>
+                                                                        <textarea
+                                                                            rows='3'
+                                                                            id='medExamRef'
+                                                                            name='dIDescription'
+                                                                            placeholder='Provide details about the examination i.e. Medical Unit where conducted e.t.c'
+                                                                            value={this.state.partThree.medExamRef}
+                                                                            onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                            className={`form-control ${this.hasErrorFor('medExamRef') ? 'invalid' : ''}`}
+                                                                        ></textarea>
+                                                                        {this.renderErrorFor('medExamRef')}
+                                                                    </FormGroup>
+                                                                </Col>
                                                             </Row>
+
                                                             {this.renderErrorFor('medExam')}
                                                         </FormGroup>
                                                         <FormGroup>
@@ -1190,15 +1507,15 @@ class PoliceForm extends Component {
                                                                 </Col>
                                                                 <Col className='col-md-6 col-sm-12 col-12'>
                                                                     <FormGroup className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
-                                                                        <Input
+                                                                        <textarea
+                                                                            rows='3'
                                                                             id='reportRef'
-                                                                            type='text'
                                                                             name='reportRef'
-                                                                            placeholder='Reference provided at police station'
+                                                                            placeholder='Provide details about the report i.e. Police Station filed and Reference number provided e.t.c'
                                                                             value={this.state.partThree.reportRef}
                                                                             onChange={this.handleFieldChange.bind(this, 'p3')}
                                                                             className={`form-control ${this.hasErrorFor('reportRef') ? 'invalid' : ''}`}
-                                                                        />
+                                                                        ></textarea>
                                                                         {this.renderErrorFor('reportRef')}
                                                                     </FormGroup>
                                                                 </Col>

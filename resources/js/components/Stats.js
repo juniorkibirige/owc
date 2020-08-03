@@ -175,7 +175,7 @@ class Stats extends Component {
                     description: 'Number of crimes per day in ' + this.getMonth(new Date().getMonth())
                 },
                 title: {
-                    text: 'Crime Rate in ' + new Date().getFullYear()
+                    text: 'Crime Rate in ' + this.getMonth(new Date().getMonth()) + ', ' + new Date().getFullYear()
                 },
                 subtitle: {
                     text: 'Source: Data collected over the month by the system'
@@ -253,7 +253,6 @@ class Stats extends Component {
                 }
             }
         }
-        this.getCities = this.getCities.bind(this)
         this.getMonth = this.getMonth.bind(this)
     }
 
@@ -262,15 +261,6 @@ class Stats extends Component {
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
         ]
         return months[month].toString()
-    }
-
-    getCities() {
-        axios.get('/compiled_data/ugCities.json').then(response => {
-            this.setState({
-                cityNames: response.data,
-                isLoading: false
-            })
-        })
     }
 
     componentDidMount() {
@@ -481,17 +471,39 @@ class Stats extends Component {
             }
         };
         axios.get('/api/form_105').then(response => {
+            let i = this.state.forMonth.series.length;
+            for (const key in response.data.byRegion) {
+                if (response.data.byRegion.hasOwnProperty(key)) {
+                    const region = response.data.byRegion[key];
+                    this.setState(prevState => ({
+                        forMonth: {
+                            ...prevState.forMonth,
+                            series: {
+                                ...prevState.forMonth.series,
+                                [i]: {
+                                    name: key.toString(),
+                                    data: region
+                                }
+                            }
+                        }
+                    }))
+                }
+                i += 1
+            }
             this.setState({
                 perMonth: response.data.perMonth,
                 perWeek: response.data.perWeek,
-                perDay: response.data.perDay
+                perDay: response.data.perDay,
+
             })
-            this.getCities()
         })
         HighCharts.setOptions(HighCharts.theme)
+        this.renderCharts()
+    }
+
+    renderCharts() {
         HighCharts.chart('forMonth', this.state.forMonth)
         HighCharts.chart('chart', this.state.AgeChart)
-        // HighCharts.chart('chart2', this.state.chart2Data)
         HighCharts.chart('chart3', this.state.GenderChart)
     }
 

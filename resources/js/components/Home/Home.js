@@ -15,7 +15,7 @@ class Home extends Component {
     }
 
     /// Check whether user is authed and store auth data as states if true
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         let state = localStorage['appState']
         if (state) {
             let AppState = JSON.parse(state)

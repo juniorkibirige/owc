@@ -24,7 +24,7 @@ class LoginContainer extends Component {
         this.handleFieldChange = this.handleFieldChange.bind(this)
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount(){
         let state = localStorage['appState']
         if (state) {
             let AppState = JSON.parse(state)
@@ -51,8 +51,8 @@ class LoginContainer extends Component {
             formSubmitting: true
         })
         let userData = {
-            email: this.state.user.email[0],
-            password: this.state.user.password[0]
+            email: this.state.user.email,
+            password: this.state.user.password
         };
         axios.post("/api/login", userData)
             .then(res => {
@@ -109,7 +109,7 @@ class LoginContainer extends Component {
         this.setState(prevState => ({
             user: {
                 ...prevState.user,
-                [event.target.name]: [event.target.value]
+                [event.target.name]: event.target.value
             }
         }))
     }
@@ -147,9 +147,10 @@ class LoginContainer extends Component {
                                             <h5 className='alert alert-danger text-center'>Error: {this.state.error}</h5>
                                             <ul>
                                                 {
-                                                    arr.map((item, i) => (
+                                                   typeof this.state.errorMessage !== 'undefined' ?
+                                                    this.state.errorMessage.map((item, i) => (
                                                         <li key={i}><h5 style={{ color: 'red' }}>{item}</h5></li>
-                                                    ))
+                                                    )): ""
                                                 }
                                             </ul>
                                         </FlashMessage>
@@ -171,7 +172,7 @@ class LoginContainer extends Component {
                                                         <i className="ni ni-single-02 text-black"></i>
                                                     </span>
                                                 </div>
-                                                <input name="email" value={this.state.user.email} onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Username or Email" type="text" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
+                                                <input name="email" onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Username or Email" type="text" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +184,7 @@ class LoginContainer extends Component {
                                                         <i className="ni ni-key-25 text-black"></i>
                                                     </span>
                                                 </div>
-                                                <input name="password" value={this.state.user.password} onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Password" type="password" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
+                                                <input name="password" onChange={this.handleFieldChange} required className="form-control pl-3" placeholder="Password" type="password" style={{ borderColor: `#cad1d7`, height: `2rem` }} />
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +195,7 @@ class LoginContainer extends Component {
                                             </span>
                                         </div>
                                     </div>
-                                    <div className='small mt-2 text-center'>
+                                    <div className='mt-2 text-center'>
                                         <Button type='submit' name='singlebutton' disabled={this.state.formSubmitting} className='btn btn-sm text-white px-5' style={{ backgroundColor: `#570f75` }}> {this.state.formSubmitting ? "Logging you in ... " : "Login"}</Button>
                                     </div>
                                     {/* <button disabled={this.state.formSubmitting}

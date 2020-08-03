@@ -112,7 +112,7 @@ class Sidebar extends Component {
             type="button"
             onClick={this.toggleCollapse}
           >
-            <span className="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon text-white" />
           </button>
           {/* Brand */}
           {logo ? (
@@ -126,7 +126,7 @@ class Sidebar extends Component {
           ) : null}
           {/* User */}
           <Nav className="align-items-center d-md-none"
-            >
+          >
             <UncontrolledDropdown nav className='d-none d-sm-none'>
               <DropdownToggle nav className="nav-link-icon">
                 <i className="ni ni-bell-55" />
@@ -143,18 +143,20 @@ class Sidebar extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
             <UncontrolledDropdown nav>
-              <NavItem className='mr-3'>
+              <div className='mr-3'>
                 <Media className="align-items-center">
-                  <Media className="align-items-center text-white" onClick={this.props.logOut}>
-                    <span>
-                      <i className="fa fa-angle-left"></i>
-                    </span>
-                    <Media className="ml-2 d-lg-block">
-                      <span className="mb-0 text-sm text-white font-weight-bold">
-                        LOG OUT
+                  <Link to='#logout' onClick={this.props.logOut}>
+                    <Media id="logout" className="align-items-center text-white" onClick={this.props.logOut}>
+                      <span>
+                        <i className="fa fa-angle-left"></i>
                       </span>
+                      <Media className="ml-2 d-lg-block">
+                        <span className="mb-0 text-sm text-white font-weight-bold">
+                          LOG OUT
+                      </span>
+                      </Media>
                     </Media>
-                  </Media>
+                  </Link>
                   {/* <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
@@ -162,7 +164,7 @@ class Sidebar extends Component {
                     />
                   </span> */}
                 </Media>
-              </NavItem>
+              </div>
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
@@ -222,7 +224,7 @@ class Sidebar extends Component {
               </Row>
             </div>
             {/* Form */}
-            <Form className="mt-4 mb-3 d-md-none">
+            <Form className="mt-4 mb-3 d-md-none d-none">
               <InputGroup className="input-group-rounded input-group-merge">
                 <Input
                   aria-label="Search"
