@@ -16,6 +16,7 @@ class CreatePoliceFormsTable extends Migration
         Schema::create('police_forms', function (Blueprint $table) {
             $table->increments('id');
             $table->unique('refNo');
+            $table->string('refNo');
             $table->string('date');
             $table->string('compName');
             $table->integer('compAge');
