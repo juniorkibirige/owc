@@ -29,7 +29,7 @@
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <!-- <script src="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/js/all.min.js"></script> -->
-        <!-- <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script> -->
+        <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         
         @stack('js')
