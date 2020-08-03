@@ -3,19 +3,19 @@ $.DataTable = require('datatables.net')
 import React, { Component } from 'react'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
-import { dataTable } from "./../../variables/general"
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 
 import ReactBSAlert from 'react-bootstrap-sweetalert'
 import { Container, Row, ButtonGroup, Button, UncontrolledTooltip, Col } from 'reactstrap'
 import ReactToPrint from 'react-to-print'
 import BootstrapTable from 'react-bootstrap-table-next'
+import axios from 'axios'
 
 const pagination = paginationFactory({
     page: 1,
     alwaysShowAllBtns: true,
     showTotal: true,
-    withFirstAndLast: false,
+    withFirstAndLast: true,
     sizePerPageRenderer: ({ options, currSizePerPage, onSizePerPageChange }) => (
         <div className="dataTables_length" id="datatable-basic_length">
             <label>
@@ -41,17 +41,112 @@ const pagination = paginationFactory({
 
 const { SearchBar } = Search;
 
+function statusFormatter(cell, row) {
+    if (row.open) {
+        return (
+            <span>
+                <strong style={{ color: `green` }}>Open</strong>
+            </span>
+        )
+    }
+}
+
+const columns = [
+    {
+        dataField: 'id',
+        text: 'UID',
+        hidden: true
+    },
+    {
+        dataField: 'refNo',
+        text: 'Reference No.'
+    },
+    {
+        dataField: 'victimName',
+        text: 'Victim Name',
+        sort: true
+    },
+    {
+        dataField: 'cDist',
+        text: 'District',
+        sort: true
+    },
+    {
+        dataField: 'victimAge',
+        text: 'Victim Age',
+        sort: true
+    },
+    {
+        dataField: 'victimGender',
+        text: 'Victim Gender',
+        sort: true
+    },
+    {
+        dataField: 'officerName',
+        text: 'Offending Officer',
+        sort: true
+    },
+    {
+        dataField: 'officerRank',
+        text: 'Officer Rank',
+        sort: true
+    }
+    , {
+        dataField: 'complaintStatus',
+        text: 'Status',
+        sort: true,
+        formatter: statusFormatter
+    }
+]
+
+const rowEvents = {
+    onClick: (e, row, rowIndex) => {
+        console.log(e.currentTarget)
+        console.log(`clicked on ${row.age} with index: ${rowIndex}`);
+    }
+}
+
 class Tables extends Component {
 
     constructor() {
         super()
         this.state = {
-            alert: null
+            alert: null,
+            loading: false,
+            page: 1,
+            sizePerPage: 10,
+            data: [],
+            dataTable: []
         }
         this.copyToClipboardAsTable = this.copyToClipboardAsTable.bind(this)
     }
     componentWillUnmount() {
         this.props.history.prev = 'tables'
+    }
+
+    componentDidMount() {
+        axios.get('/api/form_105').then(response => {
+            this.setState({
+                data: response.data.forms.slice(0, 10),
+                dataTable: response.data.forms
+            })
+        })
+    }
+
+    handleDataChange({ page, sizePerPage, }) {
+        const currIndex = (page - 1) * sizePerPage
+        setTimeout(() => {
+            this.setState(prevState => ({
+                ...prevState,
+                page: page,
+                loading: false,
+                data: this.state.dataTable.slice(currIndex, currIndex + sizePerPage),
+                sizePerPage: sizePerPage
+            }))
+        }, 3000)
+        this.setState({
+            loading: true
+        })
     }
 
     copyToClipboardAsTable(el) {
@@ -89,29 +184,6 @@ class Tables extends Component {
         })
     }
 
-    updateTable(names) {
-        const table = $('.data-table.wrapper')
-            .find('table')
-            .DataTable()
-        let dataChanged = false
-        table.rows().every(function () {
-            const oldNameData = this.data()
-            const newNameData = names.find((nameData) => {
-                return nameData.name === oldNameData.name
-            })
-            if (oldNameData.nickname !== newNameData.nickname) {
-                dataChanged = true;
-                this.data(newNameData);
-            }
-            return true; // RCA esLint configuration wants us to 
-            // return something
-        })
-
-        if (dataChanged) {
-            table.draw();
-        }
-    }
-
     render() {
         require('../../variables/main.3eb61e62.chunk.css')
         require('../../../../public/argon/css/datatables.min.css')
@@ -129,99 +201,75 @@ class Tables extends Component {
         return (
             <>
                 {this.state.alert}
-                <ToolkitProvider
-                    data={dataTable}
-                    keyField="name"
-                    columns={[
-                        {
-                            dataField: "name",
-                            text: "Name",
-                            sort: true
-                        },
-                        {
-                            dataField: "position",
-                            text: "Position",
-                            sort: true
-                        },
-                        {
-                            dataField: "office",
-                            text: "Office",
-                            sort: true
-                        },
-                        {
-                            dataField: "age",
-                            text: "Age",
-                            sort: true
-                        },
-                        {
-                            dataField: "start_date",
-                            text: "Start date",
-                            sort: true
-                        },
-                        {
-                            dataField: "salary",
-                            text: "Salary",
-                            sort: true
-                        }
-                    ]}
-                    search
-                >
-                    {props => (
-                        <div className="py-4">
-                            <Container fluid>
-                                <Row>
-                                    <Col xs={12} sm={6}>
-                                        <ButtonGroup>
-                                            <Button
-                                                className="buttons-copy button-html5"
-                                                color="default"
-                                                size="sm"
-                                                id="copy-tooltip"
-                                                onClick={() => this.copyToClipboardAsTable(document.getElementById("react-bs-table"))}>
-                                                <span>Copy</span>
-                                            </Button>
-                                            <ReactToPrint
-                                                trigger={() => (
-                                                    <Button
-                                                        href="#"
-                                                        color="default"
-                                                        size='sm'
-                                                        className='buttons-copy buttons-html5'
-                                                        id="print-tooltip"
-                                                    >
-                                                        Print
-                                                    </Button>
-                                                )}
-                                                content={() => this.componentRef}
-                                            />
-                                        </ButtonGroup>
-                                        <UncontrolledTooltip placeholder='top' target="print-tooltip">
-                                            This will open a print page with the visible rows of the table.
+                <div style={{backgroundColor: `#c8c4e196`}}>
+                    <ToolkitProvider
+                        data={this.state.dataTable}
+                        keyField="id"
+                        columns={columns}
+                        search
+                        hover
+                        striped
+                    >
+                        {props => (
+                            <div className="py-7 px-4">
+                                <Container fluid>
+                                    <Row>
+                                        <Col xs={12} sm={6}>
+                                            <ButtonGroup>
+                                                <Button
+                                                    className="buttons-copy button-html5"
+                                                    color="default"
+                                                    size="sm"
+                                                    id="copy-tooltip"
+                                                    onClick={() => this.copyToClipboardAsTable(document.getElementById("react-bs-table"))}>
+                                                    <span>Copy</span>
+                                                </Button>
+                                                <ReactToPrint
+                                                    trigger={() => (
+                                                        <Button
+                                                            href="#"
+                                                            color="default"
+                                                            size='sm'
+                                                            className='buttons-copy buttons-html5'
+                                                            id="print-tooltip"
+                                                        >
+                                                            Print
+                                                        </Button>
+                                                    )}
+                                                    content={() => this.componentRef}
+                                                />
+                                            </ButtonGroup>
+                                            <UncontrolledTooltip placeholder='top' target="print-tooltip">
+                                                This will open a print page with the visible rows of the table.
                                         </UncontrolledTooltip>
-                                        <UncontrolledTooltip placeholder='top' target="copy-tooltip">
-                                            This will copy to your clipboard the visible rows of the table.
+                                            <UncontrolledTooltip placeholder='top' target="copy-tooltip">
+                                                This will copy to your clipboard the visible rows of the table.
                                         </UncontrolledTooltip>
-                                    </Col>
-                                    <Col xs={12} sm={6}>
-                                        <div id='datatable-basic_filter' className='dataTables_filter px-4 pb-1 float-right'>
-                                            <label>
-                                                Search:
+                                        </Col>
+                                        <Col xs={12} sm={6} >
+                                            <div id='datatable-basic_filter' className='dataTables_filter px-4 pb-1 float-right'>
+                                                <label>
+                                                    Search:
                                                 <SearchBar className='form-control-sm' placeholder="" {...props.searchProps} />
-                                            </label>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Container>
-                            <BootstrapTable
-                                ref={el => (this.componentRef = el)}
-                                {...props.baseProps}
-                                bootstrap4={true}
-                                pagination={pagination}
-                                bordered={false}
-                                id="react-bs-table" />
-                        </div>
-                    )}
-                </ToolkitProvider>
+                                                </label>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                                <BootstrapTable
+                                    ref={el => (this.componentRef = el)}
+                                    {...props.baseProps}
+                                    classes={`table-dark`}
+                                    rowEvents={rowEvents}
+                                    bootstrap4={true}
+                                    pagination={pagination}
+                                    bordered={true}
+                                    noDataIndication="No complaints made"
+                                    id="react-bs-table" />
+                            </div>
+                        )}
+                    </ToolkitProvider>
+                </div>
             </>
         )
     }

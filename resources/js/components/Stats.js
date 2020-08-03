@@ -17,7 +17,7 @@ class Stats extends Component {
             perDay: 0,
             cityNames: [],
             reloaded: false,
-            AgeChart: {
+            RankChart: {
                 chart: {
                     plotBackground: null,
                     plotBorderWidth: null,
@@ -25,7 +25,7 @@ class Stats extends Component {
                     type: 'pie'
                 },
                 title: {
-                    text: 'Crime rates by Age, ' + new Date().getFullYear(),
+                    text: 'Complaints by Age, ' + new Date().getFullYear(),
                     align: 'center',
                 },
                 tooltip: {
@@ -90,7 +90,7 @@ class Stats extends Component {
                     ]
                 }]
             },
-            GenderChart: {
+            OffenceChart: {
                 chart: {
                     plotBackground: null,
                     plotBorderWidth: null,
@@ -98,7 +98,7 @@ class Stats extends Component {
                     type: 'pie'
                 },
                 title: {
-                    text: 'Crime rates by Gender, ' + new Date().getFullYear(),
+                    text: 'Complaints by Gender, ' + new Date().getFullYear(),
                     align: 'center',
                 },
                 tooltip: {
@@ -161,7 +161,7 @@ class Stats extends Component {
                     description: 'Number of crimes per day in ' + this.getMonth(new Date().getMonth())
                 },
                 title: {
-                    text: 'Crime Rate in ' + this.getMonth(new Date().getMonth()) + ', ' + new Date().getFullYear()
+                    text: 'Complaints in ' + this.getMonth(new Date().getMonth()) + ', ' + new Date().getFullYear()
                 },
                 subtitle: {
                     text: 'Source: Data collected over the month by the system'
@@ -237,7 +237,8 @@ class Stats extends Component {
     }
 
     componentDidMount() {
-        if(this.props.history.prev == 'tables'){
+        history.pushState({}, null, location.origin + '/dashboard')
+        if (this.props.history.prev == 'tables') {
             this.props.history.prev = ''
             location.pathname = 'dashboard'
         }
@@ -449,9 +450,9 @@ class Stats extends Component {
         };
         HighCharts.setOptions(HighCharts.theme)
         this.fM = HighCharts.chart('forMonth', this.state.forMonth)
-        this.aC = HighCharts.chart('chart', this.state.AgeChart)
-        this.gC = HighCharts.chart('chart3', this.state.GenderChart)
-        var s = this.state.GenderChart.series[0].data
+        this.aC = HighCharts.chart('chart', this.state.RankChart)
+        this.gC = HighCharts.chart('chart3', this.state.OffenceChart)
+        var s = this.state.OffenceChart.series[0].data
         s = new Array()
         axios.get('/api/form_105').then(response => {
             let i = this.state.forMonth.series.length;
@@ -468,7 +469,7 @@ class Stats extends Component {
                 }
                 i += 1
             }
-            i = this.state.AgeChart.series[0].data.length
+            i = this.state.RankChart.series[0].data.length
             // Setting up gender pie chart
             for (const key in response.data.byGender) {
                 if (response.data.byGender.hasOwnProperty(key)) {

@@ -11,8 +11,7 @@ class FormsController extends Controller
 {
     public function index()
     {
-        $forms = PoliceForm::where('open', true)
-            ->orderBy('created_at', 'desc')
+        $forms = PoliceForm::orderBy('created_at', 'desc')
             ->get();
         $month = explode('-', date('d-m-Y'))[1];
         $day = explode('-', date('d-m-Y'))[0];
@@ -29,6 +28,7 @@ class FormsController extends Controller
         $pM = 0;
         $pD = 0;
         $pW = 0;
+        $result = [];
         $prev = '';
         $sort = [];
         $gender = [];
@@ -55,7 +55,21 @@ class FormsController extends Controller
                 $sort['Northern'][$i] = null;
             }
         }
+        $uuid = 0;
         foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by 
+            $ret['id'] = $uuid;
+            $ret['refNo'] = $formData->refNo;
+            $ret['victimName'] = $formData->victimName;
+            $ret['cDist'] = $formData->cDist;
+            $ret['victimAge'] = $formData->victimAge;
+            $ret['victimGender'] = $formData->victimGender;
+            $ret['officerName'] = $formData->officerName;
+            $ret['officerRank'] = $formData->officerRank;
+            $ret['done'] = $formData->done;
+            $ret['open'] = $formData->open;
+            $ret['underInv'] = $formData->underInv;
+            array_push($result, (object) $ret);
+            $uuid = $uuid + 1;
             $date = explode(' ', $formData->created_at)[0];
             $cm = explode('-', $date)[1];
             $cd = explode('-', $date)[2];
@@ -84,13 +98,13 @@ class FormsController extends Controller
                 $all++;
             }
             $a = intval($formData->victimAge);
-            if($a <= 18) {
+            if ($a <= 18) {
                 $age['below 19'] += 1;
                 $ag++;
-            } else if($a > 18 && $a <= 30){
+            } else if ($a > 18 && $a <= 30) {
                 $age['19 - 30'] += 1;
                 $ag++;
-            } else if($a > 30 && $a <= 50) {
+            } else if ($a > 30 && $a <= 50) {
                 $age['31 - 50'] += 1;
                 $ag++;
             } else if ($a > 50) {
@@ -98,7 +112,7 @@ class FormsController extends Controller
                 $ag++;
             }
         }
-        if($ag !== 0) {
+        if ($ag !== 0) {
             $age['below 19'] = ($age['below 19'] / $ag) * 100;
             $age['19 - 30'] = ($age['19 - 30'] / $ag) * 100;
             $age['31 - 50'] = ($age['31 - 50'] / $ag) * 100;
@@ -129,7 +143,7 @@ class FormsController extends Controller
                 if ($current_day == $cd) $pW += 1;
             }
         }
-        $res['forms'] = $forms;
+        $res['forms'] = $result;
         $res['perMonth'] = $pM;
         $res['perDay'] = $pD;
         $res['perWeek'] = $pW;

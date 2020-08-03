@@ -10,6 +10,7 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
 });
+// Auth::routes();
 Route::post('/login', 'Auth\AuthController@login')->name('login.api');
 Route::post('/register', 'Auth\AuthController@register')->name('register.api');
 Route::post('/logout', 'Auth\AuthController@logout')->name('logout.api');

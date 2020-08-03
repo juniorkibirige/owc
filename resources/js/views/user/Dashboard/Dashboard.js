@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import AdminNavbar from "../../../components/Navbars/AdminNavbar.js";
+import AdminNavbar from "../../../components/Navbars/AdminNavbar_Default.js";
 // import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import axios from 'axios'
@@ -32,7 +32,7 @@ class Home extends Component {
                     mess: response.data.message
                 })
                 location.href = location.origin + '/admin'
-                
+
             })
     }
 
@@ -47,7 +47,7 @@ class Home extends Component {
             }))
         }
     }
-    
+
     componentDidUpdate(e) {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
@@ -82,7 +82,7 @@ class Home extends Component {
     };
     render() {
         return (
-            <div className='g-sidenav-show g-sidenav-pinned'>
+            <>
                 <Sidebar
                     {...this.props}
                     logOut={this.logout}
@@ -93,7 +93,7 @@ class Home extends Component {
                         imgAlt: "..."
                     }}
                 />
-                <div className="main-content" ref="mainContent">
+                <div className='main-content' ref="mainContent">
                     <AdminNavbar
                         {...this.props}
                         logOut={this.logout}
@@ -116,7 +116,7 @@ class Home extends Component {
                     </Container> */}
                     {/* <Footer /> */}
                 </div>
-            </div>
+            </>
         )
     }
 }

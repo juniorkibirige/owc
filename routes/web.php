@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,18 +19,3 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::view('/{path?}', 'layouts/police_form');
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/register', 'HomeController@index')->name('register');
-// Route::get('/login', 'HomeController@index')->name('login');
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::group(['middleware' => 'auth'], function () {
-// 	Route::resource('user', 'UserController', ['except' => ['show']]);
-// 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-// 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
-// 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-// });

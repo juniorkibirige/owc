@@ -19,15 +19,16 @@ var routes = [
   {
     path: "/tables",
     name: "Complaints",
-    icon: "mr-3 fa fa-eye text-white",
+    icon: "fa fa-eye text-white",
     component: Tables,
     layout: "/dashboard"
   },
   {
     path: "/complain",
     name: "Add New Complain",
-    icon: "mr-3 fa fa-eye text-white",
+    icon: "fa fa-eye text-white",
     component: PoliceForm,
+    hidden: true,
     layout: "/dashboard"
   },
   // { TODO: Send to settings
@@ -40,17 +41,34 @@ var routes = [
   {
     path: "/dashboard",
     name: "Reports",
-    icon: "mr-3 fa fa-reply",
+    icon: "fa fa-reply",
     component: Home,
     layout: "/dashboard"
   },
   {
     collapse: true,
-    path: "/settings",
+    // path: "/settings",
     name: "Settings",
+    state: "settingsCollapse",
     icon: "ni ni-ungroup text-orange",
-    component: Home,
-    layout: "/dashboard"
+    views: [
+        {
+          path: "/icons",
+          name: "Icons",
+          icon: "ni ni-planet text-blue",
+          miniName: "I",
+          component: Stats,
+          layout: "/dashboard"
+        },
+        {
+          path: "/maps",
+          name: "Maps",
+          icon: "ni ni-pin-3 text-orange",
+          miniName: "I",
+          component: Stats,
+          layout: "/dashboard"
+        },
+    ]
   }
 //   {
 //     path: "/icons",

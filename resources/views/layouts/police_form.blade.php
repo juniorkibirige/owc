@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="perfect-scrollbar-off nav-open">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -22,9 +22,10 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="{{ $class ?? 'bg-white' }}" style="background-image: url('argon/img/brand/bg-01.jpg');">
+    <body class="g-sidenav-pinned">
+    <!-- <body class=""> -->
         
-        <div id="app" class="main-content"></div>
+        <div id="root"></div>
         <script src="{{ asset('js/app.js') }}"></script>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>

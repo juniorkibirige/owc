@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+import Sidebar_Default from './Sidebar_Default'
+
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
-import Team1 from '../../../../public/assets/img/theme/team-1-800x800.jpg'
 
 // reactstrap components
 import {
@@ -34,7 +35,7 @@ import {
   Row,
   Col
 } from "reactstrap";
-
+Sidebar
 var ps;
 
 class Sidebar extends Component {
@@ -42,48 +43,52 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapseOpen: false
+      sidenavOpen: true
     };
     this.activeRoute.bind(this);
-    this.toggleCollapse = this.toggleCollapse.bind(this)
-    this.closeCollapse = this.closeCollapse.bind(this)
+    this.toggleSideNav = this.toggleSideNav.bind(this)
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
   // toggles collapse between opened and closed (true/false)
-  toggleCollapse() {
+  toggleSideNav(e) {
+    if (document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.remove("g-sidenav-pinned")
+      document.body.classList.add("g-sidenav-hidden")
+    } else {
+      document.body.classList.add("g-sidenav-pinned");
+      document.body.classList.remove("g-sidenav-hidden");
+    }
     this.setState({
-      collapseOpen: !this.state.collapseOpen
-    });
+      sidenavOpen: !this.state.sidenavOpen
+    })
   };
-  // closes the collapse
-  closeCollapse() {
-    this.setState({
-      collapseOpen: false
-    });
-  };
-  // creates the links that appear in the left menu / Sidebar
-  createLinks(routes) {
-    return routes.map((prop, key) => {
-      if (prop.path !== '/complain')
-        return (
-          <NavItem key={key} className={`text-white`}>
-            <NavLink
-              to={prop.layout + prop.path}
-              tag={NavLinkRRD}
-              onClick={this.closeCollapse}
-              className={`text-white`}
-              activeClassName="active"
-            >
-              <i className={prop.icon + ` text-white`} />
-              {prop.name}
-            </NavLink>
-          </NavItem>
-        );
-    });
-  };
+
+  render() {
+    const { routes } = this.props;
+    console.log(this.props.routes)
+    return (
+      <>
+        <Sidebar_Default
+          {...this.props}
+          routes={routes}
+          toggleSideNav={this.toggleSideNav}
+          sidenavOpen={this.state.sidenavOpen}
+          logo={{
+            innerLink: "/dashboard",
+            imgSrc: require("./../../../../public/argon/img/brand/favicon.png"),
+            imgAlt: "Police Web Portal"
+          }}
+        />
+        {this.state.sidenavOpen ? (
+          <div className="backdrop d-xl-none" onClick={this.toggleSideNav} />
+        ) : null}
+      </>
+    )
+  }
+  /*
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;
@@ -106,7 +111,6 @@ class Sidebar extends Component {
         style={{ backgroundColor: `rgba(51, 66, 79, 0.85)` }}
       >
         <Container fluid>
-          {/* Toggler */}
           <button
             className="navbar-toggler"
             type="button"
@@ -114,7 +118,7 @@ class Sidebar extends Component {
           >
             <span className="navbar-toggler-icon text-white" />
           </button>
-          {/* Brand */}
+          
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
               <img
@@ -124,7 +128,7 @@ class Sidebar extends Component {
               />
             </NavbarBrand>
           ) : null}
-          {/* User */}
+          
           <Nav className="align-items-center d-md-none"
           >
             <UncontrolledDropdown nav className='d-none d-sm-none'>
@@ -157,12 +161,7 @@ class Sidebar extends Component {
                       </Media>
                     </Media>
                   </Link>
-                  {/* <span className="avatar avatar-sm rounded-circle">
-                    <img
-                      alt="..."
-                      src={Team1}
-                    />
-                  </span> */}
+                  
                 </Media>
               </div>
               <DropdownMenu className="dropdown-menu-arrow" right>
@@ -193,9 +192,9 @@ class Sidebar extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          {/* Collapse */}
+          
           <Collapse navbar isOpen={this.state.collapseOpen}>
-            {/* Collapse header */}
+          
             <div className="navbar-collapse-header d-md-none">
               <Row>
                 {logo ? (
@@ -223,7 +222,7 @@ class Sidebar extends Component {
                 </Col>
               </Row>
             </div>
-            {/* Form */}
+            
             <Form className="mt-4 mb-3 d-md-none d-none">
               <InputGroup className="input-group-rounded input-group-merge">
                 <Input
@@ -239,14 +238,14 @@ class Sidebar extends Component {
                 </InputGroupAddon>
               </InputGroup>
             </Form>
-            {/* Navigation */}
+            
             <Nav navbar>{this.createLinks(routes)}</Nav>
-            {/* Navigation */}
+            
           </Collapse>
         </Container>
       </Navbar>
     );
-  }
+  } */
 }
 
 Sidebar.defaultProps = {
