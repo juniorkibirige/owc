@@ -9,7 +9,7 @@ use App\Admin;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
     /**
      * Create user
