@@ -28,6 +28,23 @@ class PoliceForm extends Component {
                 prev: params.get('prev')
             })
         }
+
+        axios.get('/api/cat').then(response => {
+            const data = response.data
+            let RANKS = []
+            data.forEach(oT => {
+            for (const key in oT) {
+                if (oT.hasOwnProperty(key)) {
+                    const category = oT[key];
+                    if (key == 'name')
+                        RANKS.push(category)
+                }
+            }
+            });
+            this.setState({
+                oData: RANKS
+            })
+        });
         this.setInputFilter(document.getElementById('age'), function (value) {
             return /^-?\d*$/.test(value);
         });
@@ -77,6 +94,7 @@ class PoliceForm extends Component {
     constructor() {
         super()
         this.state = {
+            error: null,
             isSubmitting: false,
             cR: '',
             cD: '',
@@ -86,6 +104,7 @@ class PoliceForm extends Component {
             cC3: '',
             isLoading: true,
             cityData: [],
+            oData: [],
             cData: [],
             refNo: v4(),
             date: new Date(),
@@ -218,6 +237,7 @@ class PoliceForm extends Component {
                 'compCounty': this.state.partTwo.residence.county,
                 'compsubCounty': this.state.partTwo.residence.subCounty,
                 'compVillage': this.state.partTwo.residence.village,
+                'offenseType': this.state.partThree.offenseType,
                 'dI': this.state.partThree.dI,
                 'dIDescription': this.state.partThree.dIDescription == '' ? "No Injury" : this.state.partThree.dIDescription,
                 'cDist': this.state.partThree.location.district,
@@ -956,18 +976,7 @@ class PoliceForm extends Component {
     }
 
     getCompTypes() {
-        let RANKS = [
-            'Inspector General of Police',
-            'Deputy Inspector General of Police',
-            'Assistant Inspector General of Police',
-            'Senior Commissioner of Police',
-            'Commissioner of Police',
-            'Assistant Commissioner of Police',
-            'Senior Superintendent of Police',
-            'Superintendent of Police',
-            'Assistant Superintedent of Police',
-            'Inspector of Police',
-        ]
+        let RANKS = this.state.oData
 
         let ranks = []
         RANKS.forEach((compType, i) => {
@@ -1019,6 +1028,7 @@ class PoliceForm extends Component {
     render() {
         return (
             <>
+                {this.state.error}
                 {this.state.prev == 'guest' ? <GuestNavbar /> : null}
                 <div className={`container py-1 ${this.state.prev == 'dashboard' ? "pt-6" : ""}`}>
                     <div className='row justify-content-center'>
@@ -1530,7 +1540,7 @@ class PoliceForm extends Component {
                                                                             <textarea
                                                                                 rows='3'
                                                                                 id='medExamRef'
-                                                                                name='dIDescription'
+                                                                                name='medExamRef'
                                                                                 placeholder='Provide details about the examination i.e. Medical Unit where conducted e.t.c'
                                                                                 value={this.state.partThree.medExamRef}
                                                                                 onChange={this.handleFieldChange.bind(this, 'p3')}
