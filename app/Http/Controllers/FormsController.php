@@ -95,9 +95,20 @@ class FormsController extends Controller
             $cm = explode('-', $date)[1];
             $cd = explode('-', $date)[2];
             if ($cm == $month) {
-                if (($prev == '') || ($prev != $formData->cRegion))
+                if (($prev == '') || ($prev != $formData->cRegion)) {
                     $prev = $formData->cRegion;
-                else {
+                    for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
+                        if ($sort[$prev][$i] == NULL) {
+                            $sort[$prev][$i] = 0;
+                        }
+                        if (intval($cd) == $i) {
+                            $sort[$prev][$i] = $sort[$prev][$i] + 1;
+                            break;
+                        }
+                        // if ($i < intval($cd) && $sort[$prev][$i] == null)
+                        //     $sort[$prev][$i] = 0;
+                    }
+                } else {
                     for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
                         if ($sort[$prev][$i] == NULL) {
                             $sort[$prev][$i] = 0;
@@ -118,33 +129,7 @@ class FormsController extends Controller
                 $f++;
                 $all++;
             }
-            // $a = intval($formData->victimAge);
-            // if ($a <= 18) {
-            //     $age['below 19'] += 1;
-            //     $ag++;
-            // } else if ($a > 18 && $a <= 30) {
-            //     $age['19 - 30'] += 1;
-            //     $ag++;
-            // } else if ($a > 30 && $a <= 50) {
-            //     $age['31 - 50'] += 1;
-            //     $ag++;
-            // } else if ($a > 50) {
-            //     $age['51 and above'] += 1;
-            //     $ag++;
-            // }
         }
-        // if ($ag !== 0) {
-        //     $age['below 19'] = ($age['below 19'] / $ag) * 100;
-        //     $age['19 - 30'] = ($age['19 - 30'] / $ag) * 100;
-        //     $age['31 - 50'] = ($age['31 - 50'] / $ag) * 100;
-        //     $age['51 and above'] = ($age['51 and above'] / $ag) * 100;
-        // } else {
-        //     $age['below 19'] = 0;
-        //     $age['19 - 30'] = 0;
-        //     $age['31 - 50'] = 0;
-        //     $age['51 and above'] = 0;
-        //     $age['none'] = 0;
-        // }
 
         if ($all !== 0) {
             $gender['Male'] = ($m / $all) * 100;
