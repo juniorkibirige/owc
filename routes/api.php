@@ -15,6 +15,8 @@ Route::get('form_105', 'FormsController@index');
 Route::post('/login', 'Auth\AuthController@login')->name('login.api');
 Route::post('/register', 'Auth\AuthController@register')->name('register.api');
 Route::post('/logout', 'Auth\AuthController@logout')->name('logout.api');
+Route::post('/cat', 'OffenseTypeController@store')->middleware('auth:api');
+Route::get('/cat', 'OffenseTypeController@index');
 
 // Route::get('form_105', 'FormsController@index');
 Route::post('form_105', 'FormsController@store');

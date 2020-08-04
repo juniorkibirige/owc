@@ -45,26 +45,26 @@ class Sidebar_Default extends React.Component {
     this.activeRoute = this.activeRoute.bind(this)
     this.toggleCollapse = this.toggleCollapse.bind(this)
     this.closeCollapse = this.closeCollapse.bind(this)
-    
+
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
   // makes the sidenav normal on hover (actually when mouse enters on it)
-  onMouseEnterSidenav () {
+  onMouseEnterSidenav() {
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.add("g-sidenav-show");
     }
   };
   // makes the sidenav mini on hover (actually when mouse leaves from it)
-  onMouseLeaveSidenav () {
+  onMouseLeaveSidenav() {
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-show");
     }
   };
   // toggles collapse between opened and closed (true/false)
-  toggleCollapse () {
+  toggleCollapse() {
     this.setState({
       collapseOpen: !this.state.collapseOpen
     });
@@ -158,33 +158,33 @@ class Sidebar_Default extends React.Component {
           </NavItem>
         );
       }
-      if(prop.hidden) {
+      if (prop.hidden) {
         return null
       }
       return (
         <NavItem
-          className={this.activeRoute(prop.layout + prop.path)}
+          className={`${this.activeRoute(prop.layout + prop.path)} ${prop.classes} text-secondary`}
           key={key}
         >
           <NavLink
             to={prop.layout + prop.path}
+            className="text-secondary"
             activeClassName=""
             onClick={this.closeSidenav}
             tag={NavLinkRRD}
           >
-            {prop.icon !== undefined ? (
-              <>
-                <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
-              </>
-            ) : prop.miniName !== undefined ? (
-              <>
-                <span className="sidenav-mini-icon"> {prop.miniName} </span>
-                <span className="sidenav-normal"> {prop.name} </span>
-              </>
-            ) : (
-              prop.name
-            )}
+              {prop.icon !== undefined ? (
+                <>
+                  <i className={prop.icon} />
+                  <span className="nav-link-text">{prop.name}</span>
+                </>
+              ) : prop.miniName !== undefined ? (
+                <>
+                  <span className="sidenav-mini-icon"> {prop.miniName} </span>
+                  <span className="sidenav-normal"> {prop.name} </span>
+                </>
+              ) : (prop.name
+                  )}
           </NavLink>
         </NavItem>
       );
@@ -216,11 +216,11 @@ class Sidebar_Default extends React.Component {
               />
             </NavbarBrand>
           ) : null}
-          <div className="ml-auto" style={{zIndex: `999`}}>
+          <div className="ml-auto" style={{ zIndex: `999` }}>
             <div
               className={classnames("sidenav-toggler d-none d-xl-block", {
                 active: this.props.sidenavOpen
-              })} style={{zIndex: `9999`}}
+              })} style={{ zIndex: `9999` }}
               onClick={this.tSN}
             >
               <div className="sidenav-toggler-inner">
@@ -251,8 +251,8 @@ class Sidebar_Default extends React.Component {
         {navigator.platform.indexOf("Win") > -1 ? (
           <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>
         ) : (
-          scrollBarInner
-        )}
+            scrollBarInner
+          )}
       </Navbar>
     );
   }
@@ -260,7 +260,7 @@ class Sidebar_Default extends React.Component {
 
 Sidebar_Default.defaultProps = {
   routes: [{}],
-  toggleSidenav: () => {},
+  toggleSidenav: () => { },
   sidenavOpen: false,
   // rtlActive: false
 };

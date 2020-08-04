@@ -81,7 +81,20 @@ class Home extends Component {
                         key={key}
                     />
                 );
-            } else {
+            } else if (prop.views.length > 0) {
+                return prop.views.map((view, key) => {
+                    if (view.layout === "/dashboard") {
+                        return (
+                            <Route
+                                path={view.layout + view.path}
+                                component={view.component}
+                                key={key}
+                            />
+                        );
+                    } else return null
+                })
+            }
+            else {
                 return null;
             }
         });
@@ -130,7 +143,7 @@ class Home extends Component {
                     </Container>
                 </div>
                 {this.state.sidenav ? (
-                    <div className="backdrop d-xl-none" onClick={this.toggleSide}/>
+                    <div className="backdrop d-xl-none" onClick={this.toggleSide} />
                 ) : null}
             </>
         )

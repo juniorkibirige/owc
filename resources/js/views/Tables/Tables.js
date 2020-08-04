@@ -1,5 +1,3 @@
-const $ = require('jquery')
-$.DataTable = require('datatables.net')
 import React, { Component } from 'react'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 

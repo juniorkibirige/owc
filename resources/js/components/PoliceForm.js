@@ -5,9 +5,17 @@ import {
     FormGroup, FormText,
     Input, Label,
     Row, Col,
-    Card, CardHeader
+    Card, CardHeader, InputGroup, InputGroupAddon, InputGroupText
 } from 'reactstrap'
+
 import GuestNavbar from './Navbars/GuestNavbar';
+import ReactDatetime from 'react-datetime';
+import moment from 'moment'
+
+const today = moment()
+const disableFutureDt = current => {
+    return current.isBefore(today)
+}
 
 class PoliceForm extends Component {
 
@@ -110,7 +118,7 @@ class PoliceForm extends Component {
                 }),
                 sameAsComplainant: false,
                 statement: '',
-                period: '',
+                period: 'default',
                 location: new Object({
                     village: '',
                     subCounty: '',
@@ -356,9 +364,9 @@ class PoliceForm extends Component {
                                             }
                                         } else if (element.name == 'reported') {
                                             if (this.state.partThree.reported) {
-                                                let rep = $('#reportRef[type="text"]').get(0)
-                                                if (rep.value == '') {
-                                                    errors[rep.name] = ['Please enter data']
+                                                let repElem = $('textarea#reportRef').get(0)
+                                                if (repElem.value == '') {
+                                                    errors[repElem.name] = ['Please enter data']
                                                     errors.length += 1
                                                 }
                                             }
@@ -607,7 +615,7 @@ class PoliceForm extends Component {
     }
 
     handleDate(event) {
-        let date = event.target.value
+        let date = event._d.toDateString()
         if (date != '') {
             this.setState(prevState => ({
                 partThree: {
@@ -1314,7 +1322,7 @@ class PoliceForm extends Component {
                                                                     value={this.state.partThree.offenseType}
                                                                     onChange={this.handleFieldChange.bind(this, 'p3')}
                                                                 >
-                                                                    { this.getCompTypes() }
+                                                                    {this.getCompTypes()}
                                                                 </select>
                                                                 {this.renderErrorFor('offenseType')}
                                                             </div>
@@ -1336,56 +1344,32 @@ class PoliceForm extends Component {
                                                                 <div className='row'>
                                                                     <div className="col-md-6">
                                                                         <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
-                                                                            <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' value={this.state.tabSel} onChange={this.handleSel}>
-                                                                                <option name='default' value='default' data-toggle='default'>Select when it happened</option>
-                                                                                <option name='date' value='dateTab' data-toggle='dateTab'>Date</option>
-                                                                                <option name='time' id='time' value='timeTab' data-toggle='timeTab'>Time</option>
-                                                                                <option name='year' id='year' value='yearTab' data-toggle='yearTab'>Year</option>
+                                                                            <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' defaultValue={`default`}>
+                                                                                <option name='date' value='default' data-toggle='dateTab'>Date</option>
                                                                             </select>
                                                                             {this.renderErrorFor('period')}
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-md-6">
-                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.dateTab ? 'd-block' : 'd-none'}`}>
-                                                                            <div className="input-group input-group-alternative">
-                                                                                <div className="input-group-prepend">
-                                                                                    <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
-                                                                                </div>
-                                                                                <input className="form-control datepicker" name='period' placeholder="Select date" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
-                                                                            </div>
+                                                                        <FormGroup>
+                                                                            <InputGroup className="input-group-alternative">
+                                                                                <InputGroupAddon addonType="prepend">
+                                                                                    <InputGroupText>
+                                                                                        <i className="ni ni-calendar-grid-58" />
+                                                                                    </InputGroupText>
+                                                                                </InputGroupAddon>
+                                                                                <ReactDatetime
+                                                                                    inputProps={{
+                                                                                        placeholder: "Pick date here",
+                                                                                        name: 'period'
+                                                                                    }}
+                                                                                    timeFormat={true}
+                                                                                    isValidDate={disableFutureDt}
+                                                                                    onChange={this.handleDate}
+                                                                                />
+                                                                            </InputGroup>
                                                                             {this.renderErrorFor('period')}
-                                                                        </div>
-                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.timeTab ? 'd-block' : 'd-none'}`}>
-                                                                            <div className="input-group input-group-alternative">
-                                                                                <div className="input-group-prepend">
-                                                                                    <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
-                                                                                </div>
-                                                                                <input className="form-control datetimepicker" name='period' placeholder="Please input time (HH:MM)" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
-                                                                            </div>
-                                                                            {this.renderErrorFor('period')}
-                                                                        </div>
-                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.yearTab ? 'd-block' : 'd-none'}`}>
-                                                                            <div className="input-group input-group-alternative">
-                                                                                <div className="input-group-prepend">
-                                                                                    <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
-                                                                                </div>
-                                                                                <select id='selPeriodYear' period='' className={`form-control`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleDate}>
-                                                                                    <option name='default' value='default' data-toggle='default'>Select year it happened</option>
-                                                                                    <option name='2020' value={2020} >2020</option>
-                                                                                    <option name='2019' value={2019} >2019</option>
-                                                                                    <option name='2018' value={2018} >2018</option>
-                                                                                    <option name='2017' value={2017} >2017</option>
-                                                                                    <option name='2016' value={2016} >2016</option>
-                                                                                    <option name='2015' value={2015} >2015</option>
-                                                                                    <option name='2014' value={2014} >2014</option>
-                                                                                    <option name='2013' value={2013} >2013</option>
-                                                                                    <option name='2012' value={2012} >2012</option>
-                                                                                    <option name='2011' value={2011} >2011</option>
-                                                                                    <option name='2010' value={2010} >2010</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            {this.renderErrorFor('period')}
-                                                                        </div>
+                                                                        </FormGroup>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1694,7 +1678,7 @@ class PoliceForm extends Component {
                                     </Row>
                                 </div>
                                 <div className="modal-footer">
-                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal" onClick={()=>{this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')}}>Finished Copy</button>
+                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal" onClick={() => { this.state.isLoggedIn ? history.push('/dashboard') : history.push('/') }}>Finished Copy</button>
                                 </div>
                             </div>
                         </div>

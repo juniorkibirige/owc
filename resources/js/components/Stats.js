@@ -11,7 +11,6 @@ var addFunnel = require('highcharts/modules/funnel')
 class Stats extends Component {
     constructor() {
         super()
-        console.log("axios")
         this.state = {
             perMonth: 0,
             perWeek: 0,
