@@ -102,7 +102,7 @@ class PoliceForm extends Component {
             },
             partThree: {
                 title: 'DETAILS ABOUT THE COMPLAINT',
-                offenseType,
+                offenseType: '',
                 involved: new Object({
                     victimName: '',
                     victimAge: '',
