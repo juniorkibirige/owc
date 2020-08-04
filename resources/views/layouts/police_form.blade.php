@@ -22,7 +22,7 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="g-sidenav-pinned">
+    <body class="g-sidenav-pinned" style="background-image: url(/argon/img/brand/bg-01.jpg)">
     <!-- <body class=""> -->
         
         <div id="root"></div>

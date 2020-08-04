@@ -1306,17 +1306,17 @@ class PoliceForm extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className={`form-group ${this.hasErrorFor('offenseType') ? 'has-danger' : ''}`}>
-                                                                <label htmlFor='statement'>Statement of what happened</label>
-                                                                <textarea
-                                                                    id='statement'
+                                                                <label htmlFor='statement'>Offense Type (With random data)</label>
+                                                                <select
+                                                                    id='offenseType'
                                                                     className={`form-control ${this.hasErrorFor('offenseType') ? 'is-invalid' : ''}`}
-                                                                    name='statement'
-                                                                    placeholder='Explain in your own words what happened'
-                                                                    rows='5'
+                                                                    name='offenseType'
                                                                     value={this.state.partThree.offenseType}
                                                                     onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                />
-                                                                {this.renderErrorFor('statement')}
+                                                                >
+                                                                    { this.getCompTypes() }
+                                                                </select>
+                                                                {this.renderErrorFor('offenseType')}
                                                             </div>
                                                             <div className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
                                                                 <label htmlFor='statement'>Statement of what happened</label>
