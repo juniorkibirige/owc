@@ -29,18 +29,26 @@ class FormsController extends Controller
         $pM = 0;
         $pD = 0;
         $pW = 0;
-        $formS = PoliceForm::where('done', false)
-            ->orderBy('cRegion', 'asc')
-            ->get();
         $prev = '';
         $sort = [];
-        for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
-            $sort['Central'][$i] = null;
-            $sort['Eastern'][$i] = null;
-            $sort['Western'][$i] = null;
-            $sort['Northern'][$i] = null;
+        $gender = [];
+        $m = 0;
+        $f = 0;
+        $all = 0;
+        for ($i = 0; $i <= $dMonth[intval($month)]; $i++) {
+            if ($i == 0) {
+                $sort['Central'][$i] = 0;
+                $sort['Eastern'][$i] = 0;
+                $sort['Western'][$i] = 0;
+                $sort['Northern'][$i] = 0;
+            } else {
+                $sort['Central'][$i] = null;
+                $sort['Eastern'][$i] = null;
+                $sort['Western'][$i] = null;
+                $sort['Northern'][$i] = null;
+            }
         }
-        foreach ($formS as $formData) { // Getting perMonthPerDay for Graph by 
+        foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by 
             $date = explode(' ', $formData->created_at)[0];
             $cm = explode('-', $date)[1];
             $cd = explode('-', $date)[2];
@@ -54,6 +62,20 @@ class FormsController extends Controller
                     }
                 }
             }
+            if ($formData->victimGender == 'Male' || $formData->victimGender == 'male') {
+                $m++;
+                $all++;
+            } else if ($formData->victimGender == 'Female' || $formData->victimGender == 'female') {
+                $f++;
+                $all++;
+            }
+        }
+        if ($all !== 0) {
+            $gender['Male'] = ($m / $all) * 100;
+            $gender['Female'] = ($f / $all) * 100;
+        } else {
+            $gender['Male'] = 0;
+            $gender['Female'] = 0;
         }
         foreach ($forms as $form) {
             $datetime = $form->created_at;
@@ -71,6 +93,7 @@ class FormsController extends Controller
         $res['perDay'] = $pD;
         $res['perWeek'] = $pW;
         $res['byRegion'] = $sort;
+        $res['byGender'] = $gender;
 
         return json_encode($res);
     }

@@ -7,6 +7,7 @@ import {
     Row, Col,
     Card, CardHeader
 } from 'reactstrap'
+import GuestNavbar from './Navbars/GuestNavbar';
 
 class PoliceForm extends Component {
 
@@ -14,11 +15,9 @@ class PoliceForm extends Component {
         this.getCities()
         const params = new URLSearchParams(window.location.search)
         if (params.has('prev')) {
-            if (params.get('prev') == 'dashboard') {
-                this.setState({
-                    prev: 'dashboard'
-                })
-            }
+            this.setState({
+                prev: params.get('prev')
+            })
         }
         this.setInputFilter(document.getElementById('age'), function (value) {
             return /^-?\d*$/.test(value);
@@ -624,14 +623,15 @@ class PoliceForm extends Component {
                 this.setState(prevState => ({
                     partThree: {
                         ...prevState.partThree,
-                        involved: {
+                        involved: new Object({
                             victimName: this.state.partTwo.name,
                             victimAge: this.state.partTwo.age,
                             victimGender: this.state.partTwo.gender,
                             sameAsComplainant: event.target.checked
-                        }
+                        })
                     }
                 }))
+                $('select[name=victimGender] option[value='+this.state.partTwo.gender+']').attr('selected', 'selected')
                 $('div#vicDet').css({
                     display: 'none'
                 })
@@ -639,14 +639,15 @@ class PoliceForm extends Component {
                 this.setState(prevState => ({
                     partThree: {
                         ...prevState.partThree,
-                        involved: {
+                        involved: new Object({
                             victimName: '',
                             victimAge: '',
                             victimGender: '',
                             sameAsComplainant: event.target.checked
-                        }
+                        })
                     }
                 }))
+                $('select[name=victimGender] option[value=default]').attr('selected', 'selected')
                 $('div#vicDet').removeAttr('style')
             }
         else
@@ -945,652 +946,655 @@ class PoliceForm extends Component {
 
     render() {
         return (
-            <div className={`container py-3 bg-gradient-primary ${this.state.prev == 'dashboard' ? "pt-6" : ""}`}>
-                <div className='row justify-content-center'>
-                    <div className='col-md-9'>
-                        <div className='card'>
-                            <div className='col-md-12 text-center pt-3'>
-                                <img className='rounded mx-auto d-block' src='/static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
-                            </div>
-                            <div className='container'>
-                                <div className='row'>
-                                    <div className='col-12 mx-auto'>
-                                        <div className='float-right'>Date: {this.state.date.toDateString()}</div>
+            <>
+                {this.state.prev == 'guest' ? <GuestNavbar /> : null}
+                <div className={`container py-1 ${this.state.prev == 'dashboard' ? "pt-6" : ""} ${this.state.prev == 'guest' ? 'pt-sm-4 pt-4' : ''}`}>
+                    <div className='row justify-content-center'>
+                        <div className='col-md-12'>
+                            <div className='card'>
+                                <div className='col-md-12 text-center pt-3'>
+                                    <img className='rounded mx-auto d-block' src='/static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
+                                </div>
+                                <div className='container'>
+                                    <div className='row'>
+                                        <div className='col-12 mx-auto'>
+                                            <div className='float-right'>Date: {this.state.date.toDateString()}</div>
+                                        </div>
+                                    </div>
+                                    <div className='row'>
+                                        <div className='col-12 mx-auto'>
+                                            <div className='float-right'>Ref: {this.state.refNo}</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='row'>
-                                    <div className='col-12 mx-auto'>
-                                        <div className='float-right'>Ref: {this.state.refNo}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='card-header text-center'>COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]</div>
-                            <div className="col-md-12 py-3 bg-secondary">
-                                <ul className="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
-                                    <li className="nav-item">
-                                        <a className={`nav-link rounded-circle ${this.state.active.p1 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p1')} id="first-tab" data-toggle="tab" href="#partOne" role="tab" aria-selected="true">
-                                            <span className="nav-link-icon d-block">
-                                                <span className="fa-stack">
-                                                    <strong className="fa-stack-1x">
-                                                        1
+                                <div className='card-header text-center'>COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]</div>
+                                <div className="col-md-12 py-3 bg-secondary">
+                                    <ul className="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
+                                        <li className="nav-item">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p1 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p1')} id="first-tab" data-toggle="tab" href="#partOne" role="tab" aria-selected="true">
+                                                <span className="nav-link-icon d-block">
+                                                    <span className="fa-stack">
+                                                        <strong className="fa-stack-1x">
+                                                            1
                                                     </strong>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className={`nav-link rounded-circle ${this.state.active.p2 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p2')} id="second-tab" data-toggle="tab" href="#partTwo" role="tab" aria-selected="false">
-                                            <span className="nav-link-icon d-block">
-                                                <span className="fa-stack">
-                                                    <strong className="fa-stack-1x">
-                                                        2
+                                            </a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p2 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p2')} id="second-tab" data-toggle="tab" href="#partTwo" role="tab" aria-selected="false">
+                                                <span className="nav-link-icon d-block">
+                                                    <span className="fa-stack">
+                                                        <strong className="fa-stack-1x">
+                                                            2
                                                     </strong>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className={`nav-link rounded-circle ${this.state.active.p3 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p3')} id="third-tab" data-toggle="tab" href="#partThree" role="tab" aria-selected="false">
-                                            <span className="nav-link-icon d-block">
-                                                <span className="fa-stack">
-                                                    <strong className="fa-stack-1x">
-                                                        3
+                                            </a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p3 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p3')} id="third-tab" data-toggle="tab" href="#partThree" role="tab" aria-selected="false">
+                                                <span className="nav-link-icon d-block">
+                                                    <span className="fa-stack">
+                                                        <strong className="fa-stack-1x">
+                                                            3
                                                     </strong>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className={`nav-link rounded-circle ${this.state.active.p4 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p4')} id="fourth-tab" data-toggle="tab" href="#partFour" role="tab" aria-selected="false">
-                                            <span className="nav-link-icon d-block">
-                                                <span className="fa-stack">
-                                                    <strong className="fa-stack-1x">
-                                                        4
+                                            </a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p4 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p4')} id="fourth-tab" data-toggle="tab" href="#partFour" role="tab" aria-selected="false">
+                                                <span className="nav-link-icon d-block">
+                                                    <span className="fa-stack">
+                                                        <strong className="fa-stack-1x">
+                                                            4
                                                     </strong>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div className="card card-plain">
-                                    <form onSubmit={this.handleSubmit} id='form105'>
-                                        <div className="tab-content tab-space p-3" style={{ backgroundColor: '#e9ecef' }}>
-                                            <fieldset className='tab-pane fade active show' id='partOne'>
-                                                <div className='card pb-3'>
-                                                    <div className='card-header bg-primary text-white'>{this.state.partOne.title}</div>
-                                                    <div className='col-md-12 py-3'>
-                                                        <p className="description">
-                                                            This form is for lodging complaint/s against a police officer on cases of violation of human rights
-                                                            and unporofessional conduct under section 70 of the Police Act 303, which provides for complaints by
-                                                            the public against police officers. A person is entitled, without prejudice to any other legal means
-                                                            of redress available to him or her, to make a written complaint as to - (a) an instance of bribery,
-                                                            corruption, oppression or intimidation by a police officer; (b) any neglect or non  perfomance of his
-                                                            or her duties by a police officer; (c) any other misconduct by a police officer.
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div className="card card-plain">
+                                        <form onSubmit={this.handleSubmit} id='form105'>
+                                            <div className="tab-content tab-space p-3" style={{ backgroundColor: '#e9ecef' }}>
+                                                <fieldset className='tab-pane fade active show' id='partOne'>
+                                                    <div className='card pb-3'>
+                                                        <div className='card-header bg-primary text-white'>{this.state.partOne.title}</div>
+                                                        <div className='col-md-12 py-3'>
+                                                            <p className="description">
+                                                                This form is for lodging complaint/s against a police officer on cases of violation of human rights
+                                                                and unporofessional conduct under section 70 of the Police Act 303, which provides for complaints by
+                                                                the public against police officers. A person is entitled, without prejudice to any other legal means
+                                                                of redress available to him or her, to make a written complaint as to - (a) an instance of bribery,
+                                                                corruption, oppression or intimidation by a police officer; (b) any neglect or non  perfomance of his
+                                                                or her duties by a police officer; (c) any other misconduct by a police officer.
                                                         </p>
-                                                    </div>
-                                                    <div className='col-md-12'>
-                                                        <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p2')}><i className='ni ni-bold-right'></i></button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset className="tab-pane fade" id="partTwo">
-                                                <div className='card pb-3'>
-                                                    <div className='card-header bg-primary text-white'>{this.state.partTwo.title}</div>
-                                                    <div className='col-md-12 py-3'>
-                                                        <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
-                                                            <input
-                                                                id='name'
-                                                                type='text'
-                                                                className={`form-control ${this.hasErrorFor('name') ? 'is-invalid' : ''}`}
-                                                                name='name'
-                                                                placeholder='Name'
-                                                                required
-                                                                value={this.state.partTwo.name}
-                                                                onChange={this.handleFieldChange.bind(this, 'p2')}
-                                                            />
                                                         </div>
-                                                        <div className={`form-group ${this.hasErrorFor('age') ? 'has-danger' : ''}`}>
-                                                            <input
-                                                                id='age'
-                                                                type='text'
-                                                                className={`form-control ${this.hasErrorFor('age') ? 'is-invalid' : ''}`}
-                                                                accept="number"
-                                                                name='age'
-                                                                placeholder='Age'
-                                                                required
-                                                                value={this.state.partTwo.age}
-                                                                onChange={this.handleFieldChange.bind(this, 'p2')}
-                                                            />
+                                                        <div className='col-md-12'>
+                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p2')}><i className='ni ni-bold-right'></i></button>
                                                         </div>
-                                                        <div className='form-group'>
-                                                            <div className='container'>
-                                                                <div className='row'>
-                                                                    <label htmlFor='gender'>Gender &nbsp;</label>
-                                                                    <div className="custom-control custom-checkbox">
-                                                                        <input className="custom-control-input gender-sel" id="Male" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
-                                                                        <label className="custom-control-label" htmlFor="Male">Male</label>
-                                                                    </div>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset className="tab-pane fade" id="partTwo">
+                                                    <div className='card pb-3'>
+                                                        <div className='card-header bg-primary text-white'>{this.state.partTwo.title}</div>
+                                                        <div className='col-md-12 py-3'>
+                                                            <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
+                                                                <input
+                                                                    id='name'
+                                                                    type='text'
+                                                                    className={`form-control ${this.hasErrorFor('name') ? 'is-invalid' : ''}`}
+                                                                    name='name'
+                                                                    placeholder='Name'
+                                                                    required
+                                                                    value={this.state.partTwo.name}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p2')}
+                                                                />
+                                                            </div>
+                                                            <div className={`form-group ${this.hasErrorFor('age') ? 'has-danger' : ''}`}>
+                                                                <input
+                                                                    id='age'
+                                                                    type='text'
+                                                                    className={`form-control ${this.hasErrorFor('age') ? 'is-invalid' : ''}`}
+                                                                    accept="number"
+                                                                    name='age'
+                                                                    placeholder='Age'
+                                                                    required
+                                                                    value={this.state.partTwo.age}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p2')}
+                                                                />
+                                                            </div>
+                                                            <div className='form-group'>
+                                                                <div className='container'>
+                                                                    <div className='row'>
+                                                                        <label htmlFor='gender'>Gender &nbsp;</label>
+                                                                        <div className="custom-control custom-checkbox">
+                                                                            <input className="custom-control-input gender-sel" id="Male" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
+                                                                            <label className="custom-control-label" htmlFor="Male">Male</label>
+                                                                        </div>
                                                                     &nbsp;
                                                                     <div className="custom-control custom-checkbox mb-3">
-                                                                        <input className="custom-control-input gender-sel" id="Female" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
-                                                                        <label className="custom-control-label" htmlFor="Female">Female</label>
+                                                                            <input className="custom-control-input gender-sel" id="Female" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
+                                                                            <label className="custom-control-label" htmlFor="Female">Female</label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                                {this.renderErrorFor('gender')}
                                                             </div>
-                                                            {this.renderErrorFor('gender')}
-                                                        </div>
-                                                        <label htmlFor='residence'>Place of Residence</label>
-                                                        <div className='container text-center'>
-                                                            <div className='row'>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
-                                                                        <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.region} onChange={this.handleResidence}>
-                                                                            <option name='default' value='default'>Select Region</option>
-                                                                            {this.getRegions()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
-                                                                        <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.district} onChange={this.handleResidence}>
-                                                                            <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
-                                                                            {this.getDistricts()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className='row'>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
-                                                                        <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.county} onChange={this.handleResidence}>
-                                                                            <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
-                                                                            {this.getCounties()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
-                                                                        <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.subCounty} onChange={this.handleResidence}>
-                                                                            <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
-                                                                            {this.getSubCounties()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <Row>
-                                                                <div className='col-md-12 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='village'
-                                                                            type='text'
-                                                                            className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
-                                                                            name='village'
-                                                                            placeholder='Village'
-                                                                            required
-                                                                            value={this.state.partTwo.residence.village}
-                                                                            onChange={this.handleResidence}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </Row>
-                                                        </div>
-                                                        <label htmlFor='contact'>Contact Information</label>
-                                                        <div className='container'>
-                                                            <div className='row'>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('tel') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='tel'
-                                                                            type='tel'
-                                                                            size={10}
-                                                                            maxLength={10}
-                                                                            className={`form-control ${this.hasErrorFor('tel') ? 'is-invalid' : ''}`}
-                                                                            name='tel'
-                                                                            placeholder='Telephone i.e 0701753951'
-                                                                            required
-                                                                            value={this.state.partTwo.tel}
-                                                                            onChange={this.handleFieldChange.bind(this, 'p2')}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
-                                                                        <input
-                                                                            id='email'
-                                                                            type='email'
-                                                                            className={`form-control ${this.hasErrorFor('email') ? 'is-invalid' : ''}`}
-                                                                            name='email'
-                                                                            placeholder='Email Address'
-                                                                            value={this.state.partTwo.email}
-                                                                            onChange={this.handleFieldChange.bind(this, 'p2')}
-                                                                        />
-                                                                        {this.renderErrorFor('email')}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='col-md-12'>
-                                                        <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p1', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                        <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p3', 'next')}><i className='ni ni-bold-right'></i></button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset className="tab-pane fade" id="partThree">
-                                                <div className='card pb-3'>
-                                                    <div className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
-                                                    <div className='col-md-12 py-3'>
-                                                        <Row>
-                                                            <label className='col-12 col-sm-6' htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        </label>
-                                                            <div className='col-12 col-sm-6' style={{ textAlign: 'right' }}>
-                                                                <Input
-                                                                    id='sameAsComplainant'
-                                                                    name='sameAsComplainant'
-                                                                    type='checkbox'
-                                                                    value={this.state.partThree.sAC}
-                                                                    onChange={this.handleInvolved.bind(this, 'p3')}
-                                                                /> Same as Complainant
-                                                        </div>
-                                                        </Row>
-                                                        <div className='row' id='vicDet'>
-                                                            <div className='col-md-6 col-sm-12'>
-                                                                <div className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
-                                                                    <input
-                                                                        id='victimName'
-                                                                        type='text'
-                                                                        className={`form-control ${this.hasErrorFor('victimName') ? 'is-invalid' : ''}`}
-                                                                        name='victimName'
-                                                                        placeholder="Victim's Name"
-                                                                        required
-                                                                        value={this.state.partThree.involved.victimName}
-                                                                        onChange={this.handleInvolved}
-                                                                    />
-                                                                    {this.renderErrorFor('victimName')}
-                                                                </div>
-                                                            </div>
-                                                            <div className='col-md-6 col-sm-12'>
+                                                            <label htmlFor='residence'>Place of Residence</label>
+                                                            <div className='container text-center'>
                                                                 <div className='row'>
-                                                                    <div className="col-md-6 col-sm-12">
-                                                                        <div className={`form-group ${this.hasErrorFor('victimAge') ? 'has-danger' : ''}`}>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                            <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.region} onChange={this.handleResidence}>
+                                                                                <option name='default' value='default'>Select Region</option>
+                                                                                {this.getRegions()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                            <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.district} onChange={this.handleResidence}>
+                                                                                <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                                {this.getDistricts()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='row'>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                            <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.county} onChange={this.handleResidence}>
+                                                                                <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                                {this.getCounties()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                            <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.subCounty} onChange={this.handleResidence}>
+                                                                                <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                                {this.getSubCounties()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <Row>
+                                                                    <div className='col-md-12 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
                                                                             <input
-                                                                                id='victimAge'
+                                                                                id='village'
                                                                                 type='text'
-                                                                                className={`form-control ${this.hasErrorFor('victimAge') ? 'is-invalid' : ''}`}
-                                                                                name='victimAge'
-                                                                                placeholder='Victim`s Age'
-                                                                                value={this.state.partThree.involved.victimAge}
-                                                                                onChange={this.handleInvolved}
+                                                                                className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
+                                                                                name='village'
+                                                                                placeholder='Village'
+                                                                                required
+                                                                                value={this.state.partTwo.residence.village}
+                                                                                onChange={this.handleResidence}
                                                                             />
-                                                                            {this.renderErrorFor('victimAge')}
                                                                         </div>
                                                                     </div>
-                                                                    <div className="col-md-6 col-sm-12">
-                                                                        <div className={`form-group ${this.hasErrorFor('victimGender') ? 'has-danger' : ''}`} defaultValue="Victim's Gender">
-                                                                            <select id='gender' name='victimGender' className={`form-control ${this.hasErrorFor('victimGender') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.involved.gender} onChange={this.handleInvolved}>
-                                                                                <option name='default' value='default'>Victim's Gender</option>
-                                                                                <option name='gender' value='Male'>Male</option>
-                                                                                <option name='gender' value='Female'>Female</option>
-                                                                            </select>
-                                                                            {this.renderErrorFor('victimGender')}
+                                                                </Row>
+                                                            </div>
+                                                            <label htmlFor='contact'>Contact Information</label>
+                                                            <div className='container'>
+                                                                <div className='row'>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('tel') ? 'has-danger' : ''}`}>
+                                                                            <input
+                                                                                id='tel'
+                                                                                type='tel'
+                                                                                size={10}
+                                                                                maxLength={10}
+                                                                                className={`form-control ${this.hasErrorFor('tel') ? 'is-invalid' : ''}`}
+                                                                                name='tel'
+                                                                                placeholder='Telephone i.e 0701753951'
+                                                                                required
+                                                                                value={this.state.partTwo.tel}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p2')}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
+                                                                            <input
+                                                                                id='email'
+                                                                                type='email'
+                                                                                className={`form-control ${this.hasErrorFor('email') ? 'is-invalid' : ''}`}
+                                                                                name='email'
+                                                                                placeholder='Email Address'
+                                                                                value={this.state.partTwo.email}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p2')}
+                                                                            />
+                                                                            {this.renderErrorFor('email')}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
-                                                            <label htmlFor='statement'>Statement of what happened</label>
-                                                            <textarea
-                                                                id='statement'
-                                                                className={`form-control ${this.hasErrorFor('statement') ? 'is-invalid' : ''}`}
-                                                                name='statement'
-                                                                placeholder='Explain in your own words what happened'
-                                                                rows='5'
-                                                                value={this.state.partThree.statement}
-                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                            />
-                                                            {this.renderErrorFor('statement')}
+                                                        <div className='col-md-12'>
+                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p1', 'prev')}><i className='ni ni-bold-left'></i></button>
+                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p3', 'next')}><i className='ni ni-bold-right'></i></button>
                                                         </div>
-                                                        <div className='form-group' style={{ marginBottom: .5 + 'rem' }}>
-                                                            <label htmlFor='period'>When it happened</label>
-                                                            <div className='row'>
-                                                                <div className="col-md-6">
-                                                                    <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
-                                                                        <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' value={this.state.tabSel} onChange={this.handleSel}>
-                                                                            <option name='default' value='default' data-toggle='default'>Select when it happened</option>
-                                                                            <option name='date' value='dateTab' data-toggle='dateTab'>Date</option>
-                                                                            <option name='time' id='time' value='timeTab' data-toggle='timeTab'>Time</option>
-                                                                            <option name='year' id='year' value='yearTab' data-toggle='yearTab'>Year</option>
-                                                                        </select>
-                                                                        {this.renderErrorFor('period')}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-6">
-                                                                    <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.dateTab ? 'd-block' : 'd-none'}`}>
-                                                                        <div className="input-group input-group-alternative">
-                                                                            <div className="input-group-prepend">
-                                                                                <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
-                                                                            </div>
-                                                                            <input className="form-control datepicker" name='period' placeholder="Select date" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
-                                                                        </div>
-                                                                        {this.renderErrorFor('period')}
-                                                                    </div>
-                                                                    <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.timeTab ? 'd-block' : 'd-none'}`}>
-                                                                        <div className="input-group input-group-alternative">
-                                                                            <div className="input-group-prepend">
-                                                                                <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
-                                                                            </div>
-                                                                            <input className="form-control datetimepicker" name='period' placeholder="Please input time (HH:MM)" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
-                                                                        </div>
-                                                                        {this.renderErrorFor('period')}
-                                                                    </div>
-                                                                    <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.yearTab ? 'd-block' : 'd-none'}`}>
-                                                                        <div className="input-group input-group-alternative">
-                                                                            <div className="input-group-prepend">
-                                                                                <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
-                                                                            </div>
-                                                                            <select id='selPeriodYear' period='' className={`form-control`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleDate}>
-                                                                                <option name='default' value='default' data-toggle='default'>Select year it happened</option>
-                                                                                <option name='2020' value={2020} >2020</option>
-                                                                                <option name='2019' value={2019} >2019</option>
-                                                                                <option name='2018' value={2018} >2018</option>
-                                                                                <option name='2017' value={2017} >2017</option>
-                                                                                <option name='2016' value={2016} >2016</option>
-                                                                                <option name='2015' value={2015} >2015</option>
-                                                                                <option name='2014' value={2014} >2014</option>
-                                                                                <option name='2013' value={2013} >2013</option>
-                                                                                <option name='2012' value={2012} >2012</option>
-                                                                                <option name='2011' value={2011} >2011</option>
-                                                                                <option name='2010' value={2010} >2010</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        {this.renderErrorFor('period')}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <label htmlFor='location'>Where crime happened</label>
-                                                        <div className='container text-center'>
-                                                            <div className='row'>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
-                                                                        <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.region} onChange={this.handleLocation}>
-                                                                            <option name='default' value='default'>Select Region</option>
-                                                                            {this.getRegions()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
-                                                                        <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.district} onChange={this.handleLocation}>
-                                                                            <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
-                                                                            {this.getDistricts()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className='row'>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
-                                                                        <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.county} onChange={this.handleLocation}>
-                                                                            <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
-                                                                            {this.getCounties()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
-                                                                        <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.subCounty} onChange={this.handleLocation}>
-                                                                            <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
-                                                                            {this.getSubCounties()}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset className="tab-pane fade" id="partThree">
+                                                    <div className='card pb-3'>
+                                                        <div className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
+                                                        <div className='col-md-12 py-3'>
                                                             <Row>
-                                                                <div className='col-md-12 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                <label className='col-12 col-sm-6' htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </label>
+                                                                <div className='col-12 col-sm-6' style={{ textAlign: 'right' }}>
+                                                                    <Input
+                                                                        id='sameAsComplainant'
+                                                                        name='sameAsComplainant'
+                                                                        type='checkbox'
+                                                                        value={this.state.partThree.sAC}
+                                                                        onChange={this.handleInvolved.bind(this, 'p3')}
+                                                                    /> Same as Complainant
+                                                        </div>
+                                                            </Row>
+                                                            <div className='row' id='vicDet'>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
                                                                         <input
-                                                                            id='village'
+                                                                            id='victimName'
                                                                             type='text'
-                                                                            className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
-                                                                            name='village'
-                                                                            placeholder='Village'
+                                                                            className={`form-control ${this.hasErrorFor('victimName') ? 'is-invalid' : ''}`}
+                                                                            name='victimName'
+                                                                            placeholder="Victim's Name"
                                                                             required
-                                                                            value={this.state.partThree.location.village}
-                                                                            onChange={this.handleLocation}
+                                                                            value={this.state.partThree.involved.victimName}
+                                                                            onChange={this.handleInvolved}
                                                                         />
+                                                                        {this.renderErrorFor('victimName')}
                                                                     </div>
                                                                 </div>
-                                                            </Row>
-                                                        </div>
-                                                        <FormGroup>
-                                                            <Row>
-                                                                <Col className='col-md-4 col-sm-6 col-6'>
-                                                                    <Label htmlFor='dI'>Was there any damage or injury?</Label>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='dI'
-                                                                        id='yes'
-                                                                        value={true}
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'dI')}
-                                                                    />
-                                                                    <FormText> Yes</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='dI'
-                                                                        id='no'
-                                                                        value={false}
-                                                                        defaultChecked
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'dI')}
-                                                                    />
-                                                                    <FormText> No</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-6 col-sm-12 col-12'>
-                                                                    <FormGroup className={` ${this.state.partThree.dI ? 'd-block' : 'd-none'}`}>
-                                                                        <textarea
-                                                                            rows='5'
-                                                                            id='dIDescription'
-                                                                            name='dIDescription'
-                                                                            placeholder='Describe the injury as much as possible'
-                                                                            value={this.state.partThree.dIDescription}
-                                                                            onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                            className={`form-control ${this.hasErrorFor('dIDescription')}`}
-                                                                        ></textarea>
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                            {this.renderErrorFor('dI')}
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <Row>
-                                                                <Col className='col-md-4 col-sm-6 col-6'>
-                                                                    <Label htmlFor='witness'>Were there any witnesses?</Label>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='witness'
-                                                                        id='yesWitness'
-                                                                        value={true}
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'wit')}
-                                                                    />
-                                                                    <FormText> Yes</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='witness'
-                                                                        id='noWitness'
-                                                                        value={false}
-                                                                        defaultChecked
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'wit')}
-                                                                    />
-                                                                    <FormText> No</FormText>
-                                                                </Col>
-                                                            </Row>
-                                                            {this.renderErrorFor('witness')}
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <Row>
-                                                                <Col className='col-md-4 col-sm-6 col-6'>
-                                                                    <Label htmlFor='medExam'>Were examined by a Medical Officer?</Label>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='medExam'
-                                                                        id='yesmedExam'
-                                                                        value={true}
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'medExam')}
-                                                                    />
-                                                                    <FormText> Yes</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='medExam'
-                                                                        id='nomedExam'
-                                                                        value={false}
-                                                                        defaultChecked
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'medExam')}
-                                                                    />
-                                                                    <FormText> No</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-6 col-sm-12 col-12'>
-                                                                    <FormGroup className={` ${this.state.partThree.medExam ? 'd-block' : 'd-none'}`}>
-                                                                        <textarea
-                                                                            rows='3'
-                                                                            id='medExamRef'
-                                                                            name='dIDescription'
-                                                                            placeholder='Provide details about the examination i.e. Medical Unit where conducted e.t.c'
-                                                                            value={this.state.partThree.medExamRef}
-                                                                            onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                            className={`form-control ${this.hasErrorFor('medExamRef') ? 'invalid' : ''}`}
-                                                                        ></textarea>
-                                                                        {this.renderErrorFor('medExamRef')}
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
+                                                                <div className='col-md-6 col-sm-12'>
+                                                                    <div className='row'>
+                                                                        <div className="col-md-6 col-sm-12">
+                                                                            <div className={`form-group ${this.hasErrorFor('victimAge') ? 'has-danger' : ''}`}>
+                                                                                <input
+                                                                                    id='victimAge'
+                                                                                    type='text'
+                                                                                    className={`form-control ${this.hasErrorFor('victimAge') ? 'is-invalid' : ''}`}
+                                                                                    name='victimAge'
+                                                                                    placeholder='Victim`s Age'
+                                                                                    value={this.state.partThree.involved.victimAge}
+                                                                                    onChange={this.handleInvolved}
+                                                                                />
+                                                                                {this.renderErrorFor('victimAge')}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-md-6 col-sm-12">
+                                                                            <div className={`form-group ${this.hasErrorFor('victimGender') ? 'has-danger' : ''}`} defaultValue="Victim's Gender">
+                                                                                <select id='gender' name='victimGender' className={`form-control ${this.hasErrorFor('victimGender') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.involved.gender} onChange={this.handleInvolved}>
+                                                                                    <option name='default' value='default'>Victim's Gender</option>
+                                                                                    <option name='gender' value='Male'>Male</option>
+                                                                                    <option name='gender' value='Female'>Female</option>
+                                                                                </select>
+                                                                                {this.renderErrorFor('victimGender')}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
+                                                                <label htmlFor='statement'>Statement of what happened</label>
+                                                                <textarea
+                                                                    id='statement'
+                                                                    className={`form-control ${this.hasErrorFor('statement') ? 'is-invalid' : ''}`}
+                                                                    name='statement'
+                                                                    placeholder='Explain in your own words what happened'
+                                                                    rows='5'
+                                                                    value={this.state.partThree.statement}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                />
+                                                                {this.renderErrorFor('statement')}
+                                                            </div>
+                                                            <div className='form-group' style={{ marginBottom: .5 + 'rem' }}>
+                                                                <label htmlFor='period'>When it happened</label>
+                                                                <div className='row'>
+                                                                    <div className="col-md-6">
+                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
+                                                                            <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' value={this.state.tabSel} onChange={this.handleSel}>
+                                                                                <option name='default' value='default' data-toggle='default'>Select when it happened</option>
+                                                                                <option name='date' value='dateTab' data-toggle='dateTab'>Date</option>
+                                                                                <option name='time' id='time' value='timeTab' data-toggle='timeTab'>Time</option>
+                                                                                <option name='year' id='year' value='yearTab' data-toggle='yearTab'>Year</option>
+                                                                            </select>
+                                                                            {this.renderErrorFor('period')}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-md-6">
+                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.dateTab ? 'd-block' : 'd-none'}`}>
+                                                                            <div className="input-group input-group-alternative">
+                                                                                <div className="input-group-prepend">
+                                                                                    <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
+                                                                                </div>
+                                                                                <input className="form-control datepicker" name='period' placeholder="Select date" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
+                                                                            </div>
+                                                                            {this.renderErrorFor('period')}
+                                                                        </div>
+                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.timeTab ? 'd-block' : 'd-none'}`}>
+                                                                            <div className="input-group input-group-alternative">
+                                                                                <div className="input-group-prepend">
+                                                                                    <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
+                                                                                </div>
+                                                                                <input className="form-control datetimepicker" name='period' placeholder="Please input time (HH:MM)" type="text" value={this.state.partThree.period} onBlur={this.handleDate} onChange={this.handleDate} />
+                                                                            </div>
+                                                                            {this.renderErrorFor('period')}
+                                                                        </div>
+                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''} ${this.state.tab.yearTab ? 'd-block' : 'd-none'}`}>
+                                                                            <div className="input-group input-group-alternative">
+                                                                                <div className="input-group-prepend">
+                                                                                    <span className="input-group-text"><i className="ni ni-watch-time"></i></span>
+                                                                                </div>
+                                                                                <select id='selPeriodYear' period='' className={`form-control`} placeholder='Victim Gender' value={this.state.partThree.period} onChange={this.handleDate}>
+                                                                                    <option name='default' value='default' data-toggle='default'>Select year it happened</option>
+                                                                                    <option name='2020' value={2020} >2020</option>
+                                                                                    <option name='2019' value={2019} >2019</option>
+                                                                                    <option name='2018' value={2018} >2018</option>
+                                                                                    <option name='2017' value={2017} >2017</option>
+                                                                                    <option name='2016' value={2016} >2016</option>
+                                                                                    <option name='2015' value={2015} >2015</option>
+                                                                                    <option name='2014' value={2014} >2014</option>
+                                                                                    <option name='2013' value={2013} >2013</option>
+                                                                                    <option name='2012' value={2012} >2012</option>
+                                                                                    <option name='2011' value={2011} >2011</option>
+                                                                                    <option name='2010' value={2010} >2010</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            {this.renderErrorFor('period')}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label htmlFor='location'>Where crime happened</label>
+                                                            <div className='container text-center'>
+                                                                <div className='row'>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                            <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.region} onChange={this.handleLocation}>
+                                                                                <option name='default' value='default'>Select Region</option>
+                                                                                {this.getRegions()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                            <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.district} onChange={this.handleLocation}>
+                                                                                <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                                {this.getDistricts()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='row'>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                            <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.county} onChange={this.handleLocation}>
+                                                                                <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                                {this.getCounties()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='col-md-6 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                            <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.subCounty} onChange={this.handleLocation}>
+                                                                                <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                                {this.getSubCounties()}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <Row>
+                                                                    <div className='col-md-12 col-sm-12'>
+                                                                        <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                            <input
+                                                                                id='village'
+                                                                                type='text'
+                                                                                className={`form-control ${this.hasErrorFor('village') ? 'is-invalid' : ''}`}
+                                                                                name='village'
+                                                                                placeholder='Village'
+                                                                                required
+                                                                                value={this.state.partThree.location.village}
+                                                                                onChange={this.handleLocation}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </Row>
+                                                            </div>
+                                                            <FormGroup>
+                                                                <Row>
+                                                                    <Col className='col-md-4 col-sm-6 col-6'>
+                                                                        <Label htmlFor='dI'>Was there any damage or injury?</Label>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='dI'
+                                                                            id='yes'
+                                                                            value={true}
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'dI')}
+                                                                        />
+                                                                        <FormText> Yes</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='dI'
+                                                                            id='no'
+                                                                            value={false}
+                                                                            defaultChecked
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'dI')}
+                                                                        />
+                                                                        <FormText> No</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-6 col-sm-12 col-12'>
+                                                                        <FormGroup className={` ${this.state.partThree.dI ? 'd-block' : 'd-none'}`}>
+                                                                            <textarea
+                                                                                rows='5'
+                                                                                id='dIDescription'
+                                                                                name='dIDescription'
+                                                                                placeholder='Describe the injury as much as possible'
+                                                                                value={this.state.partThree.dIDescription}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                                className={`form-control ${this.hasErrorFor('dIDescription')}`}
+                                                                            ></textarea>
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                </Row>
+                                                                {this.renderErrorFor('dI')}
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Row>
+                                                                    <Col className='col-md-4 col-sm-6 col-6'>
+                                                                        <Label htmlFor='witness'>Were there any witnesses?</Label>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='witness'
+                                                                            id='yesWitness'
+                                                                            value={true}
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'wit')}
+                                                                        />
+                                                                        <FormText> Yes</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='witness'
+                                                                            id='noWitness'
+                                                                            value={false}
+                                                                            defaultChecked
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'wit')}
+                                                                        />
+                                                                        <FormText> No</FormText>
+                                                                    </Col>
+                                                                </Row>
+                                                                {this.renderErrorFor('witness')}
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Row>
+                                                                    <Col className='col-md-4 col-sm-6 col-6'>
+                                                                        <Label htmlFor='medExam'>Were examined by a Medical Officer?</Label>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='medExam'
+                                                                            id='yesmedExam'
+                                                                            value={true}
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'medExam')}
+                                                                        />
+                                                                        <FormText> Yes</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='medExam'
+                                                                            id='nomedExam'
+                                                                            value={false}
+                                                                            defaultChecked
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'medExam')}
+                                                                        />
+                                                                        <FormText> No</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-6 col-sm-12 col-12'>
+                                                                        <FormGroup className={` ${this.state.partThree.medExam ? 'd-block' : 'd-none'}`}>
+                                                                            <textarea
+                                                                                rows='3'
+                                                                                id='medExamRef'
+                                                                                name='dIDescription'
+                                                                                placeholder='Provide details about the examination i.e. Medical Unit where conducted e.t.c'
+                                                                                value={this.state.partThree.medExamRef}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                                className={`form-control ${this.hasErrorFor('medExamRef') ? 'invalid' : ''}`}
+                                                                            ></textarea>
+                                                                            {this.renderErrorFor('medExamRef')}
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                </Row>
 
-                                                            {this.renderErrorFor('medExam')}
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <Row>
-                                                                <Col className='col-md-4 col-sm-6 col-6'>
-                                                                    <Label htmlFor='reported'>Have you reported incident to any police station?</Label>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='reported'
-                                                                        id='yesReported'
-                                                                        value={true}
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'rep')}
-                                                                    />
-                                                                    <FormText> Yes</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-1 col-sm-2 col-2'>
-                                                                    <Input
-                                                                        type='radio'
-                                                                        name='reported'
-                                                                        id='noReported'
-                                                                        value={false}
-                                                                        defaultChecked
-                                                                        onChange={this.handleCheckBox.bind(this, 'p3', 'rep')}
-                                                                    />
-                                                                    <FormText> No</FormText>
-                                                                </Col>
-                                                                <Col className='col-md-6 col-sm-12 col-12'>
-                                                                    <FormGroup className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
-                                                                        <textarea
-                                                                            rows='3'
-                                                                            id='reportRef'
-                                                                            name='reportRef'
-                                                                            placeholder='Provide details about the report i.e. Police Station filed and Reference number provided e.t.c'
-                                                                            value={this.state.partThree.reportRef}
-                                                                            onChange={this.handleFieldChange.bind(this, 'p3')}
-                                                                            className={`form-control ${this.hasErrorFor('reportRef') ? 'invalid' : ''}`}
-                                                                        ></textarea>
-                                                                        {this.renderErrorFor('reportRef')}
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                        </FormGroup>
+                                                                {this.renderErrorFor('medExam')}
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Row>
+                                                                    <Col className='col-md-4 col-sm-6 col-6'>
+                                                                        <Label htmlFor='reported'>Have you reported incident to any police station?</Label>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='reported'
+                                                                            id='yesReported'
+                                                                            value={true}
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'rep')}
+                                                                        />
+                                                                        <FormText> Yes</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-1 col-sm-2 col-2'>
+                                                                        <Input
+                                                                            type='radio'
+                                                                            name='reported'
+                                                                            id='noReported'
+                                                                            value={false}
+                                                                            defaultChecked
+                                                                            onChange={this.handleCheckBox.bind(this, 'p3', 'rep')}
+                                                                        />
+                                                                        <FormText> No</FormText>
+                                                                    </Col>
+                                                                    <Col className='col-md-6 col-sm-12 col-12'>
+                                                                        <FormGroup className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
+                                                                            <textarea
+                                                                                rows='3'
+                                                                                id='reportRef'
+                                                                                name='reportRef'
+                                                                                placeholder='Provide details about the report i.e. Police Station filed and Reference number provided e.t.c'
+                                                                                value={this.state.partThree.reportRef}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                                className={`form-control ${this.hasErrorFor('reportRef') ? 'invalid' : ''}`}
+                                                                            ></textarea>
+                                                                            {this.renderErrorFor('reportRef')}
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                </Row>
+                                                            </FormGroup>
+                                                        </div>
+                                                        <div className='col-md-12'>
+                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p2', 'prev')}><i className='ni ni-bold-left'></i></button>
+                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p4', 'next')}><i className='ni ni-bold-right'></i></button>
+                                                        </div>
                                                     </div>
-                                                    <div className='col-md-12'>
-                                                        <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p2', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                        <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p4', 'next')}><i className='ni ni-bold-right'></i></button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset className="tab-pane fade" id="partFour">
-                                                <Card className='pb-3'>
-                                                    <CardHeader className='bg-primary text-white'>{this.state.partFour.title}</CardHeader>
-                                                    <div className='col-md-12 py-3'>
-                                                        <FormGroup className={`${this.hasErrorFor('officerName') ? 'has-danger' : ''}`}>
-                                                            <input id='name'
-                                                                className={`form-control ${this.hasErrorFor('officerName') ? 'is-invalid' : ''}`}
-                                                                name='officerName'
-                                                                placeholder='Offending Officers Name/s'
-                                                                required
-                                                                value={this.state.partFour.name}
-                                                                onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                            />
-                                                            {this.renderErrorFor('officerName')}
-                                                        </FormGroup>
-                                                        <FormGroup className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
-                                                            <input id='rank'
-                                                                className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
-                                                                name='officerRank'
-                                                                placeholder='Offending Officers Rank / Description'
-                                                                value={this.state.partFour.rank}
-                                                                onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                            />
-                                                            {this.renderErrorFor('officerRank')}
-                                                        </FormGroup>
-                                                        <FormGroup className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
-                                                            <textarea id='id'
-                                                                className={`form-control ${this.hasErrorFor('otherId') ? 'is-invalid' : ''}`}
-                                                                name='otherId'
-                                                                placeholder='Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique 		
+                                                </fieldset>
+                                                <fieldset className="tab-pane fade" id="partFour">
+                                                    <Card className='pb-3'>
+                                                        <CardHeader className='bg-primary text-white'>{this.state.partFour.title}</CardHeader>
+                                                        <div className='col-md-12 py-3'>
+                                                            <FormGroup className={`${this.hasErrorFor('officerName') ? 'has-danger' : ''}`}>
+                                                                <input id='name'
+                                                                    className={`form-control ${this.hasErrorFor('officerName') ? 'is-invalid' : ''}`}
+                                                                    name='officerName'
+                                                                    placeholder='Offending Officers Name/s'
+                                                                    required
+                                                                    value={this.state.partFour.name}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                />
+                                                                {this.renderErrorFor('officerName')}
+                                                            </FormGroup>
+                                                            <FormGroup className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
+                                                                <input id='rank'
+                                                                    className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
+                                                                    name='officerRank'
+                                                                    placeholder='Offending Officers Rank / Description'
+                                                                    value={this.state.partFour.rank}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                />
+                                                                {this.renderErrorFor('officerRank')}
+                                                            </FormGroup>
+                                                            <FormGroup className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
+                                                                <textarea id='id'
+                                                                    className={`form-control ${this.hasErrorFor('otherId') ? 'is-invalid' : ''}`}
+                                                                    name='otherId'
+                                                                    placeholder='Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique 		
                                                                     physical features, etc)'
-                                                                rows='5'
-                                                                value={this.state.partFour.id}
-                                                                onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                            ></textarea>
-                                                        </FormGroup>
-                                                        <FormGroup className={`${this.hasErrorFor('detUnit') ? 'has-danger' : ''}`}>
-                                                            <textarea id='detUnit'
-                                                                className={`form-control ${this.hasErrorFor('detUnit') ? 'is-invalid' : ''}`}
-                                                                name='detUnit'
-                                                                placeholder='Details of Unit where Officer is attached if known'
-                                                                rows='5'
-                                                                value={this.state.partFour.detUnit}
-                                                                onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                            ></textarea>
-                                                        </FormGroup>
-                                                    </div>
-                                                    <div className='col-md-12'>
-                                                        <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                        <button disabled={this.state.isSubmitting} className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
-                                                            <i className="ni ni-send"></i> {this.state.isSubmitting ? "Submitting Complaint " + <i className='fa fa-spinner'></i> : "Submit Complaint"}
-                                                        </button>
-                                                    </div>
-                                                </Card>
-                                            </fieldset>
-                                        </div>
-                                    </form>
+                                                                    rows='5'
+                                                                    value={this.state.partFour.id}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                ></textarea>
+                                                            </FormGroup>
+                                                            <FormGroup className={`${this.hasErrorFor('detUnit') ? 'has-danger' : ''}`}>
+                                                                <textarea id='detUnit'
+                                                                    className={`form-control ${this.hasErrorFor('detUnit') ? 'is-invalid' : ''}`}
+                                                                    name='detUnit'
+                                                                    placeholder='Details of Unit where Officer is attached if known'
+                                                                    rows='5'
+                                                                    value={this.state.partFour.detUnit}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                ></textarea>
+                                                            </FormGroup>
+                                                        </div>
+                                                        <div className='col-md-12'>
+                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
+                                                            <button disabled={this.state.isSubmitting} className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
+                                                                <i className="ni ni-send"></i> {this.state.isSubmitting ? "Submitting Complaint " + <i className='fa fa-spinner'></i> : "Submit Complaint"}
+                                                            </button>
+                                                        </div>
+                                                    </Card>
+                                                </fieldset>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div >
+                </div >
+            </>
         )
     }
 }

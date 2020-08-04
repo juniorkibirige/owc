@@ -6,20 +6,23 @@ import Login from './views/Login/Login'
 import Register from './views/Register/Register'
 import NotFound from './views/NotFound/NotFound'
 import PoliceForm from './components/PoliceForm'
+import Client from './views/user/Client/Client'
 
 import PrivateRoute from './PrivateRoute'
 import Dashboard from './views/user/Dashboard/Dashboard'
 
 const Main = props => (
     <Switch>
+        {/* User cannot login */}
+        <Route exact path='/' component={Client} />
+
         {/* User may login */}
-        <Route exact path='/' component={Home}/>
+        <Route exact path='/admin' component={Home}/>
         <Route path='/create' component={PoliceForm } />
 
         {/* User must login */}
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register}/>
-        {/* <Route path='/dashboard' render={props => <Dashboard {...props} />} /> */}
 
         {/* User is LoggedIn */}
         <PrivateRoute path='/dashboard' component={Dashboard}/>

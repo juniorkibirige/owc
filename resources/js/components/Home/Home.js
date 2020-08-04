@@ -35,7 +35,7 @@ class Home extends Component {
                         <div className='wrap-login100'>
                             <fieldset className='login'>
                                 <form className='login100-form validate-form validate-form-login'>
-                                    <Link className='root' to='/'>
+                                    <Link className='root' to='/admin'>
                                         <img src={Logo} className='d-block mx-auto mt-4' style={{ width: `150px`, height: `120px`, marginTop: `100px` }} />
                                     </Link>
                                     <span className="login100-form-title p-b-43 mt-3">

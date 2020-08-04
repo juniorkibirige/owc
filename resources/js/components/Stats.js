@@ -68,7 +68,6 @@ class Stats extends Component {
                 series: [{
                     type: 'pie',
                     name: 'Age Range',
-                    innerSize: '50%',
                     colorByPoint: true,
                     data: [
                         {
@@ -149,8 +148,7 @@ class Stats extends Component {
                 },
                 series: [{
                     type: 'pie',
-                    name: 'Age Range',
-                    innerSize: '50%',
+                    name: 'Gender Range',
                     colorByPoint: true,
                     data: [
                         {
@@ -217,7 +215,7 @@ class Stats extends Component {
                         },
                     },
                     area: {
-                        pointStart: 1,
+                        pointStart: 0,
                     }
                 },
                 series: [],

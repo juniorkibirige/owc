@@ -31,7 +31,7 @@ class Home extends Component {
                     error: '',
                     mess: response.data.message
                 })
-                location.href = location.origin
+                location.href = location.origin + '/admin'
                 
             })
     }
