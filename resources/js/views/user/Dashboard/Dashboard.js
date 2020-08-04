@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import AdminNavbar from "../../../components/Navbars/AdminNavbar_Default.js";
-// import AdminFooter from "components/Footers/AdminFooter.js";
+import AdminFooter from "../../../components/Footer/AdminFooter.js";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import axios from 'axios'
 
 import routes from "./../../../routes";
+import { Container } from 'reactstrap';
 
 class Home extends Component {
     constructor() {
@@ -13,9 +14,11 @@ class Home extends Component {
         this.state = {
             isLoggedIn: false,
             user: {},
-            mess: ''
+            mess: '',
+            sidenav: true
         }
         this.logout = this.logOut.bind(this)
+        this.toggleSide = this.toggleSide.bind(this)
     }
     logOut() {
         axios.post('/api/logout')
@@ -35,6 +38,21 @@ class Home extends Component {
 
             })
     }
+
+    // toggles collapse between opened and closed (true/false)
+    toggleSide(e) {
+        if (document.body.classList.contains("g-sidenav-pinned")) {
+            document.body.classList.remove("g-sidenav-pinned")
+            document.body.classList.add("g-sidenav-hidden")
+        } else {
+            document.body.classList.add("g-sidenav-pinned");
+            document.body.classList.remove("g-sidenav-hidden");
+        }
+        this.props.history.sidenavOpen = !this.props.history.sidenavOpen
+        this.setState({
+            sidenav: !this.state.sidenav
+        })
+    };
 
     componentDidMount() {
         let state = localStorage['appState']
@@ -87,6 +105,8 @@ class Home extends Component {
                     {...this.props}
                     logOut={this.logout}
                     routes={routes}
+                    sNOpen={this.toggleSide}
+                    sOpen={this.state.sidenav}
                     logo={{
                         innerLink: "/",
                         imgSrc: "../../../../argon/img/brand/mlgsd.png",
@@ -97,27 +117,20 @@ class Home extends Component {
                     <AdminNavbar
                         {...this.props}
                         logOut={this.logout}
+                        side={this.toggleSide}
+                        sno={this.state.sidenav}
                         brandText={this.getBrandText(this.props.location.pathname)}
                     />
-                    {
-                        // this.props.location.pathname === ('/dashboard/complain') ?
-                        //     <div className="row">
-                        //         <Col className='pt-7 col-12 col-sm-12'>
-                        //             < PoliceForm locNow="dashboard" />
-                        //         </Col>
-                        //     </div> : ""
-                    }
-                    <Switch cl>
+                    <Switch>
                         {this.getRoutes(routes)}
                         <Redirect from="*" to="/dashboard/index" />
                     </Switch>
-                    {/* <Container fluid>
+                    <Container fluid>
                         <AdminFooter />
-                    </Container> */}
-                    {/* <Footer /> */}
+                    </Container>
                 </div>
-                {this.props.history.sidenavOpen ? (
-                    <div className="backdrop d-xl-none" onClick={this.props.history.toggleSideNav} />
+                {this.state.sidenav ? (
+                    <div className="backdrop d-xl-none" onClick={this.toggleSide}/>
                 ) : null}
             </>
         )

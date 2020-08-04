@@ -17,6 +17,7 @@
 */
 import React from "react";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 // reactstrap components
 import {
   DropdownMenu,
@@ -32,14 +33,15 @@ import {
   Navbar,
   Nav,
   Container,
-  Media
+  Media,
+  NavItem
 } from "reactstrap";
 
 class AdminNavbar extends React.Component {
   render() {
     return (
       <>
-        <Navbar className="navbar-top navbar-dark" expand="md" style={{backgroundColor: `darkolivegreen`}}>
+        <Navbar className="navbar-top navbar-dark" expand="md" style={{ backgroundColor: `darkolivegreen` }}>
           <Container fluid>
             <Link
               className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
@@ -48,10 +50,10 @@ class AdminNavbar extends React.Component {
             >
               {this.props.brandText}
             </Link>
-            <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
+            <Form className="navbar-search navbar-search-dark form-inline mr-3 d-md-flex ml-lg-auto d-none d-md-none"
               style={{ visibility: `hidden` }}>
               <FormGroup className="mb-0"
-              style={{ visibility: `hidden` }}>
+                style={{ visibility: `hidden` }}>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -62,19 +64,32 @@ class AdminNavbar extends React.Component {
                 </InputGroup>
               </FormGroup>
             </Form>
-            <Nav className="align-items-center d-none d-md-flex" navbar>
+            <UncontrolledDropdown className='align-items-center ml-md-auto' navbar="true">
+              <NavItem className='d-xl-none'>
+                <div
+                  className={classnames("sidenav-toggler sidenav-toggler-dark d-block d-xl-none", {
+                    active: this.props.sno
+                  })}
+                  onClick={this.props.side}
+                >
+                  <div className="sidenav-toggler-inner">
+                    <i className="sidenav-toggler-line" />
+                    <i className="sidenav-toggler-line" />
+                    <i className="sidenav-toggler-line" />
+                  </div>
+                </div>
+              </NavItem>
+            </UncontrolledDropdown>
+            <Nav className="align-items-center ml-auto ml-md-0 d-md-flex" navbar>
               <UncontrolledDropdown nav>
                 <DropdownToggle className="pr-0" nav>
-                  <Media className="align-items-center">
-                    <span className="avatar avatar-sm rounded-circle">
-                      <img
-                        alt="..."
-                        src={require("./../../../../public/assets/img/theme/team-4-800x800.jpg")}
-                      />
+                  <Media className="align-items-center text-black" onClick={this.props.logOut}>
+                    <span>
+                      <i className="fa fa-angle-left"></i>
                     </span>
-                    <Media className="ml-2 d-none d-lg-block">
-                      <span className="mb-0 text-sm font-weight-bold">
-                        Jessica Jones
+                    <Media className="ml-2 d-lg-block">
+                      <span className="mb-0 text-sm text-black font-weight-bold">
+                        LOG OUT
                       </span>
                     </Media>
                   </Media>

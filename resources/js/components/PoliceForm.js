@@ -102,6 +102,7 @@ class PoliceForm extends Component {
             },
             partThree: {
                 title: 'DETAILS ABOUT THE COMPLAINT',
+                offenseType,
                 involved: new Object({
                     victimName: '',
                     victimAge: '',
@@ -177,6 +178,7 @@ class PoliceForm extends Component {
         this.getCounties3 = this.getCounties.bind(this)
         this.getSubCounties3 = this.getSubCounties.bind(this)
         this.getRanks = this.getRanks.bind(this)
+        this.getCompTypes = this.getCompTypes.bind(this)
         this.showReferenceNumber = this.showReferenceNumber.bind(this)
     }
 
@@ -945,6 +947,29 @@ class PoliceForm extends Component {
         }
     }
 
+    getCompTypes() {
+        let RANKS = [
+            'Inspector General of Police',
+            'Deputy Inspector General of Police',
+            'Assistant Inspector General of Police',
+            'Senior Commissioner of Police',
+            'Commissioner of Police',
+            'Assistant Commissioner of Police',
+            'Senior Superintendent of Police',
+            'Superintendent of Police',
+            'Assistant Superintedent of Police',
+            'Inspector of Police',
+        ]
+
+        let ranks = []
+        RANKS.forEach((compType, i) => {
+            ranks.push(
+                <option key={i} name={compType} value={compType}>{compType}</option>
+            )
+        });
+        return ranks
+    }
+
     getRanks() {
         let RANKS = {
             'IGP': 'Inspector General of Police',
@@ -1279,6 +1304,19 @@ class PoliceForm extends Component {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div className={`form-group ${this.hasErrorFor('offenseType') ? 'has-danger' : ''}`}>
+                                                                <label htmlFor='statement'>Statement of what happened</label>
+                                                                <textarea
+                                                                    id='statement'
+                                                                    className={`form-control ${this.hasErrorFor('offenseType') ? 'is-invalid' : ''}`}
+                                                                    name='statement'
+                                                                    placeholder='Explain in your own words what happened'
+                                                                    rows='5'
+                                                                    value={this.state.partThree.offenseType}
+                                                                    onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                />
+                                                                {this.renderErrorFor('statement')}
                                                             </div>
                                                             <div className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
                                                                 <label htmlFor='statement'>Statement of what happened</label>

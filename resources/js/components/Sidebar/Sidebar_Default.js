@@ -90,8 +90,6 @@ class Sidebar_Default extends React.Component {
   // for example, on the refresh of the page,
   // while on the src/views/forms/RegularForms.js - route /admin/regular-forms
   getCollapseInitialState(routes) {
-    console.log("gCS")
-    console.log(routes)
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse && this.getCollapseInitialState(routes[i].views)) {
         return true;
@@ -110,7 +108,6 @@ class Sidebar_Default extends React.Component {
   };
 
   tSN() {
-    console.log('TSN')
     this.props.toggleSideNav();
   }
   // this function creates the links and collapses that appear in the sidebar (left menu)

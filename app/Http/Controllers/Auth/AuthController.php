@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -77,6 +77,9 @@ class AuthController extends Controller
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
+        $affected = DB::table('users')
+                        ->where('id', $user->id)
+                        ->update(['api_token' => substr($tokenResult->accessToken, 0, 80), 'expires_at' => $token->expires_at]);
         $token->save();
         return response()->json([
             'success' => true,
@@ -84,6 +87,7 @@ class AuthController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'access_token' => $tokenResult->accessToken,
+            'api_token' => substr($tokenResult->accessToken, 0, 80),
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at

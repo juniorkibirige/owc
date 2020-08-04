@@ -11,6 +11,7 @@ var addFunnel = require('highcharts/modules/funnel')
 class Stats extends Component {
     constructor() {
         super()
+        console.log("axios")
         this.state = {
             perMonth: 0,
             perWeek: 0,
@@ -19,13 +20,10 @@ class Stats extends Component {
             reloaded: false,
             RankChart: {
                 chart: {
-                    plotBackground: null,
-                    plotBorderWidth: null,
-                    plotShadow: true,
-                    type: 'pie'
+                    type: 'column'
                 },
                 title: {
-                    text: 'Complaints by Age, ' + new Date().getFullYear(),
+                    text: 'Complaints by Offending Officer Rank, ' + new Date().getFullYear(),
                     align: 'center',
                 },
                 tooltip: {
@@ -35,60 +33,82 @@ class Stats extends Component {
                     text: 'Source: AI Data from database'
                 },
                 accessiblity: {
-                    point: {
-                        valueSuffix: '%'
+                    announceNewData: {
+                        enabled: true
                     }
                 },
                 xAxis: {
-                    accessiblity: {
-                        rangeDescription: 'Ages from : 0 onwards'
-                    }
+                    // type: 'category',
+                    labels: {
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    },
+                    crosshair: true,
+                    categories: [
+                        'IGP',
+                        'DIGP',
+                        'AIGP',
+                        'SCP',
+                        'CP',
+                        'ACP',
+                        'SSP',
+                        'SP',
+                        'ASP',
+                        'IP',
+                        'AIP',
+                        'SGT',
+                        'CPL',
+                        'PC',
+                        'SPC'
+                    ]
+                },
+                yAxis: {
+                    title: { text: 'Number of complaints' }
                 },
                 legend: {
-                    layout: 'horizontal',
-                    alight: 'bottom',
-                    verticalAlign: 'bottom'
+                    enabled: false
                 },
                 plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
+                    column: {
                         dataLabels: {
-                            enabled: false,
-                            format: '<b>{point.name}</b> reported: {point.percentage:.2f}%  ',
-                            style: {
-                                fontWeight: 'bold',
-                                color: 'white'
-                            }
+                            enabled: true,
                         },
-                        showInLegend: true
+                        pointPadding: .2,
+                        borderWidth: 1
                     }
                 },
-                series: [{
-                    type: 'pie',
-                    name: 'Age Range',
-                    colorByPoint: true,
-                    data: [
-                        {
-                            name: 'below 19',
-                            y: 58.9,
-                            selected: true,
-                            sliced: true
-                        },
-                        {
-                            name: '19 - 30',
-                            y: 13.29
-                        },
-                        {
-                            name: '31 - 50',
-                            y: 13
-                        },
-                        {
-                            name: '51 and above',
-                            y: 14.81
-                        }
-                    ]
-                }]
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{series.name}</span><table>',
+                    pointFormat: '<tr><td style="color:{point.color};padding:0">{point.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} complaints</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                series: [
+                    {
+                        data: [
+                            58.9,
+                            13.29,
+                            13,
+                            14.81,
+                            58.9,
+                            13.29,
+                            13,
+                            14.81,
+                            58.9,
+                            13.29,
+                            13,
+                            14.81,
+                            58.9,
+                            13.29,
+                            13,
+                        ]
+                    }
+                ]
+                // }]
             },
             OffenceChart: {
                 chart: {
@@ -98,7 +118,7 @@ class Stats extends Component {
                     type: 'pie'
                 },
                 title: {
-                    text: 'Complaints by Gender, ' + new Date().getFullYear(),
+                    text: 'Complaints by Offense Type, ' + new Date().getFullYear(),
                     align: 'center',
                 },
                 tooltip: {
@@ -111,7 +131,7 @@ class Stats extends Component {
                 },
                 xAxis: {
                     accessiblity: {
-                        rangeDescription: 'Reports by Gender'
+                        rangeDescription: 'Reports by Offense Type'
                     }
                 },
                 legend: {
@@ -158,7 +178,7 @@ class Stats extends Component {
                     zoomType: 'x'
                 },
                 accessiblity: {
-                    description: 'Number of crimes per day in ' + this.getMonth(new Date().getMonth())
+                    description: 'Number of complaints per day in ' + this.getMonth(new Date().getMonth())
                 },
                 title: {
                     text: 'Complaints in ' + this.getMonth(new Date().getMonth()) + ', ' + new Date().getFullYear()
@@ -454,8 +474,14 @@ class Stats extends Component {
         this.gC = HighCharts.chart('chart3', this.state.OffenceChart)
         var s = this.state.OffenceChart.series[0].data
         s = new Array()
+        console.log("axios")
+        $.ajax({
+            url: '/api/form_105',
+            success: (data) => {
+                console.log(data)
+            }
+        })
         axios.get('/api/form_105').then(response => {
-            let i = this.state.forMonth.series.length;
             // Setting up regional chart
             for (const key in response.data.byRegion) {
                 if (response.data.byRegion.hasOwnProperty(key)) {
@@ -467,9 +493,7 @@ class Stats extends Component {
                     this.fM.addSeries(newSeries, false)
                     this.fM.redraw()
                 }
-                i += 1
             }
-            i = this.state.RankChart.series[0].data.length
             // Setting up gender pie chart
             for (const key in response.data.byGender) {
                 if (response.data.byGender.hasOwnProperty(key)) {
@@ -479,11 +503,10 @@ class Stats extends Component {
                     else if (key == 'Female')
                         this.gC.series[0].data[1].update(gender)
                 }
-                i += 1
             }
 
             //Setting up age chart
-            for (const key in response.data.byAge) {
+            for (const key in response.data.byRank) {
                 if (response.data.byAge.hasOwnProperty(key)) {
                     const age = response.data.byAge[key];
                     switch (key) {
@@ -518,19 +541,15 @@ class Stats extends Component {
         })
     }
 
-    renderCharts() {
-        // console.log(this.state)
-    }
-
     render() {
         return (
-            <div className='header bg-white pb-7 pt-5'>
+            <div className='header bg-white pb-7'>
                 <div className='container-fluid'>
                     <div className='header-body'>
                         <Row className='align-items-center py-4'>
                             <Col className="col-sm-3 col-4"></Col>
                             <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"></Col>
-                            <Col className="col-sm-3 col-3 offset-2 offset-md-3 text-right align-items-right">
+                            <Col className="col-sm-3 col-3 offset-2 offset-md-9 offset-5 pr-7 text-right align-items-right">
                                 <Link className="btn btn-outline-default btn-info" to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>
                             </Col>
                         </Row>
@@ -600,12 +619,5 @@ class Stats extends Component {
         );
     }
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         backgroundColor: "#fff",
-//         justifyContent: 'center'
-//     }
-// })
 
 export default Stats

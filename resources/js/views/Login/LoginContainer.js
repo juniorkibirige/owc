@@ -63,7 +63,8 @@ class LoginContainer extends Component {
                         id: json.data.id,
                         name: json.data.name,
                         email: json.data.email,
-                        access_token: json.data.access_token
+                        access_token: json.data.access_token,
+                        api_token: json.data.api_token
                     }
                     let appState = {
                         isLoggedIn: true,

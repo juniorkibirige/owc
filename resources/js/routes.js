@@ -31,13 +31,6 @@ var routes = [
     hidden: true,
     layout: "/dashboard"
   },
-  // { TODO: Send to settings
-  //   path: "/dashboard",
-  //   name: "Categories",
-  //   icon: "fa fa-question-circle", 
-  //   component: Home,
-  //   layout: "/dashboard"
-  // },
   {
     path: "/dashboard",
     name: "Reports",

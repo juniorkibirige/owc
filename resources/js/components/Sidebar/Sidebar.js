@@ -46,7 +46,6 @@ class Sidebar extends Component {
       sidenavOpen: true
     };
     this.activeRoute.bind(this);
-    this.toggleSideNav = this.toggleSideNav.bind(this)
   }
   componentDidMount() {
     this.props.history.sidenavOpen = this.state.sidenavOpen
@@ -57,30 +56,30 @@ class Sidebar extends Component {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
   // toggles collapse between opened and closed (true/false)
-  toggleSideNav(e) {
-    if (document.body.classList.contains("g-sidenav-pinned")) {
-      document.body.classList.remove("g-sidenav-pinned")
-      document.body.classList.add("g-sidenav-hidden")
-    } else {
-      document.body.classList.add("g-sidenav-pinned");
-      document.body.classList.remove("g-sidenav-hidden");
-    }
-    this.setState({
-      sidenavOpen: !this.state.sidenavOpen
-    })
-    this.props.history.sidenavOpen = !this.props.history.sidenavOpen
-  };
+  // toggleSideNav() {
+  //   console.log("toggled")
+  //   if (document.body.classList.contains("g-sidenav-pinned")) {
+  //     document.body.classList.remove("g-sidenav-pinned")
+  //     document.body.classList.add("g-sidenav-hidden")
+  //   } else {
+  //     document.body.classList.add("g-sidenav-pinned");
+  //     document.body.classList.remove("g-sidenav-hidden");
+  //   }
+  //   this.props.history.sidenavOpen = !this.props.history.sidenavOpen
+  //   this.setState({
+  //     sidenavOpen: !this.state.sidenavOpen
+  //   })
+  // };
 
   render() {
     const { routes } = this.props;
-    console.log(this.props.routes)
     return (
       <>
         <Sidebar_Default
           {...this.props}
           routes={routes}
-          toggleSideNav={this.toggleSideNav}
-          sidenavOpen={this.state.sidenavOpen}
+          toggleSideNav={this.props.sNOpen}
+          sidenavOpen={this.props.sOpen}
           logo={{
             innerLink: "/dashboard",
             imgSrc: require("./../../../../public/argon/img/brand/favicon.png"),
