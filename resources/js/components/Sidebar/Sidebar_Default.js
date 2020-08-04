@@ -41,6 +41,11 @@ class Sidebar_Default extends React.Component {
       ...this.getCollapseStates(props.routes)
     };
     this.tSN = this.tSN.bind(this)
+    this.closeSidenav = this.closeSidenav.bind(this)
+    this.activeRoute = this.activeRoute.bind(this)
+    this.toggleCollapse = this.toggleCollapse.bind(this)
+    this.closeCollapse = this.closeCollapse.bind(this)
+    
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -103,7 +108,7 @@ class Sidebar_Default extends React.Component {
   // the sidebar will autoclose
   closeSidenav() {
     if (window.innerWidth < 1200) {
-      this.props.toggleSidenav();
+      this.props.toggleSideNav();
     }
   };
 

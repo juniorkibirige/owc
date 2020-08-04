@@ -258,10 +258,6 @@ class Stats extends Component {
 
     componentDidMount() {
         history.pushState({}, null, location.origin + '/dashboard')
-        if (this.props.history.prev == 'tables') {
-            this.props.history.prev = ''
-            location.pathname = 'dashboard'
-        }
         addFunnel(HighCharts)
         HighCharts.theme = {
             colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
@@ -474,13 +470,6 @@ class Stats extends Component {
         this.gC = HighCharts.chart('chart3', this.state.OffenceChart)
         var s = this.state.OffenceChart.series[0].data
         s = new Array()
-        console.log("axios")
-        $.ajax({
-            url: '/api/form_105',
-            success: (data) => {
-                console.log(data)
-            }
-        })
         axios.get('/api/form_105').then(response => {
             // Setting up regional chart
             for (const key in response.data.byRegion) {
@@ -507,30 +496,29 @@ class Stats extends Component {
 
             //Setting up age chart
             for (const key in response.data.byRank) {
-                if (response.data.byAge.hasOwnProperty(key)) {
-                    const age = response.data.byAge[key];
-                    switch (key) {
-                        case 'below 19':
-                            this.aC.series[0].data[0].update(age)
-                            break;
-                        case '19 - 30':
-                            this.aC.series[0].data[1].update(age)
-                            break;
-                        case '31 - 50':
-                            this.aC.series[0].data[2].update(age)
-                            break;
-                        case '51 and above':
-                            this.aC.series[0].data[3].update(age)
-                            break;
-                        default:
-                            this.aC.series[0].update({
-                                name: 'none',
-                                y: age
-                            })
-                            break;
-                    }
+                if (response.data.byRank.hasOwnProperty(key)) {
+                    const age = response.data.byRank[key];
+                    // switch (key) {
+                    //     case 'below 19':
+                    //         this.aC.series[0].data[0].update(age)
+                    //         break;
+                    //     case '19 - 30':
+                    //         this.aC.series[0].data[1].update(age)
+                    //         break;
+                    //     case '31 - 50':
+                    //         this.aC.series[0].data[2].update(age)
+                    //         break;
+                    //     case '51 and above':
+                    //         this.aC.series[0].data[3].update(age)
+                    //         break;
+                    //     default:
+                    //         this.aC.series[0].update({
+                    //             name: 'none',
+                    //             y: age
+                    //         })
+                    //         break;
+                    // }
                 }
-                i += 1
             }
             this.aC.redraw()
             this.setState(prevState => ({

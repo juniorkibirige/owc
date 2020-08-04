@@ -1694,7 +1694,7 @@ class PoliceForm extends Component {
                                     </Row>
                                 </div>
                                 <div className="modal-footer">
-                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal">Finished Copy</button>
+                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal" onClick={()=>{this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')}}>Finished Copy</button>
                                 </div>
                             </div>
                         </div>
