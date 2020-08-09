@@ -46,6 +46,18 @@ function statusFormatter(cell, row) {
                 <strong style={{ color: `green` }}>Open</strong>
             </span>
         )
+    } else if(row.underInv) {
+        return (
+            <span>
+                <strong style={{ color: `orange` }}>Under Investigation</strong>
+            </span>
+        )
+    } else {
+        return (
+            <span>
+                <strong style={{ color: `Red` }}>Dismissed</strong>
+            </span>
+        )
     }
 }
 
