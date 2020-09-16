@@ -69,7 +69,10 @@ const columns = [
     },
     {
         dataField: 'refNo',
-        text: 'Reference No.'
+        text: 'Reference No.',
+        formatter: cell => {
+            return (<span>{cell.toString().split('-')[4]}</span>)
+        }
     },
     {
         dataField: 'victimName',
@@ -111,15 +114,14 @@ const columns = [
 
 const rowEvents = {
     onClick: (e, row, rowIndex) => {
-        console.log(e.currentTarget)
-        console.log(`clicked on ${row.age} with index: ${rowIndex}`);
+        alert(`clicked on ${row.victimAge} with index: ${rowIndex}`)
     }
 }
 
 class Tables extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             alert: null,
             loading: false,

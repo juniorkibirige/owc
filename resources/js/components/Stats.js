@@ -7,11 +7,11 @@ import axios from 'axios'
 import HighCharts from 'highcharts'
 import {Link} from 'react-router-dom'
 
-var addFunnel = require('highcharts/modules/funnel')
+const addFunnel = require('highcharts/modules/funnel');
 
 class Stats extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             perMonth: 0,
             perWeek: 0,
@@ -62,6 +62,7 @@ class Stats extends Component {
                     ]
                 },
                 yAxis: {
+                    allowDecimals: false,
                     title: {text: 'Number of complaints'}
                 },
                 legend: {
@@ -467,10 +468,6 @@ class Stats extends Component {
                         y: gender
                     }
                     this.gC.series[0].addPoint(newPoint)
-                    // if (key == 'Male')
-                    //     this.gC.series[0].data[0].update(gender)
-                    // else if (key == 'Female')
-                    //     this.gC.series[0].data[1].update(gender)
                 }
             }
             this.gC.series[0].data[0].remove(true)
@@ -483,9 +480,10 @@ class Stats extends Component {
                     }
                 ]
             }, true, true)
-            // this.aC.series[0].data.push()
+
             this.aC.redraw()
             this.setState(prevState => ({
+                ...prevState,
                 perMonth: response.data.perMonth,
                 perWeek: response.data.perWeek,
                 perDay: response.data.perDay
@@ -499,8 +497,8 @@ class Stats extends Component {
                 <div className='container-fluid'>
                     <div className='header-body'>
                         <Row className='align-items-center py-4'>
-                            <Col className="col-sm-3 col-4"></Col>
-                            <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"></Col>
+                            <Col className="col-sm-3 col-4"/>
+                            <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"/>
                             <Col
                                 className="col-sm-3 col-3 offset-2 offset-md-9 offset-5 pr-7 text-right align-items-right">
                                 <Link className="btn btn-outline-default btn-info"

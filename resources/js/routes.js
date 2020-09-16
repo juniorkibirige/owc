@@ -3,6 +3,7 @@ import Tables from "./views/Tables/Tables"
 import Stats from "./components/Stats";
 import Category from "./components/Category"
 import PoliceForm from "./components/PoliceForm";
+import Report from "./components/Report";
 
 const routes = [
     {
@@ -32,15 +33,15 @@ const routes = [
     {
         path: "/report",
         name: "Reports",
-        icon: "fa fa-form",
-        component: Home,
+        icon: "fa fa-list",
+        component: Report,
         layout: '/dashboard'
     },
     {
         collapse: true,
         name: "Settings",
         state: "settingsCollapse",
-        icon: "ni ni-ungroup text-orange",
+        icon: "fa fa-cog text-orange",
         views: [
             {
                 path: "/settings/category",

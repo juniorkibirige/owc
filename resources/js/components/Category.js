@@ -15,8 +15,9 @@ import BootstrapTable from 'react-bootstrap-table-next'
 
 const rowEvents = {
     onClick: (e, row, rowIndex) => {
-        console.log(e.currentTarget)
-        console.log(`clicked on ${row.age} with index: ${rowIndex}`);
+        alert(`clicked on ${row} with index: ${rowIndex}`)
+        // console.log(e.currentTarget)
+        // console.log(`clicked on ${row.age} with index: ${rowIndex}`);
     }
 }
 

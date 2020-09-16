@@ -1,6 +1,6 @@
 import axios from 'axios'
-import React, { Component } from 'react'
-import { v4 } from 'uuid';
+import React, {Component} from 'react'
+import {v4} from 'uuid';
 import {
     FormGroup, FormText,
     Input, Label,
@@ -19,80 +19,8 @@ const disableFutureDt = current => {
 
 class PoliceForm extends Component {
 
-    componentDidMount() {
-        this.getCities()
-        this.getRanks()
-        const params = new URLSearchParams(window.location.search)
-        if (params.has('prev')) {
-            this.setState({
-                prev: params.get('prev')
-            })
-        }
-
-        axios.get('/api/cat').then(response => {
-            const data = response.data
-            let RANKS = []
-            data.forEach(oT => {
-            for (const key in oT) {
-                if (oT.hasOwnProperty(key)) {
-                    const category = oT[key];
-                    if (key == 'name')
-                        RANKS.push(category)
-                }
-            }
-            });
-            this.setState({
-                oData: RANKS
-            })
-        });
-        this.setInputFilter(document.getElementById('age'), function (value) {
-            return /^-?\d*$/.test(value);
-        });
-
-        this.setInputFilter(document.getElementById('tel'), function (value) {
-            return /^-?\d*$/.test(value);
-        });
-        let state_of_state = localStorage["appState"]
-        if (!state_of_state) {
-            let appState = {
-                isLoggedIn: false,
-                user: {}
-            }
-            localStorage['appState'] = JSON.stringify(appState)
-        }
-
-        let state = localStorage['appState']
-        let AppState = JSON.parse(state)
-
-        const Auth = {
-            isLoggedIn: AppState.isLoggedIn,
-            user: AppState.user
-        }
-
-        this.setState({
-            isLoggedIn: Auth.isLoggedIn,
-            user: Auth.user
-        })
-    }
-    setInputFilter(textbox, inputFilter) {
-        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
-            textbox.addEventListener(event, function () {
-                if (inputFilter(this.value)) {
-                    textbox.oldValue = textbox.value;
-                    textbox.oldSelectionStart = textbox.selectionStart;
-                    textbox.oldSelectionEnd = textbox.selectionEnd;
-                } else if (textbox.hasOwnProperty("oldValue")) {
-                    textbox.value = textbox.oldValue;
-                    textbox.setSelectionRange(textbox.oldSelectionStart, textbox.oldSelectionEnd);
-                } else {
-                    textbox.value = "";
-                }
-            });
-        });
-    }
-
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             error: null,
             isSubmitting: false,
@@ -160,7 +88,7 @@ class PoliceForm extends Component {
                 id: '',
                 detUnit: ''
             },
-            errors: new Object(),
+            errors: {},
             active: {
                 p1: true,
                 p2: false,
@@ -209,7 +137,81 @@ class PoliceForm extends Component {
         this.showReferenceNumber = this.showReferenceNumber.bind(this)
     }
 
+    componentDidMount() {
+        this.getCities()
+        this.getRanks()
+        const params = new URLSearchParams(window.location.search)
+        if (params.has('prev')) {
+            this.setState({
+                prev: params.get('prev')
+            })
+        }
+
+        axios.get('/api/cat').then(response => {
+            const data = response.data
+            let RANKS = []
+            data.forEach(oT => {
+                for (const key in oT) {
+                    if (oT.hasOwnProperty(key)) {
+                        const category = oT[key];
+                        if (key == 'name')
+                            RANKS.push(category)
+                    }
+                }
+            });
+            this.setState({
+                oData: RANKS
+            })
+        });
+        this.setInputFilter(document.getElementById('age'), function (value) {
+            return /^-?\d*$/.test(value);
+        });
+
+        this.setInputFilter(document.getElementById('tel'), function (value) {
+            return /^-?\d*$/.test(value);
+        });
+        let state_of_state = localStorage["appState"]
+        if (!state_of_state) {
+            let appState = {
+                isLoggedIn: false,
+                user: {}
+            }
+            localStorage['appState'] = JSON.stringify(appState)
+        }
+
+        let state = localStorage['appState']
+        let AppState = JSON.parse(state)
+
+        const Auth = {
+            isLoggedIn: AppState.isLoggedIn,
+            user: AppState.user
+        }
+
+        this.setState({
+            isLoggedIn: Auth.isLoggedIn,
+            user: Auth.user
+        })
+    }
+
+    setInputFilter(textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+            textbox.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    textbox.oldValue = textbox.value;
+                    textbox.oldSelectionStart = textbox.selectionStart;
+                    textbox.oldSelectionEnd = textbox.selectionEnd;
+                } else if (textbox.hasOwnProperty("oldValue")) {
+                    textbox.value = textbox.oldValue;
+                    textbox.setSelectionRange(textbox.oldSelectionStart, textbox.oldSelectionEnd);
+                } else {
+                    textbox.value = "";
+                }
+            });
+        });
+    }
+
     handleSubmit(event) {
+        console.log("submit")
         this.setState(prevState => ({
             isSubmitting: true,
             progress: {
@@ -219,10 +221,7 @@ class PoliceForm extends Component {
         }))
         event.preventDefault()
 
-        if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3 && this.state.progress.p4) {
-
-            console.log(this.state.partTwo.residence.compDist)
-            console.log(this.state.partTwo.residence.compRegion)
+        if (this.state.progress.p1 && this.state.progress.p2 && this.state.progress.p3) {
 
             const form = {
                 'refNo': this.state.refNo,
@@ -265,15 +264,15 @@ class PoliceForm extends Component {
                 .then(response => {
                     this.showReferenceNumber()
                 }).catch(error => {
-                    console.warn(error.response.data.errors)
-                    this.setState({
-                        errors: error.response.data.errors
-                    })
-                }).finally(_ => {
-                    this.setState({
-                        isSubmitting: false
-                    })
+                console.warn(error.response.data.errors)
+                this.setState({
+                    errors: error.response.data.errors
                 })
+            }).finally(_ => {
+                this.setState({
+                    isSubmitting: false
+                })
+            })
         } else {
             alert('Please cross check the form and fill in any missing fields')
             this.setState({
@@ -322,7 +321,7 @@ class PoliceForm extends Component {
     }
 
     handleNav(nav, dir) {
-        let errors = new Object()
+        let errors = {}
         errors.length = 0;
         if (dir == 'next') {
             let fieldset = null
@@ -362,6 +361,7 @@ class PoliceForm extends Component {
                 case 'p4':
                     fieldset = $('#partThree').get(0)
                     if (fieldset != null) {
+                        // console.log(fieldset.elements)
                         for (const key in fieldset.elements) {
                             if (fieldset.elements.hasOwnProperty(key)) {
                                 const element = fieldset.elements[key];
@@ -390,11 +390,16 @@ class PoliceForm extends Component {
                                                     errors.length += 1
                                                 }
                                             }
+                                        } else if (element.name == "medExam") {
+                                            if ($("#yesmedExam").get(0).checked) {
+                                                if (document.getElementsByName('medExamRef')[0].value == '') {
+                                                    errors["medExamRef"] = ['Please enter data']
+                                                    errors.length += 1
+                                                }
+                                            }
                                         }
                                     } else {
-                                        if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef" && key != 21) {
-                                            console.log(key)
-                                            console.log(element)
+                                        if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef" && key != 21 && element.name != "medExamRef") {
                                             errors[element.name] = ['Please fill the field']
                                             errors.length += 1
                                         }
@@ -402,6 +407,11 @@ class PoliceForm extends Component {
                             }
                         }
                     }
+                    break
+                case 'done':
+                    console.log("Submit")
+                    $('#form105').submit()
+                    console.log("Submit1")
                     break
                 default:
                     break
@@ -643,8 +653,9 @@ class PoliceForm extends Component {
                     period: date
                 }
             }))
+        } else {
+            event.target.value = this.state.partThree.period
         }
-        else { event.target.value = this.state.partThree.period }
     }
 
     // For nested state objects
@@ -855,8 +866,12 @@ class PoliceForm extends Component {
 
     cities() {
         return (
-            <div className={`form-group ${this.hasErrorFor('location') ? 'has-danger' : ''}`} defaultValue="Victim's Gender">
-                <select id='location' name='location' className={`form-control ${this.hasErrorFor('location') ? 'is-invalid' : ''}`} placeholder='default' value={this.state.partThree.location} onChange={this.handleFieldChange.bind(this, 'p3')}>
+            <div className={`form-group ${this.hasErrorFor('location') ? 'has-danger' : ''}`}
+                 defaultValue="Victim's Gender">
+                <select id='location' name='location'
+                        className={`form-control ${this.hasErrorFor('location') ? 'is-invalid' : ''}`}
+                        placeholder='default' value={this.state.partThree.location}
+                        onChange={this.handleFieldChange.bind(this, 'p3')}>
                     <option name='default' value='default' key="default">Select where crime happened</option>
                     {
                         this.state.cityData.map(city => {
@@ -867,18 +882,6 @@ class PoliceForm extends Component {
                 {this.renderErrorFor('location')}
             </div>
         )
-    }
-
-    getDistricts() {
-        let dis = []
-        let k = 0
-        if (this.state.cR != '') {
-            Object.keys(this.state.cData[this.state.cR]).forEach(district => {
-                dis[k] = <option key={district} value={district}>{district}</option>
-                k += 1
-            })
-            return dis
-        }
     }
 
     getRegions() {
@@ -919,7 +922,7 @@ class PoliceForm extends Component {
     getDistricts() {
         let dis = []
         let k = 0
-        if (this.state.cR != '') {
+        if (this.state.cR !== '') {
             Object.keys(this.state.cData[this.state.cR]).forEach(district => {
                 dis[k] = <option key={district} value={district}>{district}</option>
                 k += 1
@@ -979,6 +982,7 @@ class PoliceForm extends Component {
         let RANKS = this.state.oData
 
         let ranks = []
+        ranks.push(<option key={99999} name={"default"} value={"default"}>Select Offense Type</option>)
         RANKS.forEach((compType, i) => {
             ranks.push(
                 <option key={i} name={compType} value={compType}>{compType}</option>
@@ -1018,9 +1022,10 @@ class PoliceForm extends Component {
     }
 
     showReferenceNumber() {
-        const { history } = this.props
+        const {history} = this.props
         $('finCopy').on('click', _ => {
-            this.state.isLoggedIn ? history.push('/dashboard') : history.push('/')
+            $("[href='/dashboard/index']")[0].click()
+            $("[href='/dashboard/index']")[0].click()
         })
         $('#getRef').click()
     }
@@ -1029,13 +1034,14 @@ class PoliceForm extends Component {
         return (
             <>
                 {this.state.error}
-                {this.state.prev == 'guest' ? <GuestNavbar /> : null}
+                {this.state.prev == 'guest' ? <GuestNavbar/> : null}
                 <div className={`container py-1 ${this.state.prev == 'dashboard' ? "pt-6" : ""}`}>
                     <div className='row justify-content-center'>
                         <div className='col-md-12'>
                             <div className='card'>
                                 <div className='col-md-12 text-center pt-3'>
-                                    <img className='rounded mx-auto d-block' src='/static/images/formLogo.png' style={{ width: 120 + 'px', height: 129 + 'px' }} />
+                                    <img className='rounded mx-auto d-block' src='/static/images/formLogo.png'
+                                         style={{width: 120 + 'px', height: 129 + 'px'}}/>
                                 </div>
                                 <div className='container'>
                                     <div className='row'>
@@ -1049,11 +1055,15 @@ class PoliceForm extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='card-header text-center'>COMPLAINT/S AGAINST A POLICE OFFICER [POLICE FORM 105]</div>
+                                <div className='card-header text-center'>COMPLAINT/S AGAINST A POLICE OFFICER [POLICE
+                                    FORM 105]
+                                </div>
                                 <div className="col-md-12 py-3 bg-secondary">
                                     <ul className="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
                                         <li className="nav-item">
-                                            <a className={`nav-link rounded-circle ${this.state.active.p1 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p1')} id="first-tab" data-toggle="tab" href="#partOne" role="tab" aria-selected="true">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p1 ? 'active' : ''}`}
+                                               onClick={this.handlePill.bind(this, 'p1')} id="first-tab"
+                                               data-toggle="tab" href="#partOne" role="tab" aria-selected="true">
                                                 <span className="nav-link-icon d-block">
                                                     <span className="fa-stack">
                                                         <strong className="fa-stack-1x">
@@ -1064,7 +1074,9 @@ class PoliceForm extends Component {
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a className={`nav-link rounded-circle ${this.state.active.p2 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p2')} id="second-tab" data-toggle="tab" href="#partTwo" role="tab" aria-selected="false">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p2 ? 'active' : ''}`}
+                                               onClick={this.handlePill.bind(this, 'p2')} id="second-tab"
+                                               data-toggle="tab" href="#partTwo" role="tab" aria-selected="false">
                                                 <span className="nav-link-icon d-block">
                                                     <span className="fa-stack">
                                                         <strong className="fa-stack-1x">
@@ -1075,7 +1087,9 @@ class PoliceForm extends Component {
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a className={`nav-link rounded-circle ${this.state.active.p3 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p3')} id="third-tab" data-toggle="tab" href="#partThree" role="tab" aria-selected="false">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p3 ? 'active' : ''}`}
+                                               onClick={this.handlePill.bind(this, 'p3')} id="third-tab"
+                                               data-toggle="tab" href="#partThree" role="tab" aria-selected="false">
                                                 <span className="nav-link-icon d-block">
                                                     <span className="fa-stack">
                                                         <strong className="fa-stack-1x">
@@ -1086,7 +1100,9 @@ class PoliceForm extends Component {
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a className={`nav-link rounded-circle ${this.state.active.p4 ? 'active' : ''}`} onClick={this.handlePill.bind(this, 'p4')} id="fourth-tab" data-toggle="tab" href="#partFour" role="tab" aria-selected="false">
+                                            <a className={`nav-link rounded-circle ${this.state.active.p4 ? 'active' : ''}`}
+                                               onClick={this.handlePill.bind(this, 'p4')} id="fourth-tab"
+                                               data-toggle="tab" href="#partFour" role="tab" aria-selected="false">
                                                 <span className="nav-link-icon d-block">
                                                     <span className="fa-stack">
                                                         <strong className="fa-stack-1x">
@@ -1099,30 +1115,43 @@ class PoliceForm extends Component {
                                     </ul>
                                     <div className="card card-plain">
                                         <form onSubmit={this.handleSubmit} id='form105'>
-                                            <div className="tab-content tab-space p-3" style={{ backgroundColor: '#e9ecef' }}>
+                                            <div className="tab-content tab-space p-3"
+                                                 style={{backgroundColor: '#e9ecef'}}>
                                                 <fieldset className='tab-pane fade active show' id='partOne'>
                                                     <div className='card pb-3'>
-                                                        <div className='card-header bg-primary text-white'>{this.state.partOne.title}</div>
+                                                        <div
+                                                            className='card-header bg-primary text-white'>{this.state.partOne.title}</div>
                                                         <div className='col-md-12 py-3'>
                                                             <p className="description">
-                                                                This form is for lodging complaint/s against a police officer on cases of violation of human rights
-                                                                and unporofessional conduct under section 70 of the Police Act 303, which provides for complaints by
-                                                                the public against police officers. A person is entitled, without prejudice to any other legal means
-                                                                of redress available to him or her, to make a written complaint as to - (a) an instance of bribery,
-                                                                corruption, oppression or intimidation by a police officer; (b) any neglect or non  perfomance of his
-                                                                or her duties by a police officer; (c) any other misconduct by a police officer.
-                                                        </p>
+                                                                This form is for lodging complaint/s against a police
+                                                                officer on cases of violation of human rights
+                                                                and unporofessional conduct under section 70 of the
+                                                                Police Act 303, which provides for complaints by
+                                                                the public against police officers. A person is
+                                                                entitled, without prejudice to any other legal means
+                                                                of redress available to him or her, to make a written
+                                                                complaint as to - (a) an instance of bribery,
+                                                                corruption, oppression or intimidation by a police
+                                                                officer; (b) any neglect or non perfomance of his
+                                                                or her duties by a police officer; (c) any other
+                                                                misconduct by a police officer.
+                                                            </p>
                                                         </div>
                                                         <div className='col-md-12'>
-                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p2')}><i className='ni ni-bold-right'></i></button>
+                                                            <button id='next' type="button"
+                                                                    className="btn btn-default float-right"
+                                                                    onClick={this.handleNav.bind(this, 'p2')}><i
+                                                                className='ni ni-bold-right'></i></button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
                                                 <fieldset className="tab-pane fade" id="partTwo">
                                                     <div className='card pb-3'>
-                                                        <div className='card-header bg-primary text-white'>{this.state.partTwo.title}</div>
+                                                        <div
+                                                            className='card-header bg-primary text-white'>{this.state.partTwo.title}</div>
                                                         <div className='col-md-12 py-3'>
-                                                            <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
+                                                            <div
+                                                                className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
                                                                 <input
                                                                     id='name'
                                                                     type='text'
@@ -1134,7 +1163,8 @@ class PoliceForm extends Component {
                                                                     onChange={this.handleFieldChange.bind(this, 'p2')}
                                                                 />
                                                             </div>
-                                                            <div className={`form-group ${this.hasErrorFor('age') ? 'has-danger' : ''}`}>
+                                                            <div
+                                                                className={`form-group ${this.hasErrorFor('age') ? 'has-danger' : ''}`}>
                                                                 <input
                                                                     id='age'
                                                                     type='text'
@@ -1152,13 +1182,22 @@ class PoliceForm extends Component {
                                                                     <div className='row'>
                                                                         <label htmlFor='gender'>Gender &nbsp;</label>
                                                                         <div className="custom-control custom-checkbox">
-                                                                            <input className="custom-control-input gender-sel" id="Male" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
-                                                                            <label className="custom-control-label" htmlFor="Male">Male</label>
+                                                                            <input
+                                                                                className="custom-control-input gender-sel"
+                                                                                id="Male" type="checkbox"
+                                                                                onChange={this.handleCheckBox.bind(this, 'p2')}/>
+                                                                            <label className="custom-control-label"
+                                                                                   htmlFor="Male">Male</label>
                                                                         </div>
-                                                                    &nbsp;
-                                                                    <div className="custom-control custom-checkbox mb-3">
-                                                                            <input className="custom-control-input gender-sel" id="Female" type="checkbox" onChange={this.handleCheckBox.bind(this, 'p2')} />
-                                                                            <label className="custom-control-label" htmlFor="Female">Female</label>
+                                                                        &nbsp;
+                                                                        <div
+                                                                            className="custom-control custom-checkbox mb-3">
+                                                                            <input
+                                                                                className="custom-control-input gender-sel"
+                                                                                id="Female" type="checkbox"
+                                                                                onChange={this.handleCheckBox.bind(this, 'p2')}/>
+                                                                            <label className="custom-control-label"
+                                                                                   htmlFor="Female">Female</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1168,17 +1207,30 @@ class PoliceForm extends Component {
                                                             <div className='container text-center'>
                                                                 <div className='row'>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
-                                                                            <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.region} onChange={this.handleResidence}>
-                                                                                <option name='default' value='default'>Select Region</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                            <select id='region' name='region'
+                                                                                    className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partTwo.residence.region}
+                                                                                    onChange={this.handleResidence}>
+                                                                                <option name='default'
+                                                                                        value='default'>Select Region
+                                                                                </option>
                                                                                 {this.getRegions()}
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
-                                                                            <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.district} onChange={this.handleResidence}>
-                                                                                <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                            <select id='district' name='district'
+                                                                                    className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partTwo.residence.district}
+                                                                                    onChange={this.handleResidence}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
                                                                                 {this.getDistricts()}
                                                                             </select>
                                                                         </div>
@@ -1186,17 +1238,29 @@ class PoliceForm extends Component {
                                                                 </div>
                                                                 <div className='row'>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
-                                                                            <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.county} onChange={this.handleResidence}>
-                                                                                <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                            <select id='county' name='county'
+                                                                                    className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partTwo.residence.county}
+                                                                                    onChange={this.handleResidence}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
                                                                                 {this.getCounties()}
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
-                                                                            <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partTwo.residence.subCounty} onChange={this.handleResidence}>
-                                                                                <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                            <select id='subCounty' name='subCounty'
+                                                                                    className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partTwo.residence.subCounty}
+                                                                                    onChange={this.handleResidence}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
                                                                                 {this.getSubCounties()}
                                                                             </select>
                                                                         </div>
@@ -1204,7 +1268,8 @@ class PoliceForm extends Component {
                                                                 </div>
                                                                 <Row>
                                                                     <div className='col-md-12 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
                                                                             <input
                                                                                 id='village'
                                                                                 type='text'
@@ -1223,7 +1288,8 @@ class PoliceForm extends Component {
                                                             <div className='container'>
                                                                 <div className='row'>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('tel') ? 'has-danger' : ''}`}>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('tel') ? 'has-danger' : ''}`}>
                                                                             <input
                                                                                 id='tel'
                                                                                 type='tel'
@@ -1239,7 +1305,8 @@ class PoliceForm extends Component {
                                                                         </div>
                                                                     </div>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('name') ? 'has-danger' : ''}`}>
                                                                             <input
                                                                                 id='email'
                                                                                 type='email'
@@ -1256,19 +1323,28 @@ class PoliceForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className='col-md-12'>
-                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p1', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p3', 'next')}><i className='ni ni-bold-right'></i></button>
+                                                            <button id='prev' type="button"
+                                                                    className="btn btn-default float-left"
+                                                                    onClick={this.handleNav.bind(this, 'p1', 'prev')}><i
+                                                                className='ni ni-bold-left'></i></button>
+                                                            <button id='next' type="button"
+                                                                    className="btn btn-default float-right"
+                                                                    onClick={this.handleNav.bind(this, 'p3', 'next')}><i
+                                                                className='ni ni-bold-right'></i></button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
                                                 <fieldset className="tab-pane fade" id="partThree">
                                                     <div className='card pb-3'>
-                                                        <div className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
+                                                        <div
+                                                            className='card-header bg-primary text-white'>{this.state.partThree.title}</div>
                                                         <div className='col-md-12 py-3'>
                                                             <Row>
-                                                                <label className='col-12 col-sm-6' htmlFor='contact'>Victim Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        </label>
-                                                                <div className='col-12 col-sm-6' style={{ textAlign: 'right' }}>
+                                                                <label className='col-12 col-sm-6' htmlFor='contact'>Victim
+                                                                    Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                </label>
+                                                                <div className='col-12 col-sm-6'
+                                                                     style={{textAlign: 'right'}}>
                                                                     <Input
                                                                         id='sameAsComplainant'
                                                                         name='sameAsComplainant'
@@ -1276,11 +1352,12 @@ class PoliceForm extends Component {
                                                                         value={this.state.partThree.sAC}
                                                                         onChange={this.handleInvolved.bind(this, 'p3')}
                                                                     /> Same as Complainant
-                                                        </div>
+                                                                </div>
                                                             </Row>
                                                             <div className='row' id='vicDet'>
                                                                 <div className='col-md-6 col-sm-12'>
-                                                                    <div className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
+                                                                    <div
+                                                                        className={`form-group ${this.hasErrorFor('victimName') ? 'has-danger' : ''}`}>
                                                                         <input
                                                                             id='victimName'
                                                                             type='text'
@@ -1297,7 +1374,8 @@ class PoliceForm extends Component {
                                                                 <div className='col-md-6 col-sm-12'>
                                                                     <div className='row'>
                                                                         <div className="col-md-6 col-sm-12">
-                                                                            <div className={`form-group ${this.hasErrorFor('victimAge') ? 'has-danger' : ''}`}>
+                                                                            <div
+                                                                                className={`form-group ${this.hasErrorFor('victimAge') ? 'has-danger' : ''}`}>
                                                                                 <input
                                                                                     id='victimAge'
                                                                                     type='text'
@@ -1311,11 +1389,24 @@ class PoliceForm extends Component {
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-md-6 col-sm-12">
-                                                                            <div className={`form-group ${this.hasErrorFor('victimGender') ? 'has-danger' : ''}`} defaultValue="Victim's Gender">
-                                                                                <select id='gender' name='victimGender' className={`form-control ${this.hasErrorFor('victimGender') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.involved.gender} onChange={this.handleInvolved}>
-                                                                                    <option name='default' value='default'>Victim's Gender</option>
-                                                                                    <option name='gender' value='Male'>Male</option>
-                                                                                    <option name='gender' value='Female'>Female</option>
+                                                                            <div
+                                                                                className={`form-group ${this.hasErrorFor('victimGender') ? 'has-danger' : ''}`}
+                                                                                defaultValue="Victim's Gender">
+                                                                                <select id='gender' name='victimGender'
+                                                                                        className={`form-control ${this.hasErrorFor('victimGender') ? 'is-invalid' : ''}`}
+                                                                                        placeholder='Victim Gender'
+                                                                                        value={this.state.partThree.involved.gender}
+                                                                                        onChange={this.handleInvolved}>
+                                                                                    <option name='default'
+                                                                                            value='default'>Victim's
+                                                                                        Gender
+                                                                                    </option>
+                                                                                    <option name='gender'
+                                                                                            value='Male'>Male
+                                                                                    </option>
+                                                                                    <option name='gender'
+                                                                                            value='Female'>Female
+                                                                                    </option>
                                                                                 </select>
                                                                                 {this.renderErrorFor('victimGender')}
                                                                             </div>
@@ -1323,8 +1414,10 @@ class PoliceForm extends Component {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className={`form-group ${this.hasErrorFor('offenseType') ? 'has-danger' : ''}`}>
-                                                                <label htmlFor='statement'>Offense Type (With random data)</label>
+                                                            <div
+                                                                className={`form-group ${this.hasErrorFor('offenseType') ? 'has-danger' : ''}`}>
+                                                                <label htmlFor='statement'>Offense Type (With random
+                                                                    data)</label>
                                                                 <select
                                                                     id='offenseType'
                                                                     className={`form-control ${this.hasErrorFor('offenseType') ? 'is-invalid' : ''}`}
@@ -1336,8 +1429,10 @@ class PoliceForm extends Component {
                                                                 </select>
                                                                 {this.renderErrorFor('offenseType')}
                                                             </div>
-                                                            <div className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
-                                                                <label htmlFor='statement'>Statement of what happened</label>
+                                                            <div
+                                                                className={`form-group ${this.hasErrorFor('statement') ? 'has-danger' : ''}`}>
+                                                                <label htmlFor='statement'>Statement of what
+                                                                    happened</label>
                                                                 <textarea
                                                                     id='statement'
                                                                     className={`form-control ${this.hasErrorFor('statement') ? 'is-invalid' : ''}`}
@@ -1349,23 +1444,32 @@ class PoliceForm extends Component {
                                                                 />
                                                                 {this.renderErrorFor('statement')}
                                                             </div>
-                                                            <div className='form-group' style={{ marginBottom: .5 + 'rem' }}>
+                                                            <div className='form-group'
+                                                                 style={{marginBottom: .5 + 'rem'}}>
                                                                 <label htmlFor='period'>When it happened</label>
                                                                 <div className='row'>
                                                                     <div className="col-md-6">
-                                                                        <div className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
-                                                                            <select id='selPeriod' className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`} placeholder='Victim Gender' name='period' defaultValue={`default`}>
-                                                                                <option name='date' value='default' data-toggle='dateTab'>Date</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('period') ? 'has-danger' : ''}`}>
+                                                                            <select id='selPeriod'
+                                                                                    className={`form-control ${this.hasErrorFor('period') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    name='period'
+                                                                                    defaultValue={`default`}>
+                                                                                <option name='date' value='default'
+                                                                                        data-toggle='dateTab'>Date
+                                                                                </option>
                                                                             </select>
                                                                             {this.renderErrorFor('period')}
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-md-6">
                                                                         <FormGroup>
-                                                                            <InputGroup className="input-group-alternative">
+                                                                            <InputGroup
+                                                                                className="input-group-alternative">
                                                                                 <InputGroupAddon addonType="prepend">
                                                                                     <InputGroupText>
-                                                                                        <i className="ni ni-calendar-grid-58" />
+                                                                                        <i className="ni ni-calendar-grid-58"/>
                                                                                     </InputGroupText>
                                                                                 </InputGroupAddon>
                                                                                 <ReactDatetime
@@ -1387,17 +1491,30 @@ class PoliceForm extends Component {
                                                             <div className='container text-center'>
                                                                 <div className='row'>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
-                                                                            <select id='region' name='region' className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.region} onChange={this.handleLocation}>
-                                                                                <option name='default' value='default'>Select Region</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('region') ? 'has-danger' : ''}`}>
+                                                                            <select id='region' name='region'
+                                                                                    className={`form-control ${this.hasErrorFor('region') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partThree.location.region}
+                                                                                    onChange={this.handleLocation}>
+                                                                                <option name='default'
+                                                                                        value='default'>Select Region
+                                                                                </option>
                                                                                 {this.getRegions()}
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
-                                                                            <select id='district' name='district' className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.district} onChange={this.handleLocation}>
-                                                                                <option name='default' value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('district') ? 'has-danger' : ''}`}>
+                                                                            <select id='district' name='district'
+                                                                                    className={`form-control ${this.hasErrorFor('district') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partThree.location.district}
+                                                                                    onChange={this.handleLocation}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cR == '' ? "Select a Region first!" : "Select District"}</option>
                                                                                 {this.getDistricts()}
                                                                             </select>
                                                                         </div>
@@ -1405,17 +1522,29 @@ class PoliceForm extends Component {
                                                                 </div>
                                                                 <div className='row'>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
-                                                                            <select id='county' name='county' className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.county} onChange={this.handleLocation}>
-                                                                                <option name='default' value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('county') ? 'has-danger' : ''}`}>
+                                                                            <select id='county' name='county'
+                                                                                    className={`form-control ${this.hasErrorFor('county') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partThree.location.county}
+                                                                                    onChange={this.handleLocation}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cD == '' ? "Select a District first!" : "Select a County"}</option>
                                                                                 {this.getCounties()}
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div className='col-md-6 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
-                                                                            <select id='subCounty' name='subCounty' className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`} placeholder='Victim Gender' value={this.state.partThree.location.subCounty} onChange={this.handleLocation}>
-                                                                                <option name='default' value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('subCounty') ? 'has-danger' : ''}`}>
+                                                                            <select id='subCounty' name='subCounty'
+                                                                                    className={`form-control ${this.hasErrorFor('subCounty') ? 'is-invalid' : ''}`}
+                                                                                    placeholder='Victim Gender'
+                                                                                    value={this.state.partThree.location.subCounty}
+                                                                                    onChange={this.handleLocation}>
+                                                                                <option name='default'
+                                                                                        value='default'>{this.state.cC == '' ? "Select a County first!" : "Select a Sub-county"}</option>
                                                                                 {this.getSubCounties()}
                                                                             </select>
                                                                         </div>
@@ -1423,7 +1552,8 @@ class PoliceForm extends Component {
                                                                 </div>
                                                                 <Row>
                                                                     <div className='col-md-12 col-sm-12'>
-                                                                        <div className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
+                                                                        <div
+                                                                            className={`form-group ${this.hasErrorFor('village') ? 'has-danger' : ''}`}>
                                                                             <input
                                                                                 id='village'
                                                                                 type='text'
@@ -1441,7 +1571,8 @@ class PoliceForm extends Component {
                                                             <FormGroup>
                                                                 <Row>
                                                                     <Col className='col-md-4 col-sm-6 col-6'>
-                                                                        <Label htmlFor='dI'>Was there any damage or injury?</Label>
+                                                                        <Label htmlFor='dI'>Was there any damage or
+                                                                            injury?</Label>
                                                                     </Col>
                                                                     <Col className='col-md-1 col-sm-2 col-2'>
                                                                         <Input
@@ -1465,7 +1596,8 @@ class PoliceForm extends Component {
                                                                         <FormText> No</FormText>
                                                                     </Col>
                                                                     <Col className='col-md-6 col-sm-12 col-12'>
-                                                                        <FormGroup className={` ${this.state.partThree.dI ? 'd-block' : 'd-none'}`}>
+                                                                        <FormGroup
+                                                                            className={` ${this.state.partThree.dI ? 'd-block' : 'd-none'}`}>
                                                                             <textarea
                                                                                 rows='5'
                                                                                 id='dIDescription'
@@ -1474,7 +1606,7 @@ class PoliceForm extends Component {
                                                                                 value={this.state.partThree.dIDescription}
                                                                                 onChange={this.handleFieldChange.bind(this, 'p3')}
                                                                                 className={`form-control ${this.hasErrorFor('dIDescription')}`}
-                                                                            ></textarea>
+                                                                            />
                                                                         </FormGroup>
                                                                     </Col>
                                                                 </Row>
@@ -1483,7 +1615,8 @@ class PoliceForm extends Component {
                                                             <FormGroup>
                                                                 <Row>
                                                                     <Col className='col-md-4 col-sm-6 col-6'>
-                                                                        <Label htmlFor='witness'>Were there any witnesses?</Label>
+                                                                        <Label htmlFor='witness'>Were there any
+                                                                            witnesses?</Label>
                                                                     </Col>
                                                                     <Col className='col-md-1 col-sm-2 col-2'>
                                                                         <Input
@@ -1512,7 +1645,8 @@ class PoliceForm extends Component {
                                                             <FormGroup>
                                                                 <Row>
                                                                     <Col className='col-md-4 col-sm-6 col-6'>
-                                                                        <Label htmlFor='medExam'>Were examined by a Medical Officer?</Label>
+                                                                        <Label htmlFor='medExam'>Were examined by a
+                                                                            Medical Officer?</Label>
                                                                     </Col>
                                                                     <Col className='col-md-1 col-sm-2 col-2'>
                                                                         <Input
@@ -1536,7 +1670,8 @@ class PoliceForm extends Component {
                                                                         <FormText> No</FormText>
                                                                     </Col>
                                                                     <Col className='col-md-6 col-sm-12 col-12'>
-                                                                        <FormGroup className={` ${this.state.partThree.medExam ? 'd-block' : 'd-none'}`}>
+                                                                        <FormGroup
+                                                                            className={` ${this.state.partThree.medExam ? 'd-block' : 'd-none'}`}>
                                                                             <textarea
                                                                                 rows='3'
                                                                                 id='medExamRef'
@@ -1545,7 +1680,7 @@ class PoliceForm extends Component {
                                                                                 value={this.state.partThree.medExamRef}
                                                                                 onChange={this.handleFieldChange.bind(this, 'p3')}
                                                                                 className={`form-control ${this.hasErrorFor('medExamRef') ? 'invalid' : ''}`}
-                                                                            ></textarea>
+                                                                            />
                                                                             {this.renderErrorFor('medExamRef')}
                                                                         </FormGroup>
                                                                     </Col>
@@ -1556,7 +1691,8 @@ class PoliceForm extends Component {
                                                             <FormGroup>
                                                                 <Row>
                                                                     <Col className='col-md-4 col-sm-6 col-6'>
-                                                                        <Label htmlFor='reported'>Have you reported incident to any police station?</Label>
+                                                                        <Label htmlFor='reported'>Have you reported
+                                                                            incident to any police station?</Label>
                                                                     </Col>
                                                                     <Col className='col-md-1 col-sm-2 col-2'>
                                                                         <Input
@@ -1580,7 +1716,8 @@ class PoliceForm extends Component {
                                                                         <FormText> No</FormText>
                                                                     </Col>
                                                                     <Col className='col-md-6 col-sm-12 col-12'>
-                                                                        <FormGroup className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
+                                                                        <FormGroup
+                                                                            className={` ${this.state.partThree.reported ? 'd-block' : 'd-none'}`}>
                                                                             <textarea
                                                                                 rows='3'
                                                                                 id='reportRef'
@@ -1589,7 +1726,7 @@ class PoliceForm extends Component {
                                                                                 value={this.state.partThree.reportRef}
                                                                                 onChange={this.handleFieldChange.bind(this, 'p3')}
                                                                                 className={`form-control ${this.hasErrorFor('reportRef') ? 'invalid' : ''}`}
-                                                                            ></textarea>
+                                                                            />
                                                                             {this.renderErrorFor('reportRef')}
                                                                         </FormGroup>
                                                                     </Col>
@@ -1597,64 +1734,88 @@ class PoliceForm extends Component {
                                                             </FormGroup>
                                                         </div>
                                                         <div className='col-md-12'>
-                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p2', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                            <button id='next' type="button" className="btn btn-default float-right" onClick={this.handleNav.bind(this, 'p4', 'next')}><i className='ni ni-bold-right'></i></button>
+                                                            <button id='prev' type="button"
+                                                                    className="btn btn-default float-left"
+                                                                    onClick={this.handleNav.bind(this, 'p2', 'prev')}><i
+                                                                className='ni ni-bold-left'></i></button>
+                                                            <button id='next' type="button"
+                                                                    className="btn btn-default float-right"
+                                                                    onClick={this.handleNav.bind(this, 'p4', 'next')}><i
+                                                                className='ni ni-bold-right'></i></button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
                                                 <fieldset className="tab-pane fade" id="partFour">
                                                     <Card className='pb-3'>
-                                                        <CardHeader className='bg-primary text-white'>{this.state.partFour.title}</CardHeader>
+                                                        <CardHeader
+                                                            className='bg-primary text-white'>{this.state.partFour.title}</CardHeader>
                                                         <div className='col-md-12 py-3'>
-                                                            <FormGroup className={`${this.hasErrorFor('officerName') ? 'has-danger' : ''}`}>
+                                                            <FormGroup
+                                                                className={`${this.hasErrorFor('officerName') ? 'has-danger' : ''}`}>
                                                                 <input id='name'
-                                                                    className={`form-control ${this.hasErrorFor('officerName') ? 'is-invalid' : ''}`}
-                                                                    name='officerName'
-                                                                    placeholder='Offending Officers Name/s'
-                                                                    required
-                                                                    value={this.state.partFour.name}
-                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                       className={`form-control ${this.hasErrorFor('officerName') ? 'is-invalid' : ''}`}
+                                                                       name='officerName'
+                                                                       placeholder='Offending Officers Name/s'
+                                                                       required
+                                                                       value={this.state.partFour.name}
+                                                                       onChange={this.handleFieldChange.bind(this, 'p4')}
                                                                 />
                                                                 {this.renderErrorFor('officerName')}
                                                             </FormGroup>
-                                                            <FormGroup className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
+                                                            <FormGroup
+                                                                className={`${this.hasErrorFor('officerRank') ? 'has-danger' : ''}`}>
                                                                 <select id='rank'
-                                                                    className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
-                                                                    name='officerRank'
-                                                                    placeholder='Offending Officers Rank / Description'
-                                                                    value={this.state.partFour.rank}
-                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                        className={`form-control ${this.hasErrorFor('officerRank') ? 'is-invalid' : ''}`}
+                                                                        name='officerRank'
+                                                                        placeholder='Offending Officers Rank / Description'
+                                                                        value={this.state.partFour.rank}
+                                                                        onChange={this.handleFieldChange.bind(this, 'p4')}
                                                                 >
-                                                                    <option name='default' value='default'>Offending Officers Rank</option>
+                                                                    <option name='default' value='default'>Offending
+                                                                        Officers Rank
+                                                                    </option>
                                                                     {this.getRanks()}
                                                                 </select>
                                                                 {this.renderErrorFor('officerRank')}
                                                             </FormGroup>
-                                                            <FormGroup className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
+                                                            <FormGroup
+                                                                className={`${this.hasErrorFor('otherId') ? 'has-danger' : ''}`}>
                                                                 <textarea id='id'
-                                                                    className={`form-control ${this.hasErrorFor('otherId') ? 'is-invalid' : ''}`}
-                                                                    name='otherId'
-                                                                    placeholder='Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique 		
+                                                                          className={`form-control ${this.hasErrorFor('otherId') ? 'is-invalid' : ''}`}
+                                                                          name='otherId'
+                                                                          placeholder='Any unique features describing the Officer(Colour of Uniform, Name tag, budge number, any unique
                                                                     physical features, etc)'
-                                                                    rows='5'
-                                                                    value={this.state.partFour.id}
-                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                                ></textarea>
+                                                                          rows='5'
+                                                                          value={this.state.partFour.id}
+                                                                          onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                />
                                                             </FormGroup>
-                                                            <FormGroup className={`${this.hasErrorFor('detUnit') ? 'has-danger' : ''}`}>
+                                                            <FormGroup
+                                                                className={`${this.hasErrorFor('detUnit') ? 'has-danger' : ''}`}>
                                                                 <textarea id='detUnit'
-                                                                    className={`form-control ${this.hasErrorFor('detUnit') ? 'is-invalid' : ''}`}
-                                                                    name='detUnit'
-                                                                    placeholder='Details of Unit where Officer is attached if known'
-                                                                    rows='5'
-                                                                    value={this.state.partFour.detUnit}
-                                                                    onChange={this.handleFieldChange.bind(this, 'p4')}
-                                                                ></textarea>
+                                                                          className={`form-control ${this.hasErrorFor('detUnit') ? 'is-invalid' : ''}`}
+                                                                          name='detUnit'
+                                                                          placeholder='Details of Unit where Officer is attached if known'
+                                                                          rows='5'
+                                                                          value={this.state.partFour.detUnit}
+                                                                          onChange={this.handleFieldChange.bind(this, 'p4')}
+                                                                />
                                                             </FormGroup>
                                                         </div>
                                                         <div className='col-md-12'>
-                                                            <button id='prev' type="button" className="btn btn-default float-left" onClick={this.handleNav.bind(this, 'p3', 'prev')}><i className='ni ni-bold-left'></i></button>
-                                                            <button disabled={this.state.isSubmitting} className="btn btn-primary btn-round float-right" type='submit' onClick={this.handleNav.bind(this, 'done', 'next')}>
+                                                            <button id='prev' type="button"
+                                                                    className="btn btn-default float-left"
+                                                                    onClick={this.handleNav.bind(this, 'p3', 'prev')}>
+                                                                <i className='ni ni-bold-left'/>
+                                                            </button>
+                                                            <button disabled={this.state.isSubmitting}
+                                                                    className="btn btn-primary btn-round float-right"
+                                                                    type='submit'
+                                                                    onClick={() => {
+                                                                        this.handleNav.bind(this, 'done', 'next')
+                                                                        $('form105').submit()
+                                                                    }
+                                                                    }>
                                                                 <i className={`${this.state.isSubmitting ? 'fa fa-spinner' : 'ni ni-send'}`}></i> {this.state.isSubmitting ? "Submitting Complaint " : "Submit Complaint"}
                                                             </button>
                                                         </div>
@@ -1669,10 +1830,12 @@ class PoliceForm extends Component {
                     </div>
                 </div>
                 <div>
-                    <button id="getRef" type='button' tabIndex='-1' className='btn btn-primary d-none d-sm-none' data-toggle='modal' data-target="#showRefNo">
+                    <button id="getRef" type='button' tabIndex='-1' className='btn btn-primary d-none d-sm-none'
+                            data-toggle='modal' data-target="#showRefNo">
                         Get Ref
                     </button>
-                    <div className="modal fade" id="showRefNo" tabIndex="-1" role="dialog" aria-labelledby="showRefNoTitle" aria-hidden="true">
+                    <div className="modal fade" id="showRefNo" tabIndex="-1" role="dialog"
+                         aria-labelledby="showRefNoTitle" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -1683,12 +1846,18 @@ class PoliceForm extends Component {
                                 </div>
                                 <div className="modal-body">
                                     <Row>
-                                        <p className='display-7 text-center'>Please write down this number for Reference if contacted</p><br />
-                                        <div className='text-center display-5' style={{ width: `100%` }}>{this.state.refNo}</div>
+                                        <p className='display-7 text-center'>Please write down this number for Reference
+                                            if contacted</p><br/>
+                                        <div className='text-center display-5'
+                                             style={{width: `100%`}}>{this.state.refNo}</div>
                                     </Row>
                                 </div>
                                 <div className="modal-footer">
-                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal" onClick={() => { this.state.isLoggedIn ? history.push('/dashboard') : history.push('/') }}>Finished Copy</button>
+                                    <button id="finCopy" type="button" className="btn btn-success" data-dismiss="modal"
+                                            onClick={() => {
+                                                $("[href='/dashboard/index']")[0].click()
+                                            }}>Finished Copy
+                                    </button>
                                 </div>
                             </div>
                         </div>
