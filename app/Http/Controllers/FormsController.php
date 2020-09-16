@@ -43,6 +43,7 @@ class FormsController extends Controller
             $week[$it] = explode('-', explode('T', json_encode($cday))[0])[2];
             $cday = $cday->copy()->addDay();
         }
+
         $pM = 0;
         $pD = 0;
         $pW = 0;
@@ -70,6 +71,10 @@ class FormsController extends Controller
         }
         $uuid = 0;
         $offenceTypeCount = [];
+        $offenceRankCount = [];
+        foreach (FormsController::rank as $rank) {
+            $offenceRankCount[$rank] = 0;
+        }
         foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by
             $ret['id'] = $uuid;
             $ret['refNo'] = $formData->refNo;
@@ -84,7 +89,7 @@ class FormsController extends Controller
             $ret['underInv'] = $formData->underInv;
             array_push($result, (object)$ret);
             $uuid = $uuid + 1;
-            foreach (FormsController::rank as $rank) {
+            foreach (self::rank as $rank) {
                 if ($rank === $formData->officerRank) {
                     try {
                         $age[$rank] = $age[$rank] + 1;
@@ -98,6 +103,7 @@ class FormsController extends Controller
             } catch (\Throwable $th) {
                 $offenceTypeCount[$formData->offenseType] = 1;
             }
+            $offenceRankCount[$formData->officerRank]++;
             $date = explode(' ', $formData->created_at)[0];
             $cm = explode('-', $date)[1];
             $cd = explode('-', $date)[2];
@@ -154,13 +160,17 @@ class FormsController extends Controller
                 if ($current_day == $cd) $pW += 1;
             }
         }
+        $rOff = [];
+        foreach (self::rank as $rank) {
+            array_push($rOff, [$rank, $offenceRankCount[$rank]]);
+        }
         $res['forms'] = $result;
         $res['perMonth'] = $pM;
         $res['perDay'] = $pD;
         $res['perWeek'] = $pW;
         $res['byRegion'] = $sort;
         $res['byGender'] = $offenceTypeCount;
-        $res['byRank'] = $age;
+        $res['byRank'] = $rOff;
 
         return json_encode($res);
     }

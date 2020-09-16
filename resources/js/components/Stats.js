@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
     Row, Col,
     Card, CardBody
 } from 'reactstrap'
 import axios from 'axios'
 import HighCharts from 'highcharts'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+
 var addFunnel = require('highcharts/modules/funnel')
 
 class Stats extends Component {
@@ -61,7 +62,7 @@ class Stats extends Component {
                     ]
                 },
                 yAxis: {
-                    title: { text: 'Number of complaints' }
+                    title: {text: 'Number of complaints'}
                 },
                 legend: {
                     enabled: false
@@ -85,23 +86,7 @@ class Stats extends Component {
                 },
                 series: [
                     {
-                        data: [
-                            58.9,
-                            13.29,
-                            13,
-                            14.81,
-                            58.9,
-                            13.29,
-                            13,
-                            14.81,
-                            58.9,
-                            13.29,
-                            13,
-                            14.81,
-                            58.9,
-                            13.29,
-                            13,
-                        ]
+                        data: []
                     }
                 ]
                 // }]
@@ -491,31 +476,14 @@ class Stats extends Component {
             this.gC.series[0].data[0].remove(true)
 
             //Setting up age chart
-            for (const key in response.data.byRank) {
-                if (response.data.byRank.hasOwnProperty(key)) {
-                    const age = response.data.byRank[key];
-                    // switch (key) {
-                    //     case 'below 19':
-                    //         this.aC.series[0].data[0].update(age)
-                    //         break;
-                    //     case '19 - 30':
-                    //         this.aC.series[0].data[1].update(age)
-                    //         break;
-                    //     case '31 - 50':
-                    //         this.aC.series[0].data[2].update(age)
-                    //         break;
-                    //     case '51 and above':
-                    //         this.aC.series[0].data[3].update(age)
-                    //         break;
-                    //     default:
-                    //         this.aC.series[0].update({
-                    //             name: 'none',
-                    //             y: age
-                    //         })
-                    //         break;
-                    // }
-                }
-            }
+            this.aC.update({
+                series: [
+                    {
+                        data: response.data.byRank
+                    }
+                ]
+            }, true, true)
+            // this.aC.series[0].data.push()
             this.aC.redraw()
             this.setState(prevState => ({
                 perMonth: response.data.perMonth,
@@ -533,21 +501,27 @@ class Stats extends Component {
                         <Row className='align-items-center py-4'>
                             <Col className="col-sm-3 col-4"></Col>
                             <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"></Col>
-                            <Col className="col-sm-3 col-3 offset-2 offset-md-9 offset-5 pr-7 text-right align-items-right">
-                                <Link className="btn btn-outline-default btn-info" to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>
+                            <Col
+                                className="col-sm-3 col-3 offset-2 offset-md-9 offset-5 pr-7 text-right align-items-right">
+                                <Link className="btn btn-outline-default btn-info"
+                                      to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>
                             </Col>
                         </Row>
                         <Row>
                             <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats bg-gradient-purple' style={{ marginBottom: 30 + 'px' }}>
+                                <Card className='card-stats bg-gradient-purple' style={{marginBottom: 30 + 'px'}}>
                                     <CardBody>
                                         <Row>
                                             <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perDay}&nbsp; <span className='text-nowrap text-sm'>Today</span></span>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total
+                                                    Complaints</h5>
+                                                <span
+                                                    className='h2 font-weight-bold mb-0 text-white'>{this.state.perDay}&nbsp;
+                                                    <span className='text-nowrap text-sm'>Today</span></span>
                                             </Col>
                                             <Col className='col-auto'>
-                                                <div className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
+                                                <div
+                                                    className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
                                                     <i className='ni ni-chart-pie-35'></i>
                                                 </div>
                                             </Col>
@@ -556,15 +530,19 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                             <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats bg-gradient-blue' style={{ marginBottom: 30 + 'px' }}>
+                                <Card className='card-stats bg-gradient-blue' style={{marginBottom: 30 + 'px'}}>
                                     <CardBody>
                                         <Row>
                                             <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perWeek}&nbsp; <span className='text-nowrap text-sm'>This Week</span></span>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total
+                                                    Complaints</h5>
+                                                <span
+                                                    className='h2 font-weight-bold mb-0 text-white'>{this.state.perWeek}&nbsp;
+                                                    <span className='text-nowrap text-sm'>This Week</span></span>
                                             </Col>
                                             <Col className='col-auto'>
-                                                <div className='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                                                <div
+                                                    className='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
                                                     <i className='ni ni-chart-pie-35'></i>
                                                 </div>
                                             </Col>
@@ -573,15 +551,19 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                             <Col className='col-xl-4 col-md-4 col-12'>
-                                <Card className='card-stats bg-gradient-red' style={{ marginBottom: 30 + 'px' }}>
+                                <Card className='card-stats bg-gradient-red' style={{marginBottom: 30 + 'px'}}>
                                     <CardBody>
                                         <Row>
                                             <Col>
-                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total Complaints</h5>
-                                                <span className='h2 font-weight-bold mb-0 text-white'>{this.state.perMonth}&nbsp; <span className='text-nowrap text-sm'>This Month</span></span>
+                                                <h5 className='card-title text-uppercase text-muted mb-0 text-white'>Total
+                                                    Complaints</h5>
+                                                <span
+                                                    className='h2 font-weight-bold mb-0 text-white'>{this.state.perMonth}&nbsp;
+                                                    <span className='text-nowrap text-sm'>This Month</span></span>
                                             </Col>
                                             <Col className='col-auto'>
-                                                <div className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
+                                                <div
+                                                    className='icon icon-shape bg-gradient-blue text-white rounded-circle shadow'>
                                                     <i className='ni ni-chart-pie-35'></i>
                                                 </div>
                                             </Col>
@@ -591,11 +573,14 @@ class Stats extends Component {
                             </Col>
                         </Row>
                         <Row className='pb-4'>
-                            <div id="forMonth" className='col-sm-12 col-md-12 col-12' style={{ borderRadius: `10px` }}></div>
+                            <div id="forMonth" className='col-sm-12 col-md-12 col-12'
+                                 style={{borderRadius: `10px`}}></div>
                         </Row>
                         <Row>
-                            <div id="chart" className='pb-4 col-sm-12 col-md-6 col-12' style={{ borderRadius: `10px` }}></div>
-                            <div id="chart3" className='pb-4 col-sm-12 col-md-6 col-12' style={{ borderRadius: `10px` }}></div>
+                            <div id="chart" className='pb-4 col-sm-12 col-md-6 col-12'
+                                 style={{borderRadius: `10px`}}></div>
+                            <div id="chart3" className='pb-4 col-sm-12 col-md-6 col-12'
+                                 style={{borderRadius: `10px`}}></div>
                         </Row>
                     </div>
                 </div>
