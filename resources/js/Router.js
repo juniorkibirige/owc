@@ -4,7 +4,7 @@ import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home'
 import Login from './views/Login/Login'
 import Register from './views/Register/Register'
-import NotFound from './views/NotFound/NotFound'
+// import NotFound from './views/NotFound/NotFound'
 import PoliceForm from './components/PoliceForm'
 import Client from './views/user/Client/Client'
 require('./variables/config')

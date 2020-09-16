@@ -25,9 +25,6 @@ class Stats extends Component {
                     text: 'Complaints by Offending Officer Rank, ' + new Date().getFullYear(),
                     align: 'center',
                 },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
                 subtitle: {
                     text: 'Source: AI Data from database'
                 },
@@ -140,7 +137,7 @@ class Stats extends Component {
                 },
                 plotOptions: {
                     pie: {
-                        allowPointSelect: true,
+                        allowPointSelect: false,
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: false,
@@ -158,12 +155,6 @@ class Stats extends Component {
                     name: 'Gender Range',
                     colorByPoint: true,
                     data: [
-                        {
-                            name: 'Male',
-                            y: 58.9,
-                            selected: true,
-                            sliced: true
-                        },
                         {
                             name: 'Female',
                             y: 13.29
@@ -467,8 +458,8 @@ class Stats extends Component {
         this.fM = HighCharts.chart('forMonth', this.state.forMonth)
         this.aC = HighCharts.chart('chart', this.state.RankChart)
         this.gC = HighCharts.chart('chart3', this.state.OffenceChart)
-        var s = this.state.OffenceChart.series[0].data
-        s = new Array()
+        let s = this.state.OffenceChart.series[0].data;
+        s = []
         axios.get('/api/form_105').then(response => {
             // Setting up regional chart
             for (const key in response.data.byRegion) {
@@ -486,12 +477,18 @@ class Stats extends Component {
             for (const key in response.data.byGender) {
                 if (response.data.byGender.hasOwnProperty(key)) {
                     const gender = response.data.byGender[key];
-                    if (key == 'Male')
-                        this.gC.series[0].data[0].update(gender)
-                    else if (key == 'Female')
-                        this.gC.series[0].data[1].update(gender)
+                    let newPoint = {
+                        name: key,
+                        y: gender
+                    }
+                    this.gC.series[0].addPoint(newPoint)
+                    // if (key == 'Male')
+                    //     this.gC.series[0].data[0].update(gender)
+                    // else if (key == 'Female')
+                    //     this.gC.series[0].data[1].update(gender)
                 }
             }
+            this.gC.series[0].data[0].remove(true)
 
             //Setting up age chart
             for (const key in response.data.byRank) {

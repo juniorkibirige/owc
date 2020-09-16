@@ -26,6 +26,7 @@ class FormsController extends Controller
         'PC',
         'SPC'
     ];
+
     public function index()
     {
         $forms = PoliceForm::orderBy('created_at', 'desc')
@@ -38,8 +39,8 @@ class FormsController extends Controller
             07 => 31, 31, 30, 31, 30, 31
         ];
         $monday = Carbon::now()->startOfWeek();
-        for ($i = 1, $cday = $monday; $i < 8; $i++) {
-            $week[$i] = explode('-', explode('T', json_encode($cday))[0])[2];
+        for ($it = 1, $cday = $monday; $it < 8; $it++) {
+            $week[$it] = explode('-', explode('T', json_encode($cday))[0])[2];
             $cday = $cday->copy()->addDay();
         }
         $pM = 0;
@@ -54,21 +55,22 @@ class FormsController extends Controller
         $f = 0;
         $all = 0;
         $ag = 0;
-        for ($i = 0; $i <= $dMonth[intval($month)]; $i++) {
-            if ($i == 0) {
-                $sort['Central'][$i] = 0;
-                $sort['Eastern'][$i] = 0;
-                $sort['Western'][$i] = 0;
-                $sort['Northern'][$i] = 0;
+        for ($it = 0; $it <= $dMonth[intval($month)]; $it++) {
+            if ($it == 0) {
+                $sort['Central'][$it] = 0;
+                $sort['Eastern'][$it] = 0;
+                $sort['Western'][$it] = 0;
+                $sort['Northern'][$it] = 0;
             } else {
-                $sort['Central'][$i] = null;
-                $sort['Eastern'][$i] = null;
-                $sort['Western'][$i] = null;
-                $sort['Northern'][$i] = null;
+                $sort['Central'][$it] = null;
+                $sort['Eastern'][$it] = null;
+                $sort['Western'][$it] = null;
+                $sort['Northern'][$it] = null;
             }
         }
         $uuid = 0;
-        foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by 
+        $offenceTypeCount = [];
+        foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by
             $ret['id'] = $uuid;
             $ret['refNo'] = $formData->refNo;
             $ret['victimName'] = $formData->victimName;
@@ -80,7 +82,7 @@ class FormsController extends Controller
             $ret['done'] = $formData->done;
             $ret['open'] = $formData->open;
             $ret['underInv'] = $formData->underInv;
-            array_push($result, (object) $ret);
+            array_push($result, (object)$ret);
             $uuid = $uuid + 1;
             foreach (FormsController::rank as $rank) {
                 if ($rank === $formData->officerRank) {
@@ -91,18 +93,23 @@ class FormsController extends Controller
                     }
                 }
             }
+            try {
+                $offenceTypeCount[$formData->offenseType]++;
+            } catch (\Throwable $th) {
+                $offenceTypeCount[$formData->offenseType] = 1;
+            }
             $date = explode(' ', $formData->created_at)[0];
             $cm = explode('-', $date)[1];
             $cd = explode('-', $date)[2];
             if ($cm == $month) {
                 if (($prev == '') || ($prev != $formData->cRegion)) {
                     $prev = $formData->cRegion;
-                    for ($i = 1; $i <= $dMonth[intval($month)]; $i++) {
-                        if ($sort[$prev][$i] == NULL) {
-                            $sort[$prev][$i] = 0;
+                    for ($it = 1; $it <= $dMonth[intval($month)]; $it++) {
+                        if ($sort[$prev][$it] == NULL) {
+                            $sort[$prev][$it] = 0;
                         }
-                        if (intval($cd) == $i) {
-                            $sort[$prev][$i] = $sort[$prev][$i] + 1;
+                        if (intval($cd) == $it) {
+                            $sort[$prev][$it] = $sort[$prev][$it] + 1;
                             break;
                         }
                         // if ($i < intval($cd) && $sort[$prev][$i] == null)
@@ -117,8 +124,6 @@ class FormsController extends Controller
                             $sort[$prev][$i] = $sort[$prev][$i] + 1;
                             break;
                         }
-                        // if ($i < intval($cd) && $sort[$prev][$i] == null)
-                        //     $sort[$prev][$i] = 0;
                     }
                 }
             }
@@ -154,7 +159,7 @@ class FormsController extends Controller
         $res['perDay'] = $pD;
         $res['perWeek'] = $pW;
         $res['byRegion'] = $sort;
-        $res['byGender'] = $gender;
+        $res['byGender'] = $offenceTypeCount;
         $res['byRank'] = $age;
 
         return json_encode($res);

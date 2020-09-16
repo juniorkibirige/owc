@@ -138,9 +138,6 @@ class Home extends Component {
                         {this.getRoutes(routes)}
                         <Redirect from="*" to="/dashboard/index" />
                     </Switch>
-                    <Container fluid>
-                        <AdminFooter />
-                    </Container>
                 </div>
                 {this.state.sidenav ? (
                     <div className="backdrop d-xl-none" onClick={this.toggleSide} />
