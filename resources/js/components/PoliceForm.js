@@ -65,7 +65,7 @@ class PoliceForm extends Component {
                 }),
                 sameAsComplainant: false,
                 statement: '',
-                period: 'default',
+                period: 'date',
                 location: new Object({
                     village: '',
                     subCounty: '',
@@ -438,20 +438,20 @@ class PoliceForm extends Component {
                     this.setState(prevState => ({
                         progress: {
                             ...prevState.progress
-                        }
-                    }))
-                    this.setState({
+                        },
+                        errors: {},
                         active: {
                             p1: true,
                             p2: false,
                             p3: false,
                             p4: false
                         }
-                    })
+                    }))
                     $('#first-tab').click()
                     break;
                 case 'p2':
                     this.setState(prevState => ({
+                        errors: {},
                         active: {
                             p1: false,
                             p2: true,
@@ -467,6 +467,7 @@ class PoliceForm extends Component {
                     break;
                 case 'p3':
                     this.setState(prevState => ({
+                        errors: {},
                         active: {
                             p1: false,
                             p2: false,
@@ -482,6 +483,7 @@ class PoliceForm extends Component {
                     break;
                 case 'p4':
                     this.setState(prevState => ({
+                        errors: {},
                         active: {
                             p1: false,
                             p2: false,
@@ -497,6 +499,7 @@ class PoliceForm extends Component {
                     break;
                 case 'done':
                     this.setState(prevState => ({
+                        errors: {},
                         progress: {
                             ...prevState.progress,
                             p4: true
@@ -517,6 +520,7 @@ class PoliceForm extends Component {
         switch (nav) {
             case 'p1':
                 this.setState({
+                    errors: {},
                     active: {
                         p1: true,
                         p2: false,
@@ -528,6 +532,7 @@ class PoliceForm extends Component {
                 break;
             case 'p2':
                 this.setState({
+                    errors: {},
                     active: {
                         p1: false,
                         p2: true,
@@ -539,6 +544,7 @@ class PoliceForm extends Component {
                 break;
             case 'p3':
                 this.setState({
+                    errors: {},
                     active: {
                         p1: false,
                         p2: false,
@@ -1470,7 +1476,7 @@ class PoliceForm extends Component {
                                                                                     placeholder='Victim Gender'
                                                                                     name='period'
                                                                                     defaultValue={`default`}>
-                                                                                <option name='date' value='default'
+                                                                                <option name='date' value='date'
                                                                                         data-toggle='dateTab'>Date
                                                                                 </option>
                                                                             </select>

@@ -19,22 +19,24 @@
         <link href="{{ asset('argon') }}/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{ asset('argon') }}/css/util.css" rel="stylesheet">
         <link href="{{ asset('argon') }}/css/main.css" rel="stylesheet">
+        <link href="/css/app.css" rel="stylesheet">
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
     <body class="g-sidenav-pinned bg-white">
     <!-- <body class=""> -->
-        
+
         <div id="root"></div>
+    <img rel="prefetch" src="/assets/img/theme/spinner.gif" alt="img" class="d-none">
         <script src="{{ asset('js/app.js') }}"></script>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <!-- <script src="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/js/all.min.js"></script> -->
         <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        
+
         @stack('js')
-        
+
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>

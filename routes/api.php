@@ -18,6 +18,6 @@ Route::post('/logout', 'Auth\AuthController@logout')->name('logout.api');
 Route::post('/cat', 'OffenseTypeController@store')->middleware('auth:api');
 Route::get('/cat', 'OffenseTypeController@index');
 
-// Route::get('form_105', 'FormsController@index');
 Route::post('form_105', 'FormsController@store');
+Route::patch('form_105/{id}/status', 'FormsController@update');
 Route::get('form_105/{id}', 'FormsController@show');

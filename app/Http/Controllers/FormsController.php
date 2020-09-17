@@ -76,7 +76,7 @@ class FormsController extends Controller
             $offenceRankCount[$rank] = 0;
         }
         foreach ($forms as $formData) { // Getting perMonthPerDay for Graph by
-            $ret['id'] = $uuid;
+            $ret['id'] = $formData->id;
             $ret['refNo'] = $formData->refNo;
             $ret['victimName'] = $formData->victimName;
             $ret['cDist'] = $formData->cDist;
@@ -261,5 +261,24 @@ class FormsController extends Controller
             $f->update();
         }
         return response()->json('Project created!');
+    }
+
+    public function show($id) {
+        $form = PoliceForm::where('id', '=', $id)->get();
+        return json_encode($form);
+    }
+
+    public function update($id, Request $request) {
+        $form = PoliceForm::find($id);
+        $form->open = $request->open === "true" ? 1 : 0;
+        $form->underInv = $request->underInv === "true" ? 1 : 0;
+        $form->done = $request->done === "true" ? 1 : 0;
+        $form->update();
+        return json_encode(
+            [
+                "success" => true,
+                "data" => "Status changed to " . $request->open === "true" ? "Open" : $request->underInv === "true" ? "Under Investigation" : "Done"
+            ]
+        );
     }
 }

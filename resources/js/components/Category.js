@@ -75,6 +75,7 @@ class Category extends Component {
                 console.warn(error)
             })
     }
+
     render() {
         return (
             <>

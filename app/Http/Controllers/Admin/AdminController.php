@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Admin;
-use App\Http\Requests\UserRequest;
-use Facade\FlareClient\View;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
@@ -13,11 +12,12 @@ class AdminController extends Controller
     public function __construct() {
         $this->middleware('auth:admin');
     }
+
     /**
      * Display a listing of the users
      *
-     * @param  \App\User  $model
-     * @return \Illuminate\View\View
+     * @param Admin $model
+     * @return View
      */
     public function index(Admin $model)
     {
