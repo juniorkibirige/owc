@@ -273,11 +273,18 @@ class FormsController extends Controller
         $form->open = $request->open === "true" ? 1 : 0;
         $form->underInv = $request->underInv === "true" ? 1 : 0;
         $form->done = $request->done === "true" ? 1 : 0;
+        $form->updated_at = Carbon::now();
+        if($request->underInv === "true") {
+            $form->underInv_by = $request->userId;
+        } else if($request->done === "true") {
+            $form->done_by = $request->userId;
+        }
         $form->update();
+        $return = $request->open === "true" ? "Status changed to Open" : $request->underInv === "true" ? "Status changed to Under Investigation" : "Status changed to Done";
         return json_encode(
             [
                 "success" => true,
-                "data" => "Status changed to " . $request->open === "true" ? "Open" : $request->underInv === "true" ? "Under Investigation" : "Done"
+                "data" => $return
             ]
         );
     }

@@ -229,11 +229,23 @@ class Tables extends Component {
                     underInv: key === 'underInv',
                     done: key === 'done'
                 },
-                dataChanged: true
+                dataChanged: true,
+                alert: (
+                    <ReactBSAlert
+                        success
+                        style={{ display: "block", marginTop: `-100px` }}
+                        title="Good Job!"
+                        onConfirm={() => this.setState({ alert: null })}
+                        onCancel={() => this.setState({ alert: null })}
+                        confirmBtnBsStyle="info"
+                        btnSize=""
+                    >Complaint Status Changed</ReactBSAlert>
+                )
             }))
             axios.patch('/api/form_105/' + this.state.viewComplaint.id + '/status', {
                 open: key === 'open' ? "true" : "false", underInv: key === 'underInv' ? "true" : "false",
-                done: key === 'done' ? "true" : "false"
+                done: key === 'done' ? "true" : "false",
+                userId: JSON.parse(localStorage['appState']).user.id
             }).then(result => {
                 console.log(result.data)
             }).catch(e => {
@@ -388,6 +400,7 @@ class Tables extends Component {
                                                                         className="mr-1"
                                                                         checked={this.state.viewComplaint.open !== undefined ? this.state.viewComplaint.open : false}
                                                                         onChange={this.stateChange}
+                                                                        disabled={true}
                                                                     /> Open
                                                                 </InputGroupText>
                                                             </InputGroup>

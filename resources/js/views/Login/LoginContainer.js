@@ -27,7 +27,6 @@ class LoginContainer extends Component {
     UNSAFE_componentWillMount(){
         let state = localStorage['appState']
         if (state) {
-            console.log(state)
             let AppState = JSON.parse(state)
             this.setState({
                 isLoggedIn: AppState.isLoggedIn,
