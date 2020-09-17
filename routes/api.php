@@ -21,9 +21,3 @@ Route::get('/cat', 'OffenseTypeController@index');
 // Route::get('form_105', 'FormsController@index');
 Route::post('form_105', 'FormsController@store');
 Route::get('form_105/{id}', 'FormsController@show');
-// Route::post('login', [
-//     AccessTokenController::class, 'issueToken'
-// ])
-//     ->middleware([
-//         'api-login', 'throttle'
-//     ]);

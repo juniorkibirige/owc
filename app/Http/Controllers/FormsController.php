@@ -250,6 +250,16 @@ class FormsController extends Controller
             'otherId' => $validatedData['otherId'],
             'detUnit' => $validatedData['detUnit']
         ]);
+        if($validatedData['witness'] == 1) {
+            $validateData = $request->validate([
+                'witnessName' => 'required',
+                'witnessContact' => 'required'
+            ]);
+            $f = PoliceForm::find($form->id);
+            $f->witnessName = $validateData['witnessName'];
+            $f->witnessContact = $validateData['witnessContact'];
+            $f->update();
+        }
         return response()->json('Project created!');
     }
 }

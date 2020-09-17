@@ -76,6 +76,8 @@ class PoliceForm extends Component {
                 dI: false,
                 dIDescription: '',
                 witness: false,
+                witnessName: "",
+                witnessContact: "",
                 medExam: false,
                 medExamRef: '',
                 reported: false,
@@ -251,6 +253,8 @@ class PoliceForm extends Component {
                 'reported': this.state.partThree.reported,
                 'statement': this.state.partThree.statement,
                 'witness': this.state.partThree.witness,
+                'witnessName': this.state.partThree.witness ? this.state.partThree.witnessName : "N/A",
+                'witnessContact': this.state.partThree.witness ? this.state.partThree.witnessContact : "N/A",
                 'victimName': this.state.partThree.involved.victimName,
                 'victimAge': this.state.partThree.involved.victimAge,
                 'victimGender': this.state.partThree.involved.victimGender,
@@ -263,12 +267,13 @@ class PoliceForm extends Component {
             axios.post('/api/form_105', form)
                 .then(response => {
                     this.showReferenceNumber()
-                }).catch(error => {
-                console.warn(error.response.data.errors)
-                this.setState({
-                    errors: error.response.data.errors
                 })
-            }).finally(_ => {
+                .catch(error => {
+                    console.warn(error.response.data.errors)
+                    this.setState({
+                        errors: error.response.data.errors
+                    })
+                }).finally(_ => {
                 this.setState({
                     isSubmitting: false
                 })
@@ -1051,7 +1056,7 @@ class PoliceForm extends Component {
                                     </div>
                                     <div className='row'>
                                         <div className='col-12 mx-auto'>
-                                            <div className='float-right'>Ref: {this.state.refNo}</div>
+                                            <div className='float-right'>Ref: {this.state.refNo.split('-')[4]}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1639,8 +1644,33 @@ class PoliceForm extends Component {
                                                                         />
                                                                         <FormText> No</FormText>
                                                                     </Col>
+                                                                    <Col
+                                                                        className={`col-md-6 col-sm-12 col-12 ${this.state.partThree.witness ? 'd-block' : 'd-none'}`}>
+                                                                        <FormGroup
+                                                                            className={` ${this.state.partThree.witness ? 'd-block' : 'd-none'}`}>
+                                                                            <Input
+                                                                                type="text"
+                                                                                className={`form-control-sm ${this.hasErrorFor('witnessName') ? 'invalid' : ''}`}
+                                                                                name="witnessName"
+                                                                                placeholder="Witness Name"
+                                                                                value={this.state.partThree.witnessName}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                            />
+                                                                            {this.renderErrorFor('witnessName')}
+                                                                            <br/>
+                                                                            <Input
+                                                                                type="tel"
+                                                                                className={`form-control-sm ${this.hasErrorFor('witnessContact') ? 'invalid' : ''}`}
+                                                                                name="witnessContact"
+                                                                                placeholder="Witness Contact"
+                                                                                maxLength={14}
+                                                                                value={this.state.partThree.witnessContact}
+                                                                                onChange={this.handleFieldChange.bind(this, 'p3')}
+                                                                            />
+                                                                            {this.renderErrorFor('witnessContact')}
+                                                                        </FormGroup>
+                                                                    </Col>
                                                                 </Row>
-                                                                {this.renderErrorFor('witness')}
                                                             </FormGroup>
                                                             <FormGroup>
                                                                 <Row>
@@ -1849,7 +1879,7 @@ class PoliceForm extends Component {
                                         <p className='display-7 text-center'>Please write down this number for Reference
                                             if contacted</p><br/>
                                         <div className='text-center display-5'
-                                             style={{width: `100%`}}>{this.state.refNo}</div>
+                                             style={{width: `100%`}}>{this.state.refNo.split('-')[4]}</div>
                                     </Row>
                                 </div>
                                 <div className="modal-footer">
