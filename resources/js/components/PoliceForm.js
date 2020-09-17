@@ -402,9 +402,18 @@ class PoliceForm extends Component {
                                                     errors.length += 1
                                                 }
                                             }
+                                        } else if(element.name == "witness") {
+                                            if ($("#yesWitness").get(0).checked) {
+                                                if($('[name=witnessName]').val() == '') {
+                                                    errors['witnessName'] = ['Please enter data']
+                                                }
+                                                if($('[name=witnessContact]').val() == '') {
+                                                    errors['witnessContact'] = ['Please enter data']
+                                                }
+                                            }
                                         }
                                     } else {
-                                        if (element.value == '' && element.name != "" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef" && key != 21 && element.name != "medExamRef") {
+                                        if (element.value == '' && element.name != "" && element.name != "witnessName" && element.name != "witnessContact" && element.name != "sameAsComplainant" && element.name != "period" && element.name != "dIDescription" && element.name != "reportRef" && key != 21 && element.name != "medExamRef") {
                                             errors[element.name] = ['Please fill the field']
                                             errors.length += 1
                                         }
