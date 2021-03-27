@@ -29,4 +29,4 @@ Route::view('/register', 'auth.register')->name('register')->middleware('guest')
 Route::get('logout', [App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout')->middleware('auth');
 
 Route::view('/{path?}', 'layouts/police_form');
-Route::view('/{path?}/{path1?}/{path2?}', 'layouts/police_form');
+Route::view('/{path?}/{path1?}/{path2?}/{path3?}', 'layouts/police_form');

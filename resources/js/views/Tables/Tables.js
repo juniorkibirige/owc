@@ -145,24 +145,12 @@ class Tables extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/form_105').then(response => {
-            this.setState({
-                data: response.data.forms.slice(0, 10),
-                dataTable: response.data.forms
-            })
-        })
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.state.dataChanged === true) {
-            axios.get('/api/form_105').then(response => {
-                this.setState(pS=>({
-                    ...pS,
-                    dataChanged: false,
-                    data: response.data.forms.slice(0, 10),
-                    dataTable: response.data.forms
-                }))
-            })
+
         }
     }
 
