@@ -3,6 +3,7 @@ import Tables from "./views/Tables/Tables"
 import Stats from "./components/Stats";
 import Category from "./components/Category"
 import Report from "./components/Report";
+import SupplierList from "./components/Cruds/Supplier/List";
 
 const routes = [
     {
@@ -26,7 +27,7 @@ const routes = [
                 icon: "fa fa-users text-white",
                 classes: "pl-4",
                 miniName: "+S",
-                component: Category,
+                component: SupplierList,
                 layout: "/dashboard"
             },
             {

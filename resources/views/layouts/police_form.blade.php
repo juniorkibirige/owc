@@ -26,26 +26,6 @@
 <body class="g-sidenav-pinned bg-white">
 @if(\Illuminate\Support\Facades\Auth::check())
     <script>
-        // let state = {
-        //     isLoggedIn: false,
-        //     user: {},
-        //     mess: '',
-        //     sidenav: true
-        // }
-        let state = localStorage.getItem('appState')
-        console.log(state)
-        if (state) {
-            let AppState = JSON.parse(state)
-            AppState['user'] = {{Auth::user()}};
-            AppState['isLoggedIn'] = {{Auth::check()}};
-            console.log(AppState)
-            localStorage.setItem('appState', JSON.stringify(AppState));
-            {{--this.setState(prevState => ({--}}
-            {{--    ...prevState,--}}
-            {{--    isLoggedIn: {{Auth::check()}},--}}
-            {{--    user: {{Auth::user()}}--}}
-            {{--}))--}}
-        }
     </script>
 @endif
 <!-- <body class=""> -->
