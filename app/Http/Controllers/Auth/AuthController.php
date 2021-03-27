@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
@@ -14,13 +18,10 @@ class AuthController extends Controller
     /**
      * Create user
      *
-     * @param  [string] name
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
+     * @param Request $request
+     * @return JsonResponse [string] message
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -48,14 +49,10 @@ class AuthController extends Controller
     /**
      * Login user and create token
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param Request $request
+     * @return JsonResponse [string] access_token
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -97,24 +94,30 @@ class AuthController extends Controller
 
     /**
      * Logout user (Revoke the token)
-     * 
-     * @return [string] message
+     *
+     * @param Request $request
+     * @return false|Application|RedirectResponse|Redirector|string
      */
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/login');
-        // return response()->json([
-        //     'message' => 'Successfully logged out'
-        // ]);
+        Auth::guard()->logout();
+        if(Auth::check()) {
+            $r = [];
+            $r['login'] = true;
+            $r['user'] = Auth::user();
+            return json_encode($r);
+        }
+        return redirect('/');
     }
 
     /**
      * Get the authenticated User
      *
-     * @return [json] user object
+     * @param Request $request
+     * @return JsonResponse [json] user object
      */
-    public function user(Request $request)
+    public function user(Request $request): JsonResponse
     {
         return response()->json($request->user());
     }

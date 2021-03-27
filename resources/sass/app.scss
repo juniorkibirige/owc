@@ -7,6 +7,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.active .fa, .active .fas, .active .far {
+    color: #0c1628 !important;
+}
+
 .ty-ajax-overlay {
     position: absolute;
     top: 0;
@@ -15,7 +19,7 @@
     right: 0;
     z-index: 10000;
     display: none;
-    background-color: rgba(12,12,12,0.3);
+    background-color: rgba(12, 12, 12, 0.3);
 }
 
 .ty-ajax-loading-box {

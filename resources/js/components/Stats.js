@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {
     Row, Col,
-    Card, CardBody
+    Card, CardBody, Jumbotron
 } from 'reactstrap'
 import axios from 'axios'
 import HighCharts from 'highcharts'
@@ -501,11 +501,11 @@ class Stats extends Component {
                             <Col className="col-sm-3 col-4 d-none d-sm-none d-md-block"/>
                             <Col
                                 className="col-sm-3 col-3 offset-2 offset-md-9 offset-5 pr-7 text-right align-items-right">
-                                <Link className="btn btn-outline-default btn-info"
-                                      to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>
+                                {/*<Link className="btn btn-outline-default btn-info"*/}
+                                {/*      to='/dashboard/complain?prev=dashboard' data-toggle='buttons'>Add Complaint</Link>*/}
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={"d-none"}>
                             <Col className='col-xl-4 col-md-4 col-12'>
                                 <Card className='card-stats bg-gradient-purple' style={{marginBottom: 30 + 'px'}}>
                                     <CardBody>
@@ -570,15 +570,20 @@ class Stats extends Component {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className='pb-4'>
+                        <Row className='pb-4 d-none'>
                             <div id="forMonth" className='col-sm-12 col-md-12 col-12'
-                                 style={{borderRadius: `10px`}}></div>
+                                 style={{borderRadius: `10px`}}/>
+                        </Row>
+                        <Row className={"d-none"}>
+                            <div id="chart" className='pb-4 col-sm-12 col-md-6 col-12'
+                                 style={{borderRadius: `10px`}}/>
+                            <div id="chart3" className='pb-4 col-sm-12 col-md-6 col-12'
+                                 style={{borderRadius: `10px`}}/>
                         </Row>
                         <Row>
-                            <div id="chart" className='pb-4 col-sm-12 col-md-6 col-12'
-                                 style={{borderRadius: `10px`}}></div>
-                            <div id="chart3" className='pb-4 col-sm-12 col-md-6 col-12'
-                                 style={{borderRadius: `10px`}}></div>
+                            <Jumbotron fluid={true} className={`col-12 p-4`}>
+                                <h1>Welcome,</h1>
+                            </Jumbotron>
                         </Row>
                     </div>
                 </div>

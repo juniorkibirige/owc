@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class Off extends Migration
+class CreateRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +12,11 @@ class Off extends Migration
      */
     public function up()
     {
-        Schema::table('police_forms', function ($table) {
-            $table->string('offenseType')->after('compVillage')
-                ->nullable()
-                ->default(null);
+        Schema::create('regions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('slug')->default('region-name');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ class Off extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('regions');
     }
 }

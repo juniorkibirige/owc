@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="police_form@localhost" uuid="93c90ed1-a23d-449f-a8f0-ad9de3b2c2c9">
+    <data-source source="LOCAL" name="FMS@localhost" uuid="cbdc050b-e1cb-40cf-b7f6-bb72ebf61d8e">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/police_form</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/FMS</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
 </project>

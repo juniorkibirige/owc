@@ -10979,6 +10979,12 @@ a.text-dark:focus {
   }
 }
 
+.active .fa,
+.active .fas,
+.active .far {
+  color: #0c1628 !important;
+}
+
 .ty-ajax-overlay {
   position: absolute;
   top: 0;

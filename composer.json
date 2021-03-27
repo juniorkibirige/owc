@@ -17,9 +17,11 @@
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
+        "livewire/livewire": "^2.4",
         "phpseclib/phpseclib": "^2.0",
         "spatie/laravel-permission": "^3.13",
-        "tymon/jwt-auth": "1.0"
+        "tymon/jwt-auth": "1.0",
+      "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

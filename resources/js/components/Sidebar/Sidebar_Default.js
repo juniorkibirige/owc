@@ -122,7 +122,7 @@ class Sidebar_Default extends React.Component {
         return null;
       }
       if (prop.collapse) {
-        var st = {};
+        let st = {};
         st[prop["state"]] = !this.state[prop.state];
         return (
           <NavItem key={key}>
