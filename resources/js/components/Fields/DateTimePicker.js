@@ -21,24 +21,16 @@ class DateTimePicker extends Component {
     render() {
         return (
             <>
-                <div className={`form-group ` + this.props.class}>
+                <div className={this.props.class}>
                     <label htmlFor={this.props.field}>{this.props.label}:<sup
                         className='text-red'>{this.props.required ? '*' : ''}</sup></label>
                     <Datepicker
                         inputProps={{
                             placeholder: "Pick Date here",
                             name: this.props.field,
-                            onChange: this.props.onchange,
-                            value: this.props.value
                         }}
-                        onChange={this.props.onChange}
+                        onChange={this.props.onchange}
                     />
-                    {/*<div className="input-group date" id={this.props.id}>*/}
-                    {/*    <input className="form-control" type={'text'}/>*/}
-                    {/*    <div className="input-group-append">*/}
-                    {/*        <i className="fa fa-calendar input-group-text"/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </>
         );
