@@ -1,20 +1,14 @@
-import React, { Component } from 'react'
-import ReactDatetime from 'react-datetime'
+import React, {Component} from 'react'
 
-import {
-    FormGroup,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
-    Col, Row
-} from 'reactstrap'
+import {Col, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Row} from 'reactstrap'
+import ReactDatetimeClass from "react-datetime";
 
 class Datepicker extends Component {
 
-    constructor () {
-        super()
-        this.state = {}
+    constructor(props) {
+        super(props)
     }
+
     render() {
         return (
             <Row>
@@ -23,11 +17,13 @@ class Datepicker extends Component {
                         <InputGroup className="input-group-alternative">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText>
-                                    <i className="ni ni-calendar-grid-58" />
+                                    <i className="ni ni-calendar-grid-58"/>
                                 </InputGroupText>
                             </InputGroupAddon>
-                            <ReactDatetime
+                            <ReactDatetimeClass
                                 timeFormat={false}
+                                onChange={this.props.onChange}
+                                inputProps={this.props.inputProps}
                             />
                         </InputGroup>
                     </FormGroup>

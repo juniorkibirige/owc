@@ -223,6 +223,7 @@ class Stats extends Component {
         this.fM = null
         this.aC = null
         this.gC = null
+        document.title = document.title.split(':')[0]
     }
 
     getMonth(month) {

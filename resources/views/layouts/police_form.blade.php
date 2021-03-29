@@ -19,25 +19,31 @@
     <link href="{{ asset('argon/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('argon/css/util.css') }}" rel="stylesheet">
     <link href="{{ asset('argon/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/components-v2.css')}}">
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
+        rel="stylesheet"
+    />
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <!-- Argon CSS -->
     <link type="text/css" href="{{ asset('argon/css/argon.css?v=1.0.0') }}" rel="stylesheet">
 </head>
 <body class="g-sidenav-pinned bg-white">
-@if(\Illuminate\Support\Facades\Auth::check())
-    <script>
-    </script>
-@endif
 <!-- <body class=""> -->
 
 <div id="root"></div>
 <img rel="prefetch" src="{{asset('/assets/img/theme/spinner.gif') }}" alt="img" class="d-none">
-<script src="{{ asset('js/app.js') }}"></script>
-
 <script src="{{ asset('argon/vendor/jquery/dist/jquery.min.js') }}"></script>
 <!-- <script src="{{ asset('argon/vendor/@fortawesome/fontawesome-free/js/all.min.js') }}"></script> -->
 <script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>
 <script src="{{ asset('argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
+></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+<script src="{{asset('argon/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 
 @stack('js')
 

@@ -132,5 +132,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="0be66f9bc5" level="application" />
+    <orderEntry type="library" name="mdb-ui-kit" level="application" />
+    <orderEntry type="library" name="moment.js" level="application" />
   </component>
 </module>

@@ -1,9 +1,8 @@
-import Home from "./views/user/Dashboard/Dashboard";
-import Tables from "./views/Tables/Tables"
 import Stats from "./components/Stats";
 import Category from "./components/Category"
 import Report from "./components/Report";
 import SupplierList from "./components/Cruds/Supplier/List";
+import SupplierCreate from "./components/Cruds/Supplier/Create";
 
 const routes = [
     {
@@ -36,13 +35,10 @@ const routes = [
                 icon: "fa fa-user-plus text-white",
                 classes: "pl-4",
                 miniName: "+S",
-                component: Category,
+                component: SupplierCreate,
                 layout: "/dashboard"
             },
         ],
-        miniName: "S",
-        component: Tables,
-        layout: "/dashboard"
     },
     {
         collapse: true,
@@ -70,9 +66,6 @@ const routes = [
                 layout: "/dashboard"
             },
         ],
-        miniName: "B",
-        component: Tables,
-        layout: "/dashboard"
     },
     {
         collapse: true,
@@ -100,9 +93,6 @@ const routes = [
                 layout: "/dashboard"
             },
         ],
-        miniName: "I",
-        component: Tables,
-        layout: "/dashboard"
     },
     {
         path: "/report",
@@ -111,22 +101,22 @@ const routes = [
         component: Report,
         layout: '/dashboard'
     },
-    // {
-    //     collapse: true,
-    //     name: "Settings",
-    //     state: "settingsCollapse",
-    //     icon: "fa fa-cog text-orange",
-    //     views: [
-    //         {
-    //             path: "/settings/category",
-    //             name: "Category",
-    //             icon: "ni ni-planet text-white",
-    //             classes: "pl-md-4",
-    //             miniName: "Cat",
-    //             component: Category,
-    //             layout: "/dashboard"
-    //         },
-    //     ]
-    // }
+    {
+        collapse: true,
+        name: "Settings",
+        state: "settingsCollapse",
+        icon: "fa fa-cog text-orange",
+        views: [
+            {
+                path: "/settings/category",
+                name: "Category",
+                icon: "ni ni-planet text-white",
+                classes: "pl-md-4",
+                miniName: "Cat",
+                component: Category,
+                layout: "/dashboard"
+            },
+        ]
+    }
 ];
 export default routes;
