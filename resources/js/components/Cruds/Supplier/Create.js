@@ -2,14 +2,11 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import TextInput from "../../Fields/TextInput";
 import DropDownInput from "../../Fields/DropDownInput";
-import Datepicker from "../../DateTimePickerComp";
 import DateTimePicker from "../../Fields/DateTimePicker";
-
-const rowEvents = {
-    onClick: (e, row, rowIndex) => {
-        alert(`clicked on ${row} with index: ${rowIndex}`)
-    }
-}
+import TextAreaInput from "../../Fields/TextAreaInput";
+import QuantityInput from "../../Fields/QuantityInput";
+import RateInput from "../../Fields/RateInput";
+import TotalInput from "../../Fields/TotalInput";
 
 class SupplierCreate extends Component {
     constructor(props) {
@@ -22,13 +19,44 @@ class SupplierCreate extends Component {
             cC: '',
             cP: '',
             districts: [],
+            offices: [],
             regions: [],
             counties: [],
             parishes: [],
+            statuses: [
+                {
+                    value: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    value: 'running',
+                    label: 'Running'
+                },
+                {
+                    value: 'terminated',
+                    label: 'Terminated'
+                },
+            ],
+            is: [],
+            inputs: [
+                {
+                    input: 0,
+                    quantity: 0,
+                    rate: 0,
+                    total: 0,
+                    office: ''
+                },
+            ],
+            contract_start: null,
+            contract_end: null,
             alert: null,
             name: ''
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
+        this.handleQuantityFieldChange = this.handleQuantityFieldChange.bind(this)
+        this.handleRateFieldChange = this.handleRateFieldChange.bind(this)
+        this.deleteItem = this.deleteItem.bind(this)
+        this.handleAddNew = this.handleAddNew.bind(this)
         document.title = document.title.split(':')[0] + " : Supplier Create"
         axios.get('/compiled_data/ugData.json').then(response => {
             this.setState({
@@ -77,7 +105,7 @@ class SupplierCreate extends Component {
 
     handleDateChange(event) {
         let date = event._d.toDateString()
-        if(date !== '') {
+        if (date !== '') {
             console.log(event)
         }
     }
@@ -118,9 +146,45 @@ class SupplierCreate extends Component {
         return reg
     }
 
+    getRepeatableValue(row, field) {
+        let vs = this.state.inputs
+        return vs[row][field]
+    }
+
+    handleRepeatableFieldChange() {
+        let data = event.target.value
+        let row = parseInt(event.target.dataset['data-row'])
+        let vs = this.state.inputs
+        vs[row][event.target.name] = data
+        this.setState({
+            inputs: vs
+        })
+    }
+
+    handleRateFieldChange() {
+        let data = event.target.value
+        let row = parseInt(event.target.dataset['data-row'])
+        let vs = this.state.inputs
+        vs[row]['rate'] = data
+        vs[row]['total'] = parseInt(data) * vs[row]['quantity']
+        this.setState({
+            inputs: vs
+        })
+    }
+
+    handleQuantityFieldChange() {
+        let data = event.target.value
+        let row = parseInt(event.target.dataset['data-row'])
+        let vs = this.state.inputs
+        vs[row]['quantity'] = data
+        vs[row]['total'] = parseInt(data) * vs[row]['rate']
+        this.setState({
+            inputs: vs
+        })
+    }
+
     handleFieldChange() {
         let data = event.target.value
-        console.log(event.target)
         if (event.target.id.includes('react-select')) {
             data = event.target.textContent
             let isR = false, isD = false, isC = false
@@ -166,6 +230,15 @@ class SupplierCreate extends Component {
                     cP: data
                 })
             }
+        } else if (event.target.className.includes('rdtDay')) {
+            const day = event.target.dataset['value']
+            const month = event.target.dataset['month']
+            const year = event.target.dataset['year']
+            let d = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].name
+            data = (parseInt(month) + 1).toString().concat('/').concat(day).concat('/').concat(year)
+            this.setState({
+                [d]: data
+            })
         } else
             this.setState({
                 [event.target.name]: data
@@ -180,10 +253,30 @@ class SupplierCreate extends Component {
         });
     }
 
+    handleAddNew() {
+        let a = {
+            input: 0,
+            quantity: 0,
+            rate: 0,
+            total: 0,
+            office: ''
+        }
+        let inps = this.state.inputs
+        inps.push(a)
+        this.setState({
+            inputs: inps
+        })
+    }
+
+    deleteItem() {
+        let i = event.target
+        console.log(i)
+    }
+
     render() {
         return (
             <>
-                <div className="h-full" style={{}}>
+                <div className="h-full">
                     {this.state.alert}
                     <div className='header'>
                         <div className='container-fluid pt-4 pb-2'>
@@ -281,16 +374,17 @@ class SupplierCreate extends Component {
                             <div className="tab-pane fade" id="contact-tab" role="tabpanel"
                                  aria-labelledby="contact">
                                 <div className="container">
-                                    <div className="row"><TextInput
-                                        class={'col-sm-12 required'}
-                                        label={'Email'}
-                                        type={'email'}
-                                        required={true}
-                                        field={'email'}
-                                        placeholder={'Email Address'}
-                                        onChange={this.handleFieldChange}
-                                        value={this.state.email}
-                                    />
+                                    <div className="row">
+                                        <TextInput
+                                            class={'col-sm-12 required'}
+                                            label={'Email'}
+                                            type={'email'}
+                                            required={true}
+                                            field={'email'}
+                                            placeholder={'Email Address'}
+                                            onChange={this.handleFieldChange}
+                                            value={this.state.email}
+                                        />
                                         <TextInput
                                             class={'col-sm-12 required'}
                                             label={'Phone Number'}
@@ -334,55 +428,118 @@ class SupplierCreate extends Component {
                                             field={'contract_end'}
                                             id={'contract_end'}
                                             placeholder={'End'}
-                                            onChange={this.handleFieldChange}
+                                            onchange={this.handleFieldChange}
                                             value={this.state.contract_end}
+                                        />
+                                        <TextAreaInput
+                                            class={'col-sm-12 offset-md-3 col-md-6 required'}
+                                            label={'Details'}
+                                            required={true}
+                                            field={'details'}
+                                            aria-multiline={true}
+                                            name={'details'}
+                                            value={this.state.details}
+                                            onChange={this.handleFieldChange}
+                                        />
+                                        <DropDownInput
+                                            class={'col-md-6 required'}
+                                            label={'Office'}
+                                            required={true}
+                                            field={'office'}
+                                            onChange={this.handleFieldChange}
+                                            value={this.state.office}
+                                            clearable={true}
+                                            options={this.state.offices}
+                                        />
+                                        <DropDownInput
+                                            class={'col-md-6 required'}
+                                            label={'Status'}
+                                            required={true}
+                                            field={'status'}
+                                            onChange={this.handleFieldChange}
+                                            value={this.state.status}
+                                            clearable={true}
+                                            options={this.state.statuses}
                                         />
                                     </div>
                                 </div>
                             </div>
                             <div className="tab-pane fade" id="inputs-tab" role="tabpanel"
                                  aria-labelledby="inputs">
-                                Inputs Details
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-8 d-none">
-                        <div className="card mx-4 my-3">
-                            <div className="card-body row">
-                                <div className="card col-md-8 offset-md-2">
-                                    <div className="card-header bg-gradient-blue">Contact Details</div>
-                                    <div className="card-body bg-light-blue-500">
-                                        <TextInput
-                                            class={'col-sm-12 required'}
-                                            label={'Email'}
-                                            type={'email'}
-                                            required={true}
-                                            field={'email'}
-                                            placeholder={'Email Address'}
-                                            onChange={this.handleFieldChange}
-                                            value={this.state.email}
-                                        />
-                                        <TextInput
-                                            class={'col-sm-12 required'}
-                                            label={'Phone Number'}
-                                            required={true}
-                                            field={'phone'}
-                                            type={'phone'}
-                                            placeholder={'Phone Number'}
-                                            onChange={this.handleFieldChange}
-                                            value={this.state.phone}
-                                        />
-                                        <TextInput
-                                            class={'col-sm-12 required'}
-                                            label={'Address'}
-                                            required={true}
-                                            field={'address'}
-                                            placeholder={'Address'}
-                                            onChange={this.handleFieldChange}
-                                            value={this.state.address}
-                                        />
+
+                                <div className="container-repeatable-elements">
+                                    <div data-repeatable-holder={'inputs'} data-init-rows={'1'}
+                                         data-max-rows={0} data-min-rows={'1'}
+                                         number-of-rows={this.state.inputs.length}>
+                                        {
+                                            this.state.inputs.map((input, index) => (
+                                                <div key={index} data-content={input}
+                                                     className="col-md-12 well repeatable-element row m-1 p-2"
+                                                     data-repeatable-identifier={'inputs'}
+                                                     data-row-number={index.toString()}>
+                                                    <button
+                                                        onClick={this.deleteItem}
+                                                        data-row={index}
+                                                        className={(index !== 0) ? "close delete-element" : 'close delete-element d-none'}
+                                                        style={{paddingLeft: '0.285rem'}} type={'button'}>
+                                                        <span aria-hidden="true"><i className="fa fa-times"/></span>
+                                                    </button>
+                                                    <DropDownInput
+                                                        class={'col-12 mb--1 required'}
+                                                        label={'Input'}
+                                                        required={true}
+                                                        field={'input'}
+                                                        dataRow={index}
+                                                        onChange={this.handleRepeatableFieldChange}
+                                                        value={this.getRepeatableValue(index, 'input')}
+                                                        clearable={true}
+                                                        options={this.state.is}
+                                                    />
+                                                    <QuantityInput
+                                                        class={'col-6 mb--1 required'}
+                                                        label={'Quantity'}
+                                                        required={true}
+                                                        field={'quantity'}
+                                                        onChange={this.handleQuantityFieldChange}
+                                                        value={this.getRepeatableValue(index, 'quantity')}
+                                                    />
+                                                    <RateInput
+                                                        class={'col-6 mb--1 required'}
+                                                        label={'Rate'}
+                                                        required={true}
+                                                        field={'rate'}
+                                                        onChange={this.handleRateFieldChange}
+                                                        value={this.getRepeatableValue(index, 'rate')}
+                                                    />
+                                                    <TotalInput
+                                                        class={'col-6 mb--1 offset-3 required'}
+                                                        label={'Total'}
+                                                        required={true}
+                                                        field={'total'}
+                                                        readOnly={true}
+                                                        value={this.getRepeatableValue(index, 'total')}
+                                                    />
+                                                    <DropDownInput
+                                                        class={'col-12 required'}
+                                                        label={'Office'}
+                                                        required={true}
+                                                        field={'office'}
+                                                        dataRow={index.toString()}
+                                                        onChange={this.handleRepeatableFieldChange}
+                                                        value={this.getRepeatableValue(index, 'office')}
+                                                        clearable={true}
+                                                        options={this.state.offices}
+                                                    />
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                 </div>
+                                <button
+                                    onClick={this.handleAddNew}
+                                    className="btn btn-outline-primary btn-sm ml-1 add-repeatable-element-button"
+                                    type="button"><i className="fa fa-plus"/> Add Item
+                                </button>
                             </div>
                         </div>
                     </div>

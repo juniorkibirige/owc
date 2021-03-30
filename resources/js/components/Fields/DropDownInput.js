@@ -28,6 +28,7 @@ class DropDownInput extends Component {
                         options={this.props.options}
                         onChange={this.props.onChange}
                         id={this.props.field}
+                        data-row={this.props.dataRow ?? 0}
                     />
                 </div>
             </>
