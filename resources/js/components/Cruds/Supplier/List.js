@@ -49,7 +49,7 @@ class SupplierList extends Component {
                         <div className='header-body'>
                             <Row className='align-items-center py-4'>
                                 <Col>
-                                    Nyoko
+                                    In Development
                                 </Col>
                             </Row>
                         </div>

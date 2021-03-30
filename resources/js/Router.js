@@ -4,8 +4,6 @@ import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home'
 import Login from './views/Login/Login'
 import Register from './views/Register/Register'
-// import NotFound from './views/NotFound/NotFound'
-import Client from './views/user/Client/Client'
 require('./variables/config')
 
 import PrivateRoute from './PrivateRoute'
@@ -14,7 +12,7 @@ import Dashboard from './views/user/Dashboard/Dashboard'
 const Main = props => (
     <Switch>
         {/* User cannot login */}
-        <Route exact path='/' component={Client} />
+        <Route exact path='/' component={Login} />
 
         {/* User may login */}
         <Route exact path='/admin' component={Home} />
