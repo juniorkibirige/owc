@@ -10,7 +10,7 @@
 
     <title>{{ config('app.name', 'OWC') }}</title>
     <!-- Favicon -->
-    <link href="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" rel="icon" type="image/png">
+    <link href="{{asset('favicon.svg')}}" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->

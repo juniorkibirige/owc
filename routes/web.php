@@ -14,18 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
  Route::get('/', function () {
      if (Auth::check())
          return redirect('/dashboard');
      else return redirect('/login');
  });
 
-Route::view('/login', 'layouts.loginReg')->middleware('guest')->name('login');
-Route::view('/register', 'auth.register')->name('register')->middleware('guest');
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+//Route::view('/login', 'layouts.loginReg')->middleware('guest')->name('login');
+//Route::view('/register', 'auth.register')->name('register')->middleware('guest');
+//// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('logout', [App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout')->middleware('auth');
 
 Route::view('/{path?}', 'layouts/police_form');

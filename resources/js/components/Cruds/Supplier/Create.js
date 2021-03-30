@@ -8,6 +8,13 @@ import QuantityInput from "../../Fields/QuantityInput";
 import RateInput from "../../Fields/RateInput";
 import TotalInput from "../../Fields/TotalInput";
 
+const realFields = [
+    'name', 'cR', 'cD', 'cC',
+    'cP', 'email', 'phone', 'address',
+    'contract_start', 'contract_end', 'details', 'office',
+    'status', 'inputs'
+]
+
 class SupplierCreate extends Component {
     constructor(props) {
         super(props)
@@ -57,6 +64,7 @@ class SupplierCreate extends Component {
         this.handleRateFieldChange = this.handleRateFieldChange.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
         this.handleAddNew = this.handleAddNew.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
         document.title = document.title.split(':')[0] + " : Supplier Create"
         axios.get('/compiled_data/ugData.json').then(response => {
             this.setState({
@@ -166,14 +174,17 @@ class SupplierCreate extends Component {
         let row = parseInt(event.target.dataset['row'])
         let vs = this.state.inputs
         let d = data.split('')
-        if(parseInt(d[0]) === 0){
+        if (parseInt(d[0]) === 0) {
             d.shift()
-            if(d.length !== 0)
+            if (d.length !== 0)
                 data = d.join('')
             else data = '0'
         }
         vs[row]['rate'] = data
+        if(!isNaN(data))
         vs[row]['total'] = parseInt(data) * vs[row]['quantity']
+        else
+            vs[row]['total'] = 0
         this.setState({
             inputs: vs
         })
@@ -181,18 +192,20 @@ class SupplierCreate extends Component {
 
     handleQuantityFieldChange() {
         let data = event.target.value
-        if (data === '') data = 0
         let row = parseInt(event.target.dataset['row'])
         let vs = this.state.inputs
         let d = data.split('')
-        if(parseInt(d[0]) === 0){
+        if (parseInt(d[0]) === 0) {
             d.shift()
-            if(d.length !== 0)
-            data = d.join('')
+            if (d.length !== 0)
+                data = d.join('')
             else data = '0'
         }
         vs[row]['quantity'] = data
-        vs[row]['total'] = parseInt(data) * vs[row]['rate']
+        if (!isNaN(data))
+            vs[row]['total'] = parseInt(data) * vs[row]['rate']
+        else
+            vs[row]['total'] = 0
         this.setState({
             inputs: vs
         })
@@ -204,25 +217,28 @@ class SupplierCreate extends Component {
             data = event.target.textContent
             let isR = false, isD = false, isC = false
             for (const regionsKey in this.state.regions) {
-                if (this.state.regions[regionsKey].label === data) {
-                    isR = true;
-                    break;
-                }
+                if (this.state.regions.hasOwnProperty(regionsKey))
+                    if (this.state.regions[regionsKey].label === data) {
+                        isR = true;
+                        break;
+                    }
             }
             if (!isR) {
                 for (const districtsKey in this.state.districts) {
-                    if (this.state.districts[districtsKey].label === data) {
-                        isD = true;
-                        break;
-                    }
+                    if (this.state.districts.hasOwnProperty(districtsKey))
+                        if (this.state.districts[districtsKey].label === data) {
+                            isD = true;
+                            break;
+                        }
                 }
             }
             if (!isR && !isD) {
                 for (const countyKey in this.state.counties) {
-                    if (this.state.counties[countyKey].label === data) {
-                        isC = true;
-                        break;
-                    }
+                    if (this.state.counties.hasOwnProperty(countyKey))
+                        if (this.state.counties[countyKey].label === data) {
+                            isC = true;
+                            break;
+                        }
                 }
             }
             if (isR) {
@@ -295,6 +311,40 @@ class SupplierCreate extends Component {
         this.setState({
             inputs: nw
         })
+    }
+
+    handleSubmit() {
+        let nonFields = [
+            'suppliers',
+            'cData',
+            'districts',
+            'offices',
+            'is',
+            'regions',
+            'counties',
+            'parishes',
+            'statuses',
+            'alert'
+        ]
+        let fields = []
+        let errors = []
+        let errs = []
+        realFields.map((v) => {
+            errors.push(v)
+        })
+        Object.keys(this.state).map((v, k) => {
+            if (!nonFields.includes(v)) {
+                for (let i = 0; i < errors.length; i++) {
+                    let err = errors[i]
+                    if (err === v) {
+                        errors.splice(i, 1)
+                    }
+                }
+                fields[v] = Object.values(this.state)[k]
+            }
+        });
+        console.log(errors)
+        console.log(fields)
     }
 
     render() {
@@ -490,7 +540,6 @@ class SupplierCreate extends Component {
                             </div>
                             <div className="tab-pane fade" id="inputs-tab" role="tabpanel"
                                  aria-labelledby="inputs">
-
                                 <div className="container-repeatable-elements">
                                     <div data-repeatable-holder={'inputs'} data-init-rows={'1'}
                                          data-max-rows={0} data-min-rows={'1'}
@@ -568,6 +617,13 @@ class SupplierCreate extends Component {
                                     className="btn btn-outline-primary btn-sm ml-1 add-repeatable-element-button"
                                     type="button"><i className="fa fa-plus"/> Add Item
                                 </button>
+                                <div className="row">
+                                    <button
+                                        className="col-6 offset-3 block btn btn-outline-success btn-lg"
+                                        aria-disabled={"true"} onClick={this.handleSubmit}>
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

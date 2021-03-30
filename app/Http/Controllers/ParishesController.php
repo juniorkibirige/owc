@@ -14,7 +14,7 @@ class ParishesController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
