@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
- Route::get('/', function () {
-     if (Auth::check())
-         return redirect('/dashboard');
-     else return redirect('/login');
- });
+// Route::get('/', function () {
+//     if (Auth::check())
+//         return redirect('/dashboard');
+//     else return redirect('/login');
+// });
 
 //Route::view('/login', 'layouts.loginReg')->middleware('guest')->name('login');
 //Route::view('/register', 'auth.register')->name('register')->middleware('guest');
