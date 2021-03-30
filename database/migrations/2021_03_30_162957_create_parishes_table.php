@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOffenseTypesTable extends Migration
+class CreateParishesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateOffenseTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('offense_types', function (Blueprint $table) {
+        Schema::create('parishes', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateOffenseTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('offense_types');
+        Schema::dropIfExists('parishes');
     }
 }
