@@ -14,6 +14,7 @@ class QuantityInput extends Component {
                     {
                         <input type={`number`} className="form-control"
                                name={'quality'}
+                               data-row={this.props.dataRow}
                                value={this.props.value}
                                placeholder={this.props.placeholder}
                                required={this.props.required ?? false}

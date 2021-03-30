@@ -14,6 +14,7 @@ class TotalInput extends Component {
                     {
                         <input type={`number`} className="form-control"
                                name={'total'}
+                               data-row={this.props.dataRow}
                                readOnly={this.props.readOnly}
                                value={this.props.value}
                                placeholder={this.props.placeholder}
