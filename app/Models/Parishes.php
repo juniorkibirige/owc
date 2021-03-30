@@ -9,5 +9,5 @@ class Parishes extends Model
     protected $table = 'parishes';
     protected $primaryKey = 'id';
     protected $guarded = 'id';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'slug'];
 }

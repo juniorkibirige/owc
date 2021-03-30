@@ -10,6 +10,7 @@ class Constituency extends Model
     protected $table = 'constituencies';
     protected $fillable = [
         'name',
+        'slug'
     ];
 
     protected $guarded = [
