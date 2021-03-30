@@ -163,8 +163,15 @@ class SupplierCreate extends Component {
 
     handleRateFieldChange() {
         let data = event.target.value
-        let row = parseInt(event.target.dataset['data-row'])
+        let row = parseInt(event.target.dataset['row'])
         let vs = this.state.inputs
+        let d = data.split('')
+        if(parseInt(d[0]) === 0){
+            d.shift()
+            if(d.length !== 0)
+                data = d.join('')
+            else data = '0'
+        }
         vs[row]['rate'] = data
         vs[row]['total'] = parseInt(data) * vs[row]['quantity']
         this.setState({
@@ -174,8 +181,16 @@ class SupplierCreate extends Component {
 
     handleQuantityFieldChange() {
         let data = event.target.value
-        let row = parseInt(event.target.dataset['data-row'])
+        if (data === '') data = 0
+        let row = parseInt(event.target.dataset['row'])
         let vs = this.state.inputs
+        let d = data.split('')
+        if(parseInt(d[0]) === 0){
+            d.shift()
+            if(d.length !== 0)
+            data = d.join('')
+            else data = '0'
+        }
         vs[row]['quantity'] = data
         vs[row]['total'] = parseInt(data) * vs[row]['rate']
         this.setState({
@@ -269,8 +284,17 @@ class SupplierCreate extends Component {
     }
 
     deleteItem() {
-        let i = event.target
-        console.log(i)
+        let i = event.target.dataset['row']
+        let vs = this.state.inputs
+        let nw = []
+        vs.map((v, k) => {
+            if (k !== parseInt(i)) {
+                nw.push(v)
+            }
+        })
+        this.setState({
+            inputs: nw
+        })
     }
 
     render() {
@@ -480,16 +504,17 @@ class SupplierCreate extends Component {
                                                     <button
                                                         onClick={this.deleteItem}
                                                         data-row={index}
-                                                        className={(index !== 0) ? "close delete-element" : 'close delete-element d-none'}
+                                                        className={(this.state.inputs.length !== 1) ? "close delete-element" : 'close delete-element d-none'}
                                                         style={{paddingLeft: '0.285rem'}} type={'button'}>
-                                                        <span aria-hidden="true"><i className="fa fa-times"/></span>
+                                                        <span aria-hidden="true" data-row={index}><i data-row={index}
+                                                                                                     className="fa fa-times"/></span>
                                                     </button>
                                                     <DropDownInput
                                                         class={'col-12 mb--1 required'}
                                                         label={'Input'}
                                                         required={true}
                                                         field={'input'}
-                                                        dataRow={index}
+                                                        dataRow={index.toString()}
                                                         onChange={this.handleRepeatableFieldChange}
                                                         value={this.getRepeatableValue(index, 'input')}
                                                         clearable={true}
@@ -499,6 +524,7 @@ class SupplierCreate extends Component {
                                                         class={'col-6 mb--1 required'}
                                                         label={'Quantity'}
                                                         required={true}
+                                                        dataRow={index.toString()}
                                                         field={'quantity'}
                                                         onChange={this.handleQuantityFieldChange}
                                                         value={this.getRepeatableValue(index, 'quantity')}
@@ -507,6 +533,7 @@ class SupplierCreate extends Component {
                                                         class={'col-6 mb--1 required'}
                                                         label={'Rate'}
                                                         required={true}
+                                                        dataRow={index.toString()}
                                                         field={'rate'}
                                                         onChange={this.handleRateFieldChange}
                                                         value={this.getRepeatableValue(index, 'rate')}
@@ -516,6 +543,7 @@ class SupplierCreate extends Component {
                                                         label={'Total'}
                                                         required={true}
                                                         field={'total'}
+                                                        dataRow={index.toString()}
                                                         readOnly={true}
                                                         value={this.getRepeatableValue(index, 'total')}
                                                     />
