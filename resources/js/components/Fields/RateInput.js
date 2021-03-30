@@ -12,7 +12,7 @@ class RateInput extends Component {
                     <label htmlFor={this.props.field}>{this.props.label}:<sup
                         className='text-red'>{this.props.required ? '*' : ''}</sup></label>
                     {
-                        <input type={`number`} className="form-control"
+                        <input type={`number`} className="form-control text-center"
                                name={'rate'}
                                data-row={this.props.dataRow}
                                value={this.props.value}

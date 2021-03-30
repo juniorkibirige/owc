@@ -12,7 +12,7 @@ class TotalInput extends Component {
                     <label htmlFor={this.props.field}>{this.props.label}:<sup
                         className='text-red'>{this.props.required ? '*' : ''}</sup></label>
                     {
-                        <input type={`number`} className="form-control"
+                        <input type={`text`} className="form-control text-center"
                                name={'total'}
                                data-row={this.props.dataRow}
                                readOnly={this.props.readOnly}
