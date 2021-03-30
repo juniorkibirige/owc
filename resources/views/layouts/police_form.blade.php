@@ -35,13 +35,13 @@
 <img rel="prefetch" src="{{asset('/assets/img/theme/spinner.gif') }}" alt="img" class="d-none">
 <script src="{{ asset('argon/vendor/jquery/dist/jquery.min.js') }}"></script>
 <!-- <script src="{{ asset('argon/vendor/@fortawesome/fontawesome-free/js/all.min.js') }}"></script> -->
-<script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>
+{{--<script src="//kit.fontawesome.com/0be66f9bc5.js" crossorigin="anonymous"></script>--}}
 <script src="{{ asset('argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <script
     type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
+    src="{{ asset('argon/js/vendor/mdb-ui-kit/3.3.0/mdb.min.js') }}"
 ></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+<script type="text/javascript" src="{{asset('argon/js/vendor/moment.js/2.21.0/moment.min.js')}}"></script>
 <script src="{{asset('argon/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 
