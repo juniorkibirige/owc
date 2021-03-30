@@ -21,7 +21,7 @@
         "phpseclib/phpseclib": "^2.0",
         "spatie/laravel-permission": "^3.13",
         "tymon/jwt-auth": "1.0",
-      "ext-json": "*"
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
