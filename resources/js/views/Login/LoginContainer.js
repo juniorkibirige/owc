@@ -3,7 +3,7 @@ import { Link, Redirect, withRouter } from 'react-router-dom'
 import FlashMessage from 'react-flash-message'
 import Header from '../../components/Header/Header'
 import axios from 'axios'
-import Logo from '../../../../public/argon/img/brand/mlgsd.png'
+import Logo from '../../../../public/favicon.svg'
 import { Button } from 'reactstrap'
 
 class LoginContainer extends Component {

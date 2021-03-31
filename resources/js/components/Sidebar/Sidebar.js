@@ -5,36 +5,6 @@ import Sidebar_Default from './Sidebar_Default'
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
-// reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Collapse,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Media,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
 Sidebar
 var ps;
 
@@ -82,7 +52,7 @@ class Sidebar extends Component {
           sidenavOpen={this.props.sOpen}
           logo={{
             innerLink: "/dashboard",
-            imgSrc: require("./../../../../public/argon/img/brand/favicon.png"),
+            imgSrc: require("./../../../../public/favicon.svg"),
             imgAlt: "Police Web Portal"
           }}
         />

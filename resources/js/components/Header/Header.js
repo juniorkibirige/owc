@@ -34,10 +34,10 @@ class Header extends Component {
             <nav className="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark" style={{ zIndex: `999` }}>
                 <div className="container">
                     <Link className="navbar-brand d-none d-sm-inline-block" to="/">
-                        <img src="argon/img/brand/favicon.png" /> <span className="">UG Police Web</span>
+                        <img src="/favicon.svg" /> <span className="">UG Police Web</span>
                     </Link>
                     <Link className="navbar-brand d-inline-block d-sm-none" to="/">
-                        <img src="argon/img/brand/favicon.png" />
+                        <img src="/favicon.svg" />
                     </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
