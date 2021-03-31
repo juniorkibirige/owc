@@ -18,9 +18,8 @@ class DropDownInput extends Component {
                     <Select
                         className={`basic-single `}
                         classNamePrefix={'select'}
-                        defaultValue={this.props.options[0]}
                         isDisabled={this.props.disabled}
-                        isLoading={false}
+                        isLoading={this.props.loading}
                         isClearable={this.props.clearable}
                         isRtl={false}
                         isSearchable={true}
@@ -28,8 +27,18 @@ class DropDownInput extends Component {
                         options={this.props.options}
                         onChange={this.props.onChange}
                         id={this.props.field}
-                        data-row={this.props.dataRow ?? 0}
+                        isOptionDisabled={opt => opt.disabled}
+                        getOptionLabel={opt => opt.label}
+                        getOptionValue={opt => opt.value}
+                        data-row={this.props.dataRow}
                     />
+                    {
+                        this.props.error === true ?
+                            <>
+                                <div className="text-left text-danger">Required.</div>
+                            </>
+                            : <></>
+                    }
                 </div>
             </>
         );

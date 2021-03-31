@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Datepicker from "../DateTimePickerComp";
+import Select from "react-select";
 
 const script = document.createElement('script');
 
@@ -31,6 +32,13 @@ class DateTimePicker extends Component {
                         }}
                         onChange={this.props.onchange}
                     />
+                    {
+                        this.props.error === true ?
+                            <>
+                                <div className="text-left text-danger m--2">Required.</div>
+                            </>
+                            : <></>
+                    }
                 </div>
             </>
         );
