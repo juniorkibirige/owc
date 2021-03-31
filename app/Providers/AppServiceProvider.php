@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Supplier;
+use App\Observers\SupplierObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'local') {
             $this->app['request']->server->set('HTTPS', true);
         }
-
+        Supplier::observe(SupplierObserver::class);
     }
 }

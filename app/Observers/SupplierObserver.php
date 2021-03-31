@@ -3,17 +3,17 @@
 namespace App\Observers;
 
 use App\Models\Supplier;
+use Str;
 
 class SupplierObserver
 {
     public function saving(Supplier $supplier)
     {
-        $slug = Supplier::find($supplier->id);
-        $slug->slug = implode('_', explode(' ', ($slug->name)));
+        $supplier->slug = Str::slug($supplier->name);
     }
 
     public function saved(Supplier $supplier) {
-        $this->inputPivotUpdateOrCreate($supplier);
+//        $this->inputPivotUpdateOrCreate($supplier);
     }
 
     /**

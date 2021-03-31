@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SupplierRequest extends FormRequest
@@ -26,12 +26,12 @@ class SupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
-            'district_id' => 'required',
-            'county_id' => 'required',
-            'supplier_contacts_id' => 'required',
-            'supplier_contracts_id' => 'required',
-            'inputs' => 'required',
+            'supplier_data.name' => 'required|max:255',
+            'supplier_data.district_id' => 'required',
+            'supplier_data.county_id' => 'required',
+            'supplier_data.region_id' => 'required',
+            'supplier_data.parish_id' => 'required',
+            'supplier_data.inputs' => 'required',
         ];
     }
 
