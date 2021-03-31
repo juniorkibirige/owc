@@ -9,15 +9,19 @@ class District extends Model
 {
 
     protected $table = 'districts';
+    protected $primaryKey = 'id';
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'region_id',
     ];
 
     public $timestamps = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     public function supplier(): BelongsToMany

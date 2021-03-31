@@ -8,14 +8,16 @@ class Constituency extends Model
 {
 
     protected $table = 'constituencies';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'region_id',
+        'district_id',
     ];
 
     protected $guarded = [
         'id',
-        'slug'
     ];
 
     public function getSlugAttribute($value): string

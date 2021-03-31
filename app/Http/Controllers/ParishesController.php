@@ -2,84 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Parishes;
+use App\Models\Parishes;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ParishesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Parishes  $parishes
-     * @return \Illuminate\Http\Response
+     * @param int $rid
+     * @param int $did
+     * @param int $cid
+     * @return Response
      */
-    public function show(Parishes $parishes)
+    public function show(int $rid, int $did, int $cid): Response
     {
-        //
-    }
+        $regions = Parishes::query()->where(['region_id'=> $rid,'district_id'=> $did,'county_id'=> $cid])->get(['id', 'name', 'slug']);
+        return \response(json_encode($regions), 200);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Parishes  $parishes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Parishes $parishes)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Parishes  $parishes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Parishes $parishes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Parishes  $parishes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Parishes $parishes)
-    {
-        //
     }
 }
