@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
+use App\Models\Constituency;
+use App\Models\District;
+use App\Models\Parishes;
+use App\Models\Region;
 use App\Models\Supplier;
 use App\Models\SupplierContact;
 use App\Models\SupplierContract;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,7 +24,20 @@ class SupplierController extends Controller
     public function index(): Response
     {
         $suppliers = Supplier::get();
-        $res = ['suppliers' => $suppliers];
+        $s = [];
+        $i = 0;
+        foreach ($suppliers as $supplier) {
+            $did = District::find($supplier->district_id)->name;
+            $rid = Region::find($supplier->region_id)->name;
+            $cid = Constituency::find($supplier->county_id)->name;
+            $pid = Parishes::find($supplier->parish_id)->name;
+            $supplier->district = $did;
+            $supplier->region = $rid;
+            $supplier->county = $cid;
+            $supplier->parish = $pid;
+            $s[$i++] = $supplier;
+        }
+        $res = ['suppliers' => $s];
         return \response($res, 200);
     }
 
@@ -27,9 +45,9 @@ class SupplierController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SupplierRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(SupplierRequest $request): Response
+    public function store(SupplierRequest $request): RedirectResponse
     {
         $supplierData = $request->supplier_data;
         $contactData = $request->contact_data;
@@ -44,7 +62,7 @@ class SupplierController extends Controller
 
         }
         $s->inputsRel()->sync($supplierData['inputs'], false);
-        return \response($s, 201);
+        return redirect('/dashboard/supplier/list');
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Models\Input;
+use App\Models\Office;
 use App\Models\Supplier;
 use Str;
 
@@ -10,6 +12,17 @@ class SupplierObserver
     public function saving(Supplier $supplier)
     {
         $supplier->slug = Str::slug($supplier->name);
+        $inputs = $supplier->inputs;
+        $ins = [];
+        for ($i=0;$i<count($inputs);$i++){
+            $input = $inputs[$i];
+            $inputModel = Input::find($input['input_id']);
+            $officeModel = Office::find($input['office_id']);
+            $input['input_id'] = $inputModel->name;
+            $input['office_id'] = $officeModel->name;
+            $ins[$i] = $input;
+        }
+        $supplier->inputs = $ins;
     }
 
     public function saved(Supplier $supplier) {

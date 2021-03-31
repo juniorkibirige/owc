@@ -20,6 +20,7 @@ class Supplier extends Model
         'district_id',
         'county_id',
         'region_id',
+        'parish_id',
         'slug',
         'supplier_contracts_id',
         'supplier_contacts_id',
