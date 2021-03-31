@@ -456,8 +456,8 @@ class Stats extends Component {
                         name: key.toString(),
                         data: Object.keys(region).map(key => region[key])
                     })
-                    this.fM.addSeries(newSeries, false)
-                    this.fM.redraw()
+                    // this.fM.addSeries(newSeries, false)
+                    // this.fM.redraw()
                 }
             }
             // Setting up gender pie chart
@@ -468,21 +468,21 @@ class Stats extends Component {
                         name: key,
                         y: gender
                     }
-                    this.gC.series[0].addPoint(newPoint)
+                    // this.gC.series[0].addPoint(newPoint)
                 }
             }
-            this.gC.series[0].data[0].remove(true)
+            // this.gC.series[0].data[0].remove(true)
 
             //Setting up age chart
-            this.aC.update({
-                series: [
-                    {
-                        data: response.data.byRank
-                    }
-                ]
-            }, true, true)
-
-            this.aC.redraw()
+            // this.aC.update({
+            //     series: [
+            //         {
+            //             data: response.data.byRank
+            //         }
+            //     ]
+            // }, true, true)
+            //
+            // this.aC.redraw()
             this.setState(prevState => ({
                 ...prevState,
                 perMonth: response.data.perMonth,

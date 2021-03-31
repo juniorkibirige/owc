@@ -212,7 +212,7 @@ class LoginContainer extends Component {
                                     <img src={Logo} className='d-block mx-auto mt-4' style={{ width: `150px`, height: `120px`, marginTop: `100px` }} />
                                 </Link>
                                 <div className='align-middle text-white' style={{ fontSize: `40px` }}>
-                                    Uganda Police
+                                    OWC
                                 </div>
                             </div>
                         </div>

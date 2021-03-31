@@ -19,6 +19,8 @@ class Supplier extends Model
         'name',
         'district_id',
         'county_id',
+        'region_id',
+        'slug',
         'supplier_contracts_id',
         'supplier_contacts_id',
         'inputs'

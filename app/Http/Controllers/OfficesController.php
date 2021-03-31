@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Input;
+use App\Models\Office;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class InputController extends Controller
+class OfficesController extends Controller
 {
-    public function edit(int $id)
-    {
-    }
-
-    public function create()
-    {
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,10 +15,18 @@ class InputController extends Controller
      */
     public function index(): Response
     {
-        $inputs = Input::query()
-            ->where(['deleted_at' => null])
-            ->get(['id', 'name', 'type', 'description', 'extras', 'office_id']);
-        return \response(json_encode($inputs), 200);
+        $offices = Office::get()->except(['deleted_at']);
+        return \response(json_encode($offices), 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -35,7 +35,7 @@ class InputController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         //
     }
@@ -43,7 +43,7 @@ class InputController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -52,10 +52,21 @@ class InputController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -66,7 +77,7 @@ class InputController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)
