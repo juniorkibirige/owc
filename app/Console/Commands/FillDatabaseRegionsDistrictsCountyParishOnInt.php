@@ -58,23 +58,29 @@ class FillDatabaseRegionsDistrictsCountyParishOnInt extends Command
                 'name'=> $region,
                 'slug'=>Str::lower($region)
             ];
-            Region::create($reg);
+            $rid = Region::create($reg);
             foreach ($districts as $district => $counties) {
                 $dis = [
                     'name'=> $district,
-                    'slug'=>Str::lower($district)
+                    'slug'=>Str::lower($district),
+                    'region_id' => $rid->id
                 ];
-                District::create($dis);
+                $did = District::create($dis);
                 foreach ($counties as $county => $parishes) {
                     $cou = [
                         'name'=> $county,
-                        'slug'=>Str::lower($county)
+                        'slug'=>Str::lower($county),
+                        'region_id' => $rid->id,
+                        'district_id' => $did->id
                     ];
-                    Constituency::create($cou);
+                    $cid = Constituency::create($cou);
                     foreach ($parishes as $index => $parish) {
                         $p = [
                             'name'=> $parish,
-                            'slug'=>Str::lower($parish)
+                            'slug'=>Str::lower($parish),
+                            'region_id' => $rid->id,
+                            'district_id' => $did->id,
+                            'county_id' => $cid->id
                         ];
                         Parishes::create($p);
                     }
