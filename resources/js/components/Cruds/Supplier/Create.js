@@ -20,11 +20,10 @@ class SupplierCreate extends Component {
         super(props)
         this.state = {
             suppliers: [],
-            cData: [],
-            cR: '',
-            cD: '',
-            cC: '',
-            cP: '',
+            loadingDs: false,
+            loadingRs: true,
+            loadingCs: false,
+            loadingPs: false,
             districts: [],
             offices: [],
             regions: [],
@@ -44,52 +43,44 @@ class SupplierCreate extends Component {
                     label: 'Terminated'
                 },
             ],
+            submitting: false,
+            errors: {},
             is: [],
-            inputs: [
-                {
-                    input: 0,
-                    quantity: 0,
-                    rate: 0,
-                    total: 0,
-                    office: ''
-                },
-            ],
-            contract_start: null,
-            contract_end: null,
+            inputs: [],
             alert: null,
-            name: ''
         }
+        document.title = document.title.split(':')[0] + " : Supplier Create"
+        this.handleRepeatableFieldChange = this.handleRepeatableFieldChange.bind(this)
+        this.handleOfficeFieldChange = this.handleOfficeFieldChange.bind(this)
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleQuantityFieldChange = this.handleQuantityFieldChange.bind(this)
         this.handleRateFieldChange = this.handleRateFieldChange.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
         this.handleAddNew = this.handleAddNew.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        document.title = document.title.split(':')[0] + " : Supplier Create"
-        axios.get('/compiled_data/ugData.json').then(response => {
-            this.setState({
-                cData: response.data
-            })
-            this.getRegions();
-        })
+        this.getInputs = this.getInputs.bind(this)
+        this.getOffices = this.getOffices.bind(this)
     }
 
     getDistricts(re) {
-        console.log(this.state.cData[re.split(' ')[0].toString()])
         let dis = []
         let k = 0
         if (re !== '') {
-            Object.keys(this.state.cData[re.split(' ')[0].toString()]).forEach(district => {
-                let d = {}
-                d['value'] = district
-                d['label'] = district.concat(' District')
-                dis.push(d)
-                k += 1
-            })
             this.setState({
-                districts: dis
-            })
-            return dis
+                loadingDs: true,
+            });
+            axios.get('/api/districts/' + re).then(res => {
+                res.data.map((v, k) => {
+                    let d = {}
+                    d['value'] = v.id
+                    d['label'] = v.name.concat(' District')
+                    dis.push(d)
+                });
+                this.setState({
+                    districts: dis,
+                    loadingDs: false
+                })
+            });
         }
     }
 
@@ -97,24 +88,21 @@ class SupplierCreate extends Component {
         let dis = []
         let k = 0
         if (re !== '' && di !== '') {
-            Object.keys(this.state.cData[re.split(' ')[0].toString()][di.split(' ')[0].toString()]).forEach(county => {
-                let d = {}
-                d['value'] = county
-                d['label'] = county.concat(' County')
-                dis.push(d)
-                k += 1
-            })
             this.setState({
-                counties: dis
-            })
-            return dis
-        }
-    }
-
-    handleDateChange(event) {
-        let date = event._d.toDateString()
-        if (date !== '') {
-            console.log(event)
+                loadingCs: true,
+            });
+            axios.get('/api/counties/' + re + '/' + di).then(res => {
+                res.data.map((v, k) => {
+                    let d = {}
+                    d['value'] = v.id
+                    d['label'] = v.name.concat(' County')
+                    dis.push(d)
+                });
+                this.setState({
+                    counties: dis,
+                    loadingCs: false
+                })
+            });
         }
     }
 
@@ -122,36 +110,39 @@ class SupplierCreate extends Component {
         let dis = []
         let k = 0
         if (re !== '' && di !== '' && co !== '') {
-            Object.keys(this.state.cData[re.split(' ')[0].toString()][di.split(' ')[0].toString()][co.split(' ')[0].toString()]).forEach(county => {
-                let d = {}
-                d['value'] = this.state.cData[re.split(' ')[0].toString()][di.split(' ')[0].toString()][co.split(' ')[0].toString()][county]
-                d['label'] = this.state.cData[re.split(' ')[0].toString()][di.split(' ')[0].toString()][co.split(' ')[0].toString()][county].concat(' Parish')
-                dis.push(d)
-                k += 1
-            })
             this.setState({
-                parishes: dis
-            })
-            return dis
+                loadingPs: true,
+            });
+            axios.get('/api/parishes/' + re + '/' + di + '/' + co).then(res => {
+                res.data.map((v, k) => {
+                    let d = {}
+                    d['value'] = v.id
+                    d['label'] = v.name.concat(' Parish')
+                    dis.push(d)
+                });
+                this.setState({
+                    parishes: dis,
+                    loadingPs: false
+                })
+            });
         }
     }
 
     getRegions() {
         let reg = []
         let k = 0
-        Object.keys(this.state.cData).forEach(region => {
-            if (k < 4) {
+        axios.get('/api/regions').then(res => {
+            res.data.map((v, k) => {
                 let r = {}
-                r['value'] = region
-                r['label'] = region.concat(' Region')
+                r['value'] = v.id
+                r['label'] = v.name.concat(' Region')
                 reg.push(r)
-                k += 1
-            }
-        })
+            });
+        });
         this.setState({
-            regions: reg
+            regions: reg,
+            loadingRs: false,
         })
-        return reg
     }
 
     getRepeatableValue(row, field) {
@@ -159,14 +150,49 @@ class SupplierCreate extends Component {
         return vs[row][field]
     }
 
-    handleRepeatableFieldChange() {
-        let data = event.target.value
-        let row = parseInt(event.target.dataset['data-row'])
+    handleRepeatableFieldChange(elem) {
+        let element = event.target.parentElement.parentElement.parentElement
+        if (element.className.includes('select__indicators css-1hb7zxy-IndicatorsContainer'))
+            element = element.parentElement.parentElement
+        let data = null
+        if (elem !== null) {
+            data = elem.value
+        } else {
+            data = null
+        }
         let vs = this.state.inputs
-        vs[row][event.target.name] = data
+        let ids = element.id.split('_')
+        let name
+        if (ids.length === 2)
+            name = ids[1]
+        else if(ids.length > 2) {
+            ids.splice(0,1)
+            name = ids.join('_')
+        }
+        let row = parseInt(element.id.split('_')[0])
+        vs[row][name] = data
         this.setState({
             inputs: vs
         })
+    }
+
+    handleOfficeFieldChange(elem) {
+        let elemt = event.target.parentElement.parentElement.parentElement
+        if (elemt.className.includes('select__indicators css-1hb7zxy-IndicatorsContainer'))
+            elemt = elemt.parentElement.parentElement
+        let data
+        if (elem === null) {
+            data = null
+        } else
+            data = elem.value
+        let name = elemt.id
+        this.setState(prevState => ({
+            [name]: data,
+            errors: {
+                ...prevState.errors,
+                [name]: false
+            }
+        }))
     }
 
     handleRateFieldChange() {
@@ -180,9 +206,9 @@ class SupplierCreate extends Component {
                 data = d.join('')
             else data = '0'
         }
-        vs[row]['rate'] = data
-        if(!isNaN(data))
-        vs[row]['total'] = parseInt(data) * vs[row]['quantity']
+        vs[row]['rate'] = parseInt(data)
+        if (!isNaN(data))
+            vs[row]['total'] = parseInt(data) * vs[row]['quantity']
         else
             vs[row]['total'] = 0
         this.setState({
@@ -201,13 +227,13 @@ class SupplierCreate extends Component {
                 data = d.join('')
             else data = '0'
         }
-        vs[row]['quantity'] = data
+        vs[row]['quantity'] = parseInt(data)
         if (!isNaN(data))
             vs[row]['total'] = parseInt(data) * vs[row]['rate']
         else
             vs[row]['total'] = 0
         this.setState({
-            inputs: vs
+            inputs: vs,
         })
     }
 
@@ -219,6 +245,7 @@ class SupplierCreate extends Component {
             for (const regionsKey in this.state.regions) {
                 if (this.state.regions.hasOwnProperty(regionsKey))
                     if (this.state.regions[regionsKey].label === data) {
+                        data = this.state.regions[regionsKey].value
                         isR = true;
                         break;
                     }
@@ -227,6 +254,7 @@ class SupplierCreate extends Component {
                 for (const districtsKey in this.state.districts) {
                     if (this.state.districts.hasOwnProperty(districtsKey))
                         if (this.state.districts[districtsKey].label === data) {
+                            data = this.state.districts[districtsKey].value
                             isD = true;
                             break;
                         }
@@ -236,30 +264,56 @@ class SupplierCreate extends Component {
                 for (const countyKey in this.state.counties) {
                     if (this.state.counties.hasOwnProperty(countyKey))
                         if (this.state.counties[countyKey].label === data) {
+                            data = this.state.counties[countyKey].value
                             isC = true;
                             break;
                         }
                 }
             }
+            if (!isR && !isD && !isC) {
+                for (const parishKey in this.state.parishes) {
+                    if (this.state.parishes.hasOwnProperty(parishKey))
+                        if (this.state.parishes[parishKey].label === data) {
+                            data = this.state.parishes[parishKey].value
+                            break;
+                        }
+                }
+            }
             if (isR) {
-                this.setState({
-                    cR: data
-                })
+                this.setState(prevState => ({
+                    cR: data,
+                    errors: {
+                        ...prevState.errors,
+                        cR: false,
+                    }
+                }))
                 this.getDistricts(data)
             } else if (isD) {
-                this.setState({
-                    cD: data
-                })
+                this.setState(prevState => ({
+                    cD: data,
+                    errors: {
+                        ...prevState.errors,
+                        cD: false,
+                    }
+                }))
                 this.getCounties(this.state.cR, data)
             } else if (isC) {
-                this.setState({
-                    cC: data
-                })
+                this.setState(prevState => ({
+                    cC: data,
+                    errors: {
+                        ...prevState.errors,
+                        cC: false,
+                    }
+                }))
                 this.getParish(this.state.cR, this.state.cD, data)
             } else {
-                this.setState({
-                    cP: data
-                })
+                this.setState(prevState => ({
+                    cP: data,
+                    errors: {
+                        ...prevState.errors,
+                        cP: false,
+                    }
+                }))
             }
         } else if (event.target.className.includes('rdtDay')) {
             const day = event.target.dataset['value']
@@ -267,36 +321,60 @@ class SupplierCreate extends Component {
             const year = event.target.dataset['year']
             let d = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].name
             data = (parseInt(month) + 1).toString().concat('/').concat(day).concat('/').concat(year)
-            this.setState({
-                [d]: data
-            })
+            this.setState(prevState => ({
+                [d]: data,
+                errors: {
+                    ...prevState.errors,
+                    [d]: false,
+                }
+            }))
         } else
-            this.setState({
-                [event.target.name]: data
-            })
+            this.setState(prevState => ({
+                [event.target.name]: data,
+                errors: {
+                    ...prevState.errors,
+                    [event.target.name]: false,
+                }
+            }))
     }
 
     componentDidMount() {
-        axios.get('/api/supplier/all').then(response => {
-            this.setState({
-                suppliers: response.data,
-            });
-        });
+        let errs = {}
+        let i = 0
+        realFields.map((v) => {
+            errs[v] = false
+        }, this)
+        this.setState({
+            errors: errs
+        })
+        // this.setState((prevState)=>({
+        //     errors: {
+        //         ...prevState.errors,
+        //         inputs: true
+        //     }
+        // }))
+        this.getRegions()
+        this.getInputs()
+        this.getOffices()
     }
 
     handleAddNew() {
         let a = {
-            input: 0,
+            input_id: 0,
             quantity: 0,
             rate: 0,
             total: 0,
-            office: ''
+            office_id: ''
         }
         let inps = this.state.inputs
         inps.push(a)
-        this.setState({
-            inputs: inps
-        })
+        this.setState(prevState => ({
+            inputs: inps,
+            errors: {
+                ...prevState.errors,
+                inputs: false,
+            }
+        }))
     }
 
     deleteItem() {
@@ -313,8 +391,9 @@ class SupplierCreate extends Component {
         })
     }
 
-    handleSubmit() {
+    async handleSubmit() {
         let nonFields = [
+            'submitting',
             'suppliers',
             'cData',
             'districts',
@@ -324,11 +403,13 @@ class SupplierCreate extends Component {
             'counties',
             'parishes',
             'statuses',
-            'alert'
+            'alert',
+            'loadingRs', 'loadingDs',
+            'loadingCs', 'loadingPs',
+            'errors'
         ]
         let fields = []
         let errors = []
-        let errs = []
         realFields.map((v) => {
             errors.push(v)
         })
@@ -340,11 +421,71 @@ class SupplierCreate extends Component {
                         errors.splice(i, 1)
                     }
                 }
-                fields[v] = Object.values(this.state)[k]
+                if (v === 'inputs') {
+                    if (this.state.inputs.length !== 0)
+                        fields[v] = Object.values(this.state)[k]
+                    else {
+                        errors.push('inputs')
+                    }
+                } else
+                    fields[v] = Object.values(this.state)[k]
             }
         });
-        console.log(errors)
-        console.log(fields)
+        if (fields.length <= 0 && errors.length > 0) {
+            let stateErrors = {}
+            for (const errorsKey in errors) {
+                if (errors.hasOwnProperty(errorsKey)) {
+                    let err = errors[errorsKey]
+                    stateErrors[err] = true
+                }
+            }
+            this.setState({
+                errors: stateErrors
+            })
+        } else {
+            this.setState({
+                submitting: true
+            })
+            const form = {
+                'supplier_data': {
+                    'name': this.state.name,
+                    'district_id': this.state.cD,
+                    'slug': this.state.name.toLowerCase().split(' ').join('_'),
+                    'inputs': this.state.inputs,
+                    'region_id': this.state.cR,
+                    'parish_id': this.state.cP,
+                    'county_id': this.state.cC,
+                },
+                'contact_data': {
+                    'email': this.state.email,
+                    'phone_number': this.state.phone,
+                    'address': this.state.address,
+                },
+                'contract_data': {
+                    'contract_start': this.state.contract_start,
+                    'contract_end': this.state.contract_end,
+                    'details': this.state.details,
+                    'office_id': this.state.office,
+                    'status': this.state.status,
+                }
+            }
+
+            await axios.post('/api/supplier', form)
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => {
+                    // console.warn(error.response.data.errors)
+                    // this.setState({
+                    //     errors: error.response.data.errors
+                    // })
+                })
+                .finally(() => {
+                    this.setState({
+                        submitting: false
+                    })
+                })
+        }
     }
 
     render() {
@@ -361,7 +502,8 @@ class SupplierCreate extends Component {
                     <div className="col-md-10 bg-blue-gray-400 pb-7">
                         <ul className="nav nav-tabs nav-justified mb-3" id="sCreate" role="tablist">
                             <li className="nav-item" role="presentation">
-                                <a href="#per-det-tab" className="nav-link active" id="per-det" data-mdb-toggle="tab"
+                                <a href="#per-det-tab" className="nav-link active" id="per-det"
+                                   data-mdb-toggle="tab"
                                    role="tab" aria-controls="per-det-tab" aria-selected="true">
                                     Personal Details
                                 </a>
@@ -398,49 +540,58 @@ class SupplierCreate extends Component {
                                             placeholder={'Company Name'}
                                             onChange={this.handleFieldChange}
                                             value={this.state.name}
+                                            error={this.state.errors['name']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'Regions'}
                                             required={true}
                                             field={'cR'}
+                                            loading={this.state.loadingRs}
                                             onChange={this.handleFieldChange}
                                             value={this.state.cR}
                                             clearable={true}
                                             options={this.state.regions}
+                                            error={this.state.errors['cR']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'District'}
                                             required={true}
                                             field={'cD'}
+                                            loading={this.state.loadingDs}
                                             onChange={this.handleFieldChange}
                                             value={this.state.cD}
                                             clearable={true}
                                             disabled={this.state.districts.length === 0}
                                             options={this.state.districts}
+                                            error={this.state.errors['cD']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'County'}
                                             required={true}
                                             field={'cC'}
+                                            loading={this.state.loadingCs}
                                             onChange={this.handleFieldChange}
                                             value={this.state.cC}
                                             clearable={true}
                                             disabled={this.state.counties.length === 0}
                                             options={this.state.counties}
+                                            error={this.state.errors['cC']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'Parish'}
                                             required={true}
                                             field={'cP'}
+                                            loading={this.state.loadingPs}
                                             onChange={this.handleFieldChange}
                                             value={this.state.cP}
                                             clearable={true}
                                             disabled={this.state.parishes.length === 0}
                                             options={this.state.parishes}
+                                            error={this.state.errors['cP']}
                                         />
                                     </div>
                                 </div>
@@ -458,6 +609,7 @@ class SupplierCreate extends Component {
                                             placeholder={'Email Address'}
                                             onChange={this.handleFieldChange}
                                             value={this.state.email}
+                                            error={this.state.errors['email']}
                                         />
                                         <TextInput
                                             class={'col-sm-12 required'}
@@ -468,6 +620,7 @@ class SupplierCreate extends Component {
                                             placeholder={'Phone Number'}
                                             onChange={this.handleFieldChange}
                                             value={this.state.phone}
+                                            error={this.state.errors['phone']}
                                         />
                                         <TextInput
                                             class={'col-sm-12 required'}
@@ -477,6 +630,7 @@ class SupplierCreate extends Component {
                                             placeholder={'Address'}
                                             onChange={this.handleFieldChange}
                                             value={this.state.address}
+                                            error={this.state.errors['address']}
                                         />
                                     </div>
                                 </div>
@@ -494,6 +648,7 @@ class SupplierCreate extends Component {
                                             placeholder={'Start'}
                                             onchange={this.handleFieldChange}
                                             value={this.state.contract_start}
+                                            error={this.state.errors['contract_start']}
                                         />
                                         <DateTimePicker
                                             class={'col-sm-6 required'}
@@ -504,6 +659,7 @@ class SupplierCreate extends Component {
                                             placeholder={'End'}
                                             onchange={this.handleFieldChange}
                                             value={this.state.contract_end}
+                                            error={this.state.errors['contract_end']}
                                         />
                                         <TextAreaInput
                                             class={'col-sm-12 offset-md-3 col-md-6 required'}
@@ -514,33 +670,37 @@ class SupplierCreate extends Component {
                                             name={'details'}
                                             value={this.state.details}
                                             onChange={this.handleFieldChange}
+                                            error={this.state.errors['details']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'Office'}
                                             required={true}
                                             field={'office'}
-                                            onChange={this.handleFieldChange}
+                                            onChange={this.handleOfficeFieldChange}
                                             value={this.state.office}
                                             clearable={true}
                                             options={this.state.offices}
+                                            error={this.state.errors['office']}
                                         />
                                         <DropDownInput
                                             class={'col-md-6 required'}
                                             label={'Status'}
                                             required={true}
                                             field={'status'}
-                                            onChange={this.handleFieldChange}
+                                            onChange={this.handleOfficeFieldChange}
                                             value={this.state.status}
                                             clearable={true}
                                             options={this.state.statuses}
+                                            error={this.state.errors['status']}
                                         />
                                     </div>
                                 </div>
                             </div>
-                            <div className="tab-pane fade" id="inputs-tab" role="tabpanel"
+                            <div className={"tab-pane fade"} id="inputs-tab" role="tabpanel"
                                  aria-labelledby="inputs">
-                                <div className="container-repeatable-elements">
+                                <div
+                                    className={"container-repeatable-elements ".concat(this.state.errors['inputs'] ? "p-4 m--4 border border-danger" : "")}>
                                     <div data-repeatable-holder={'inputs'} data-init-rows={'1'}
                                          data-max-rows={0} data-min-rows={'1'}
                                          number-of-rows={this.state.inputs.length}>
@@ -555,15 +715,16 @@ class SupplierCreate extends Component {
                                                         data-row={index}
                                                         className={(this.state.inputs.length !== 1) ? "close delete-element" : 'close delete-element d-none'}
                                                         style={{paddingLeft: '0.285rem'}} type={'button'}>
-                                                        <span aria-hidden="true" data-row={index}><i data-row={index}
-                                                                                                     className="fa fa-times"/></span>
+                                                        <span aria-hidden="true" data-row={index}>
+                                                            <i data-row={index} className="fa fa-times"/></span>
                                                     </button>
                                                     <DropDownInput
                                                         class={'col-12 mb--1 required'}
                                                         label={'Input'}
                                                         required={true}
-                                                        field={'input'}
-                                                        dataRow={index.toString()}
+                                                        field={index.toString() + '_input_id'}
+                                                        name={'input_id'}
+                                                        id={index.toString() + '_input'}
                                                         onChange={this.handleRepeatableFieldChange}
                                                         value={this.getRepeatableValue(index, 'input')}
                                                         clearable={true}
@@ -600,8 +761,8 @@ class SupplierCreate extends Component {
                                                         class={'col-12 required'}
                                                         label={'Office'}
                                                         required={true}
-                                                        field={'office'}
-                                                        dataRow={index.toString()}
+                                                        name={'office_id'}
+                                                        field={index.toString() + '_office_id'}
                                                         onChange={this.handleRepeatableFieldChange}
                                                         value={this.getRepeatableValue(index, 'office')}
                                                         clearable={true}
@@ -610,19 +771,24 @@ class SupplierCreate extends Component {
                                                 </div>
                                             ))
                                         }
+                                        <button
+                                            onClick={this.handleAddNew}
+                                            className="btn btn-outline-primary btn-sm ml-1 add-repeatable-element-button"
+                                            type="button"><i className="fa fa-plus"/> Add Item
+                                        </button>
+                                        <div className="row">
+                                            <button
+                                                className={"col-6 offset-3 block btn btn-lg ".concat(this.state.submitting ? 'btn-success' : 'btn-success')}
+                                                aria-disabled={"true"}
+                                                style={{
+                                                    cursor: this.state.submitting ? 'wait' : 'pointer',
+                                                    opacity: this.state.submitting ? '0.6' : '1'
+                                                }}
+                                                onClick={this.handleSubmit}>
+                                                Submit
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <button
-                                    onClick={this.handleAddNew}
-                                    className="btn btn-outline-primary btn-sm ml-1 add-repeatable-element-button"
-                                    type="button"><i className="fa fa-plus"/> Add Item
-                                </button>
-                                <div className="row">
-                                    <button
-                                        className="col-6 offset-3 block btn btn-outline-success btn-lg"
-                                        aria-disabled={"true"} onClick={this.handleSubmit}>
-                                        Submit
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -630,6 +796,36 @@ class SupplierCreate extends Component {
                 </div>
             </>
         );
+    }
+
+    getInputs() {
+        let reg = []
+        axios.get('/api/input').then(res => {
+            res.data.map((v, k) => {
+                let r = {}
+                r['value'] = v.id
+                r['label'] = v.name
+                reg.push(r)
+            });
+        });
+        this.setState({
+            is: reg,
+        })
+    }
+
+    getOffices() {
+        let reg = []
+        axios.get('/api/offices').then(res => {
+            res.data.map((v, k) => {
+                let r = {}
+                r['value'] = v.id
+                r['label'] = v.name
+                reg.push(r)
+            });
+        });
+        this.setState({
+            offices: reg,
+        })
     }
 }
 
