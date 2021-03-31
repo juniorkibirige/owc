@@ -5,8 +5,7 @@ import ToolkitProvider from 'react-bootstrap-table2-toolkit'
 
 import {Col, Row} from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
-import TextInput from "../../Fields/TextInput";
-import DropDownInput from "../../Fields/DropDownInput";
+import paginationFactory from 'react-bootstrap-table2-paginator'
 import Select from "react-select";
 
 const rowEvents = {
@@ -64,18 +63,18 @@ class SupplierList extends Component {
             />
                 <Row className='mr-3 d-none'>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                        <button className='btn btn-sm bg-green' onClick={()=>alert('View')
+                        <button className='btn btn-sm bg-green' onClick={() => alert('View')
                         }>View
                         </button>
                     </Col>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
                         <button className='btn btn-sm bg-warning'
-                                onClick={()=>alert('Edit')}>Edit
+                                onClick={() => alert('Edit')}>Edit
                         </button>
                     </Col>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
                         <button className='btn btn-sm bg-warning'
-                                onClick={()=>alert('Delete')}>Delete
+                                onClick={() => alert('Delete')}>Delete
                         </button>
                     </Col>
                 </Row>
@@ -125,7 +124,8 @@ class SupplierList extends Component {
                                         dataField: 'name',
                                         text: 'Name',
                                         hidden: false,
-                                        classes: 'col-md-auto'
+                                        classes: 'col-md-auto',
+                                        sort: true
                                     },
                                     {
                                         dataField: 'region',
@@ -154,7 +154,7 @@ class SupplierList extends Component {
                                     {
                                         dataField: 'actions',
                                         isDummyField: true,
-                                        headerStyle:()=>{
+                                        headerStyle: () => {
                                             return {width: "15%"};
                                         },
                                         text: '',
@@ -163,6 +163,7 @@ class SupplierList extends Component {
                                     },
                                 ]}
                                 hover
+                                search
                             >
                                 {
                                     props => (
@@ -173,6 +174,20 @@ class SupplierList extends Component {
                                                 classes={`table-white`}
                                                 bootstrap4={true}
                                                 bordered={true}
+                                                pagination={paginationFactory({
+                                                    showTotal: true,
+                                                    sizePerPageList: [{
+                                                        text: '5', value: 5
+                                                    }, {
+                                                        text: '10', value: 10
+                                                    }, {
+                                                        text: '20', value: 20,
+                                                    },{
+                                                        text: '50', value: 50,
+                                                    },{
+                                                        text: '100', value: 100,
+                                                    }]
+                                                })}
                                                 noDataIndication={"No Suppliers"}
                                                 id="react-supplier-table"
                                             />
