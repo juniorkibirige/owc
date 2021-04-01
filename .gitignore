@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /vendor
+/bootstrap/cache/*
 .env
 .env.backup
 .phpunit.result.cache
