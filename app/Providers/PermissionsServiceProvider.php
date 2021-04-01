@@ -26,23 +26,23 @@ class PermissionsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        try {
-            Permission::get()->map(function ($permission) {
-                Gate::define($permission->slug, function ($user) use ($permission){
-                    return $user->hasPermissionTo($permission);
-                });
-            });
-        } catch (\Exception $e) {
-            report($e);
-            return false;
-        }
+//        try {
+////            Permission::get()->map(function ($permission) {
+////                Gate::define($permission->slug, function ($user) use ($permission){
+////                    return $user->hasPermissionTo($permission);
+////                });
+////            });
+//        } catch (\Exception $e) {
+//            report($e);
+//            return false;
+//        }
 
-        Blade::directive('role', function ($role){
-            return "if(auth()->check() && auth()->user()->hasRole({$role})) :";
-        });
-
-        Blade::directive('endrole', function ($role){
-            return "endif";
-        });
+//        Blade::directive('role', function ($role){
+//            return "if(auth()->check() && auth()->user()->hasRole({$role})) :";
+//        });
+//
+//        Blade::directive('endrole', function ($role){
+//            return "endif";
+//        });
     }
 }
