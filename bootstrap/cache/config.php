@@ -279,7 +279,7 @@
       'mysql' => 
       array (
         'driver' => 'mysql',
-        'url' => 'mysql://wuzxt8ywnm34rkoa:pb40zfeuqut1ia8u@xlf3ljx3beaucz9x.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/cg01nmzmdp1qvmgf',
+        'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'FMS',
