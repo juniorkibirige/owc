@@ -3,6 +3,7 @@ import Category from "./components/Category"
 import Report from "./components/Report";
 import SupplierList from "./components/Cruds/Supplier/List";
 import SupplierCreate from "./components/Cruds/Supplier/Create";
+import Tables from "./views/examples/Tables";
 
 const routes = [
     {
@@ -15,7 +16,6 @@ const routes = [
     },
     {
         collapse: true,
-        path: "/supplier",
         name: "Supplier",
         state: "supplierCollapse",
         icon: "fa fa-eye text-white",
@@ -42,7 +42,6 @@ const routes = [
     },
     {
         collapse: true,
-        path: "/beneficiaries",
         name: "Beneficiaries",
         state: "beneficiariesCollapse",
         icon: "fa fa-users text-white",
@@ -69,7 +68,6 @@ const routes = [
     },
     {
         collapse: true,
-        path: "/inputs",
         name: "Inputs",
         state: "inputCollapse",
         icon: "fa fa-cubes text-white",
@@ -113,7 +111,7 @@ const routes = [
                 icon: "ni ni-planet text-white",
                 classes: "pl-md-4",
                 miniName: "Cat",
-                component: Category,
+                component: Tables,
                 layout: "/dashboard"
             },
         ]
